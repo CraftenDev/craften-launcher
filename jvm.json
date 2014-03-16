@@ -1,0 +1,3 @@
+{
+	"JVMArguments": "-Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true"
+}
