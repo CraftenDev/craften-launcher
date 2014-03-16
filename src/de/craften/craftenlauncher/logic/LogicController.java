@@ -74,7 +74,10 @@ public class LogicController {
 	    	Logger.getInstance().logInfo("Launcher version: 0.10.0");
 	    }
 	}
-	
+
+    /**
+     * Inits the logic layer.
+     */
 	public void init() {
 		if(mParser.hasArg("mcpath")) {
 			mMinecraftPath = new MinecraftPathImpl(mParser.getArg("mcpath"));
