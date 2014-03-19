@@ -46,13 +46,18 @@ public class JSONWriter {
         try{
             FileWriter writer;
             if(login.getPath() == null){
+                Logger.getInstance().logInfo("Writing LastLogin to " + OSHelper.getInstance().getMinecraftPath());
                 writer = new FileWriter(OSHelper.getInstance().getMinecraftPath()+"lastLogin.json");
             }
             else{
-                if(login.getPath().endsWith(File.separator))
+                Logger.getInstance().logInfo("Writing LastLogin to " + login.getPath());
+
+                if(login.getPath().endsWith(File.separator)) {
                     writer = new FileWriter(login.getPath()+"lastLogin.json");
-                else
+                }
+                else {
                     writer = new FileWriter(login.getPath()+ File.separator + "lastLogin.json");
+                }
             }
             writer.write(jsonEncoded);
             writer.flush();
