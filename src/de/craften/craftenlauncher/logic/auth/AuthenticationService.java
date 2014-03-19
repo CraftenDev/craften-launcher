@@ -253,8 +253,6 @@ public class AuthenticationService {
 
         File lastLogin = new File(path);
 
-        System.gc();
-
         if (lastLogin.exists()) {
             try {
                 if(lastLogin.delete()) {
