@@ -245,16 +245,11 @@ public class AuthenticationService {
         return JSONReader.readLastLogin(mcPath.getMinecraftDir());
     }
 
-    public void deleteLastLogin(String minecraftDir) {
-        Logger.getInstance().logInfo("Trying to delete lastLogin! (At: " + minecraftDir + " )");
+    public void deleteLastLogin() {
 
-        String path;
+        String path = mcPath.getMinecraftDir() + "lastLogin.json";
 
-        if (minecraftDir.endsWith(File.separator)) {
-            path = minecraftDir + "lastLogin.json";
-        } else {
-            path = minecraftDir + File.separator + "lastLogin.json";
-        }
+        Logger.getInstance().logInfo("Trying to delete lastLogin! (At: " + path + " )");
 
         File lastLogin = new File(path);
 
