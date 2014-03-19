@@ -113,7 +113,8 @@ public class LogicController {
 				Logger.getInstance().logInfo("Version not available: " + mParser.getArg("version"));
 			}
 		}
-		
+
+		mAuthService.setMcPath(mMinecraftPath);
 		LastLogin login = mAuthService.readLastLogin(mMinecraftPath.getMinecraftDir());
 		
 		if(login != null) {
