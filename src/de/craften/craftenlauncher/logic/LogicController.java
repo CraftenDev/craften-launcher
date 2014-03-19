@@ -218,7 +218,7 @@ public class LogicController {
 		// mCurrentVersion = null;
 		mLastLogin = null;
 		mDownloadVM.setProgressBarToNull();
-		mAuthService.deleteLastLogin(mMinecraftPath.getMinecraftDir());
+		mAuthService.deleteLastLogin();
 		mAuthService = new AuthenticationService();
 		
 		if(mDownService != null) {
@@ -227,8 +227,7 @@ public class LogicController {
 				
 			mDownService = null;
 		}
-		
-		name = null;
+
 		Logger.getInstance().logInfo("User " + name +" was locked out!");
 	}
 	
