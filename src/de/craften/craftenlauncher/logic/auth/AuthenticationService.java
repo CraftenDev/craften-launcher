@@ -38,6 +38,7 @@ import com.google.gson.JsonParser;
 import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.json.JSONReader;
 import de.craften.craftenlauncher.logic.json.JSONWriter;
+import de.craften.craftenlauncher.logic.minecraft.MinecraftPath;
 
 public class AuthenticationService {
     private String mResponse = "";
@@ -46,6 +47,7 @@ public class AuthenticationService {
     private String mProfileID = "";
     private boolean mValid = false;
     private LastLogin mLastLogin;
+    private MinecraftPath mcPath;
 
     public String getResponse() {
         return mResponse;
@@ -229,6 +231,10 @@ public class AuthenticationService {
 
     public String genUUID() {
         return UUID.randomUUID().toString();
+    }
+
+    public void setMcPath(MinecraftPath mcPath) {
+        this.mcPath = mcPath;
     }
 
     public LastLogin readLastLogin(String minecraftDir) {
