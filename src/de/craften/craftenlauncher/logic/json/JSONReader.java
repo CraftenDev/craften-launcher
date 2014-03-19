@@ -110,6 +110,7 @@ public class JSONReader {
 
             jsonObject = (JsonObject) obj;
 
+            reader.close();
         } catch (FileNotFoundException e) {
             Logger.getInstance().logError("JReader->Not Found: " + path);
             return null;

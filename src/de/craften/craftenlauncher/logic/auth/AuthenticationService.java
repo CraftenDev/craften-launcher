@@ -253,10 +253,15 @@ public class AuthenticationService {
 
         File lastLogin = new File(path);
 
+        System.gc();
+
         if (lastLogin.exists()) {
             try {
-                lastLogin.delete();
-                Logger.getInstance().logInfo("LastLogin at: " + path + " deleted!");
+                if(lastLogin.delete()) {
+                    Logger.getInstance().logInfo("LastLogin at: " + path + " deleted!");
+                } else {
+                    Logger.getInstance().logError("Could not delete LastLogin at: " + path);
+                }
             } catch (Exception e) {
                 Logger.getInstance().logError("Could not delete LastLogin at: " + path);
             }
