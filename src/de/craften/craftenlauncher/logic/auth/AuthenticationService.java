@@ -237,8 +237,8 @@ public class AuthenticationService {
         this.mcPath = mcPath;
     }
 
-    public LastLogin readLastLogin(String minecraftDir) {
-        return JSONReader.readLastLogin(minecraftDir);
+    public LastLogin readLastLogin() {
+        return JSONReader.readLastLogin(mcPath.getMinecraftDir());
     }
 
     public void deleteLastLogin(String minecraftDir) {

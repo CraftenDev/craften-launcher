@@ -115,7 +115,7 @@ public class LogicController {
 		}
 
 		mAuthService.setMcPath(mMinecraftPath);
-		LastLogin login = mAuthService.readLastLogin(mMinecraftPath.getMinecraftDir());
+		LastLogin login = mAuthService.readLastLogin();
 		
 		if(login != null) {
 			Logger.getInstance().logInfo("LastLogin found! Username is: " + login.getUsername());
