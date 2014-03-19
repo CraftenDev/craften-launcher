@@ -63,7 +63,9 @@ public class AuthenticationService {
             Logger.getInstance().logInfo("SessionID created");
 
             LastLogin login = new LastLogin(username, getName(), getAccessToken(), getProfileID(), getClientToken());
+            login.setPath(mcPath.getMinecraftDir());
             JSONWriter.saveLastLogin(login);
+
             Logger.getInstance().logInfo("Saved showProfile to lastlogin.json");
         } else {
             Logger.getInstance().logError("Login failed");
@@ -80,6 +82,8 @@ public class AuthenticationService {
             setAccessToken(this.mLastLogin.getAccessToken());
             setProfileID(this.mLastLogin.getProfileID());
             sessionID = "token:" + login.getAccessToken() + ":" + login.getProfileID();
+
+            login.setPath(mcPath.getMinecraftDir());
             JSONWriter.saveLastLogin(login);
             Logger.getInstance().logInfo("Login with LastLogin successful");
             return sessionID;
