@@ -81,7 +81,7 @@ public class Profile extends Basic {
     }
 
     public void addAvatar() {
-        _pAvatar = new Point(18, this.getHeight() / 4 + 5);
+        _pAvatar = new Point(18, this.getHeight() / 4 + 20);
     }
 
     private void addProfileInformation() {
@@ -104,7 +104,7 @@ public class Profile extends Basic {
         _playerName.setForeground(Color.WHITE);
         add(_playerName);
 
-        _skin = new MinecraftSkin(new Dimension(250,250));
+        _skin = new MinecraftSkin(new Dimension(300,300));
         _skin.setLocation(_pAvatar);
         add(_skin);
 
@@ -153,7 +153,7 @@ public class Profile extends Basic {
             e.printStackTrace();
         }
         _cbVersions.setSize(100, 20);
-        _cbVersions.setLocation(this.getWidth() / 2 - _cbVersions.getWidth() / 2, this.getHeight() / 3);
+        _cbVersions.setLocation(this.getWidth() / 4 , this.getHeight() / 3);
         _cbVersions.setUI(CL_FlatComboBoxUI.createUI(_cbVersions));
         _cbVersions.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
