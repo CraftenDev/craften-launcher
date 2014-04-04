@@ -112,7 +112,7 @@ public class Login extends Basic {
         _login.setForeground(Color.WHITE);
         add(_login);
 
-        _withYourMinecraftAccount = new JLabel("with your Minecraft Account");
+        _withYourMinecraftAccount = new JLabel("with your Premium Minecraft Account");
         _withYourMinecraftAccount.setVerticalTextPosition(SwingConstants.CENTER);
         _withYourMinecraftAccount.setFont(_fontPlain);
         _withYourMinecraftAccount.setSize(this.getWidth(), 60);

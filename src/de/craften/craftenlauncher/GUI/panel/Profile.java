@@ -178,8 +178,6 @@ public class Profile extends Basic {
         _version.setLocation(_cbVersions.getLocation());
         _version.setForeground(Color.WHITE);
         _version.addMouseListener(new MouseAdapter() {
-            Font original;
-
             @Override
             public void mouseClicked(MouseEvent e) {
                 _version.setVisible(false);
