@@ -51,6 +51,7 @@ public class LogicController {
 	private MinecraftVersion mCurrentVersion;
 	private HashMap<String,String> mMincraftArgs;
 	private LastLogin mLastLogin;
+    private boolean mQuickPlay;
 	
 	private DownloadVM mDownloadVM;
 	private SkinVM mSkinVM;
@@ -113,6 +114,10 @@ public class LogicController {
 				Logger.getInstance().logInfo("Version not available: " + mParser.getArg("version"));
 			}
 		}
+
+        if(mParser.hasKey("quickplay")) {
+            mQuickPlay = true;
+        }
 
 		mAuthService.setMcPath(mMinecraftPath);
 		LastLogin login = mAuthService.readLastLogin();
@@ -260,6 +265,10 @@ public class LogicController {
 	public boolean isMinecraftDownloaded() {
 		return mDownService.isFinished();
 	}
+
+    public boolean isQuickPlay(){
+        return mQuickPlay;
+    }
 	
 	public void startMinecraft() throws CraftenLogicException {
 		if(!isMinecraftDownloaded()) {

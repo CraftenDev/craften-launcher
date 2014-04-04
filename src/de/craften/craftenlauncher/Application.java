@@ -22,12 +22,13 @@
  * --[parameter]=[value]
  * 
  * Used parameters:
- * version = defines the Minecraft-Version
- * user = Minecraft-Username (nicht implementiert)
- * pass = Minecraft-Password (nicht implementiert)
- * server = IP-Adress of a server to join + Port if needed
- * mcpath = Minecraft-Path
- * xmx = ram-amount with witch mc will be started
+ * --version    = [14w11b, 1.7.5, ...]defines the Minecraft-Version
+ * --user       = Minecraft-Username (not implemented)
+ * --pass       = Minecraft-Password (not implemented)
+ * --server     = [192.168.2.1, 192.168.2.1:PORT, subdomain.name.de, subdomain.name.de:PORT] IP-Adress of a server to join + Port if needed
+ * --mcpath     = Minecraft-Path
+ * --xmx        = [1024m,4g, ....] ram-amount with witch mc will be started
+ * --quickplay  = [] skip profile page and start minecrat directly
  * 
  * @author redbeard
  */

@@ -41,7 +41,7 @@ public class Facade {
 	}
 	
 	/**
-	 * Liefert eine Instanz der Facade zurück.
+	 * Liefert eine Instanz der Facade zurï¿½ck.
 	 * @return
 	 */
 	public static Facade getInstance() {
@@ -49,7 +49,7 @@ public class Facade {
 	}
 	
 	/**
-	 * Initialisiert alle benötigten Klassen. Muss zum Start der Applikation aufgerufen werden!!!!
+	 * Initialisiert alle benï¿½tigten Klassen. Muss zum Start der Applikation aufgerufen werden!!!!
 	 * @throws CraftenLogicException 
 	 */
 	public void init(UIParser parser) throws CraftenLogicException {
@@ -58,7 +58,7 @@ public class Facade {
 	}
 	
 	/**
-	 * Führt zu einem forced Download. Das heißt alle Dateien werden neu heruntergeladen.
+	 * Fï¿½hrt zu einem forced Download. Das heiï¿½t alle Dateien werden neu heruntergeladen.
 	 * @param force
 	 */
 	public void setForce(boolean force) {
@@ -76,7 +76,7 @@ public class Facade {
 	}
 	
 	/**
-	 * Liefert den aktuellen Benutzer zurück. Liefert ebenfalls einen gespeicherten Benutzer, oder einen Benutzer aus den Startparametern.
+	 * Liefert den aktuellen Benutzer zurï¿½ck. Liefert ebenfalls einen gespeicherten Benutzer, oder einen Benutzer aus den Startparametern.
 	 * @return
 	 */
 	public MinecraftUser getUser() throws CraftenLogicException {
@@ -93,7 +93,7 @@ public class Facade {
 
 	/**
 	 * Setzt den Namens-String der Minecraft-Version welche gestartet werden soll.
-	 * Startet außerdem den Download-Prozess für diese Version um die restlichen Datein zu laden ( Jar und Libraries )
+	 * Startet auï¿½erdem den Download-Prozess fï¿½r diese Version um die restlichen Datein zu laden ( Jar und Libraries )
 	 * @param version
 	 * @throws CraftenLogicException Exception wird geworfen falls es diese Version nicht gibt, bzw. diese Version nicht gestartet werden kann
 	 */
@@ -102,8 +102,7 @@ public class Facade {
 	}
 	
 	/**
-	 * Gibt die aktuelle Minecraft Version zurück.
-	 * @param version
+	 * Gibt die aktuelle Minecraft Version zurï¿½ck.
 	 * @throws CraftenLogicException Exception wird geworfen falls noch keine Version gesetzt ist.
 	 */
 	public MinecraftVersion getMinecraftVersion() throws CraftenLogicException {
@@ -111,10 +110,10 @@ public class Facade {
 	}
 	
 	/**
-	 * Gibt eine Liste startbarer Versionen zurück. Ürsprungliche Liste von minecraft.net, ergänzt um die bereits lokal vorhandenen Versionen
-	 * sowie einer per Startparameter übergebenen Version.
-	 * @return Liste möglicher Versionen
-	 * @throws CraftenLogicException Exception wird geworfen falls es nicht möglich war die Liste aufzubauen.
+	 * Gibt eine Liste startbarer Versionen zurï¿½ck. ï¿½rsprungliche Liste von minecraft.net, ergï¿½nzt um die bereits lokal vorhandenen Versionen
+	 * sowie einer per Startparameter ï¿½bergebenen Version.
+	 * @return Liste mï¿½glicher Versionen
+	 * @throws CraftenLogicException Exception wird geworfen falls es nicht mï¿½glich war die Liste aufzubauen.
 	 */
 	public ArrayList<String> getMinecraftVersions() throws CraftenLogicException {
 		return mController.getMinecraftVersions();
@@ -122,14 +121,14 @@ public class Facade {
 	
 	/**
 	 * Start Minecraft in einem neuen Prozess
-	 * @throws CraftenLogicException Exception wird geworfen falls das Starten nicht möglich war.
+	 * @throws CraftenLogicException Exception wird geworfen falls das Starten nicht mï¿½glich war.
 	 */
 	public void startMinecraft() throws CraftenLogicException {
 		mController.startMinecraft();
 	}
 	
 	/**
-	 * Liefert für einen bestimmten Minecraft Argument den Wert zurück.
+	 * Liefert fï¿½r einen bestimmten Minecraft Argument den Wert zurï¿½ck.
 	 * z.B. server = Gibt die Server-Adresse welche zum starten verwendet werden soll.
 	 * weitere folgen
 	 * @param key
@@ -140,10 +139,10 @@ public class Facade {
 	}
 	
 	/**
-	 * Ermöglicht das Setzen von Minecraft Argumenten.
+	 * Ermï¿½glicht das Setzen von Minecraft Argumenten.
 	 * @param key
 	 * @param value
-	 * @throws CraftenLogicException Wird geworfen falls das Setzen nicht möglich war.
+	 * @throws CraftenLogicException Wird geworfen falls das Setzen nicht mï¿½glich war.
 	 */
 	public void setMinecraftArgument(String key, String value) throws CraftenLogicException {
 		mController.setMinecraftArguments(key, value);
@@ -176,7 +175,7 @@ public class Facade {
 	}
 	
 	/**
-	 * Setzt einen Observer um den Skin download zu überwachen. Startet außerdem direkt den Skin-Download!
+	 * Setzt einen Observer um den Skin download zu ï¿½berwachen. Startet auï¿½erdem direkt den Skin-Download!
 	 * Darf erst gesetzt werden nachdem der Nutzer authentifiziert wurde!
 	 * @param server
 	 */
@@ -199,4 +198,12 @@ public class Facade {
 	public void logout() {
 		mController.logout();
 	}
+
+    /**
+     * Gibt true wenn Minecraft direkt gestartet werden soll
+     * @return boolean
+     */
+    public boolean isQuickPlay(){
+        return mController.isQuickPlay();
+    }
 }

@@ -65,6 +65,9 @@ public class Profile extends Basic {
         addCloseButton();
         addAvatar();
         addProfileInformation();
+
+        if(Facade.getInstance().isQuickPlay())
+            sliderAction();
     }
 
     public void sliderAction() {
