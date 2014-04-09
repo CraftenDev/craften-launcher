@@ -30,6 +30,7 @@ import de.craften.craftenlauncher.exception.CraftenLogicValueIsNullException;
 import de.craften.craftenlauncher.exception.CraftenUserException;
 import de.craften.craftenlauncher.logic.auth.AuthenticationService;
 import de.craften.craftenlauncher.logic.auth.LastLogin;
+import de.craften.craftenlauncher.logic.auth.MinecraftUser;
 import de.craften.craftenlauncher.logic.download.DownloadService;
 import de.craften.craftenlauncher.logic.download.DownloadTasks;
 import de.craften.craftenlauncher.logic.minecraft.MinecraftInfo;
@@ -233,7 +234,7 @@ public class LogicController {
 			mDownService = null;
 		}
 
-		Logger.getInstance().logInfo("User " + name +" was locked out!");
+		Logger.getInstance().logInfo("User " + name + " was locked out!");
 	}
 	
 	//TODO vorher besser alten Service ordentlich stoppen oder neu Init?

@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Observer;
 
 import de.craften.craftenlauncher.exception.CraftenLogicException;
+import de.craften.craftenlauncher.logic.auth.MinecraftUser;
 import de.craften.craftenlauncher.logic.download.DownloadHelper;
 import de.craften.craftenlauncher.logic.version.MinecraftVersion;
 import de.craften.util.UIParser;

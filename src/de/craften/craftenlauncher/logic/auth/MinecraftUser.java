@@ -17,7 +17,7 @@
  * 
  * @author redbeard
  */
-package de.craften.craftenlauncher.logic;
+package de.craften.craftenlauncher.logic.auth;
 
 public class MinecraftUser {
 	private String mUsername, mPassword;

@@ -25,7 +25,7 @@
 package de.craften.craftenlauncher.logic.minecraft;
 
 import de.craften.craftenlauncher.logic.Logger;
-import de.craften.craftenlauncher.logic.MinecraftUser;
+import de.craften.craftenlauncher.logic.auth.MinecraftUser;
 import de.craften.craftenlauncher.logic.version.MinecraftVersion;
 
 public class MinecraftInfo {
