@@ -34,6 +34,7 @@ import com.google.gson.JsonParser;
 
 import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.auth.LastLogin;
+import de.craften.craftenlauncher.logic.auth.MinecraftUser;
 import de.craften.craftenlauncher.logic.download.DownloadHelper;
 import de.craften.craftenlauncher.logic.resources.Version;
 import de.craften.util.OSHelper;
@@ -124,7 +125,9 @@ public class JSONReader {
         return jsonObject;
     }
     
-    
+
+
+
     public static LastLogin readLastLogin(String minecraftDir){
         LastLogin lastLogin = null;
 
@@ -145,27 +148,41 @@ public class JSONReader {
         }
 
         if(jsonObject != null){
-            lastLogin = new LastLogin(minecraftDir);
+            lastLogin = new LastLogin();
+            lastLogin.setPath(minecraftDir);
 
-            if(jsonObject.has("username")){
-                lastLogin.setUsername(jsonObject.get("username").getAsString());
+            if (jsonObject.has("selectedUser")) {
+                JsonObject json_selectedUser = jsonObject.get("selectedUser").getAsJsonObject();
+
+                MinecraftUser user = new MinecraftUser();
+
+                user.setEmail(json_selectedUser.get("email").getAsString());
+                user.setProfileId(json_selectedUser.get("profileid").getAsString());
+                user.setUsername(json_selectedUser.get("username").getAsString());
+                user.setAccessToken(json_selectedUser.get("accesstoken").getAsString());
+                user.setClientToken(json_selectedUser.get("clienttoken").getAsString());
+
+                lastLogin.setSelectedUser(user);
             }
 
-            if(jsonObject.has("accesstoken")){
-                lastLogin.setAccessToken(jsonObject.get("accesstoken").getAsString());
-            }
+            if (jsonObject.has("availableUsers")) {
+                lastLogin.clearAvailableUsers();
 
-            if(jsonObject.has("profileid")){
-                lastLogin.setProfileID(jsonObject.get("profileid").getAsString());
-            }
+                JsonArray jsonArray_availableUsers = jsonObject.get("availableUsers").getAsJsonArray();
+                for (int i = 0; i < jsonArray_availableUsers.size(); i++){
+                    JsonObject json_availableUsers = jsonArray_availableUsers.get(i).getAsJsonObject();
 
-            if(jsonObject.has("clienttoken")){
-                lastLogin.setClientToken(jsonObject.get("clienttoken").getAsString());
-            }
+                    MinecraftUser user = new MinecraftUser();
 
-           if(jsonObject.has("email")){
-                lastLogin.setEmail(jsonObject.get("email").getAsString());
-           }
+                    user.setEmail(json_availableUsers.getAsJsonObject().get("email").getAsString());
+                    user.setProfileId(json_availableUsers.getAsJsonObject().get("profileid").getAsString());
+                    user.setUsername(json_availableUsers.getAsJsonObject().get("username").getAsString());
+                    user.setAccessToken(json_availableUsers.getAsJsonObject().get("accesstoken").getAsString());
+                    user.setClientToken(json_availableUsers.getAsJsonObject().get("clienttoken").getAsString());
+
+                    lastLogin.addAvailableUser(user);
+                }
+            }
         }
         return lastLogin;
     }

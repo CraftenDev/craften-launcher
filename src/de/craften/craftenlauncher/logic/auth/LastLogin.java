@@ -14,87 +14,116 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * LastLogin class:
- * 
+ *
  * @author saschb2b
  */
 package de.craften.craftenlauncher.logic.auth;
 
 
+import de.craften.craftenlauncher.logic.json.JSONWriter;
+
+import java.util.ArrayList;
+
 public class LastLogin {
-    private String mUsername;
-    private String mEMail;
-    private String mAccessToken;
-    private String mProfileID;
-    private String mClientToken;
+    private MinecraftUser selectedUser;
+    private ArrayList<MinecraftUser> availableUsers;
     private String mPath;
 
-    public LastLogin(String path) {
-        this.mPath = path;
+    public LastLogin() {
+        availableUsers = new ArrayList<MinecraftUser>();
     }
 
-    public LastLogin(String email, String username, String accessToken, String profileID, String clientToken) {
-        setEmail(email);
-        setUsername(username);
-        setAccessToken(accessToken);
-        setProfileID(profileID);
-        setClientToken(clientToken);
-    }
-
-    public void setEmail(String email) {
-        this.mEMail = email;
-    }
-
-    public String getEmail() {
-        return mEMail;
-    }
-
-    public boolean hasEmail() {
-        return getEmail() != null;
+    public void setSelectedUser(MinecraftUser selectedUser) {
+        this.selectedUser = selectedUser;
     }
 
     public void setPath(String path) {
         this.mPath = path;
     }
 
+    public MinecraftUser getSelectedUser() {
+        return selectedUser;
+    }
+
+    public ArrayList<MinecraftUser> getAvailableUsers() {
+        return availableUsers;
+    }
+
+    public void addAvailableUser(MinecraftUser user) {
+        availableUsers.add(user);
+    }
+
+    public MinecraftUser getAvailableUser(int i) {
+        return getAvailableUsers().get(i);
+    }
+
+    public MinecraftUser getAvailableUser(String id) {
+        for (int i = 0; i < availableUsers.size(); i++) {
+            MinecraftUser minecraftUser = availableUsers.get(i);
+
+            if (minecraftUser.getProfileId().equals(id)) {
+                return minecraftUser;
+            }
+        }
+        return null;
+    }
+
+    public MinecraftUser removeAvailableUser(int i) {
+        return getAvailableUsers().remove(i);
+    }
+
+    public boolean removeAvailableUser(String id) {
+        for (int i = 0; i < availableUsers.size(); i++) {
+            MinecraftUser minecraftUser = availableUsers.get(i);
+
+            if (minecraftUser.getProfileId().equals(id)) {
+                availableUsers.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void clearAvailableUsers() {
+        availableUsers.clear();
+    }
+
     public String getPath() {
         return mPath;
     }
 
-    public void setClientToken(String clientToken) {
-        this.mClientToken = clientToken;
+    public void save() {
+        JSONWriter.saveLastLogin(this);
     }
 
-    public String getClientToken() {
-        return mClientToken;
-    }
+    public boolean equals(Object obj) {
+        if(!(obj instanceof LastLogin))
+            return false;
 
-    public void setProfileID(String profileID) {
-        this.mProfileID = profileID;
-    }
+        LastLogin a = (LastLogin) obj;
+        Boolean flag = false;
 
-    public String getProfileID() {
-        return mProfileID;
-    }
 
-    public void setAccessToken(String accessToken) {
-        this.mAccessToken = accessToken;
-    }
+        if ((a.getSelectedUser() == null && this.getSelectedUser() == null) || a.getSelectedUser().equals(this.getSelectedUser())) {
+            flag = true;
+        }
 
-    public void setUsername(String username) {
-        this.mUsername = username;
-    }
+        if (a.getAvailableUsers().size() > 0) {
+            for (int i = 0; i < a.getAvailableUsers().size(); i++) {
+                MinecraftUser minecraftUser = a.getAvailableUsers().get(i);
 
-    public String getUsername() {
-        return mUsername;
-    }
+                if (!minecraftUser.equals(this.getAvailableUser(i))) {
+                    flag = false;
+                    break;
+                }
+            }
+        }
 
-    public String getAccessToken() {
-        return mAccessToken;
-    }
-
-    public boolean isAccessTokenValid(){
-        return AuthenticationService.isValid(getAccessToken());
+        if ((a.getAvailableUsers().size() == 0) && (this.getAvailableUsers().size() == 0)) {
+            flag = true;
+        }
+        return flag;
     }
 }

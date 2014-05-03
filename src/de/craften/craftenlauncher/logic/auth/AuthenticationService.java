@@ -59,12 +59,17 @@ public class AuthenticationService {
         if (this.mResponse != null && this.mResponse != "") {
             setClientTokenFromResponse(this.mResponse);
             setProfileIDFromRequest(this.mResponse);
-            sessionID = "token:" + getAccessToken() + ":" + getProfileID();
+            sessionID = "token:" + getAccessToken() + ":" + getProfileId();
             Logger.getInstance().logInfo("SessionID created");
 
-            LastLogin login = new LastLogin(username, getName(), getAccessToken(), getProfileID(), getClientToken());
+            MinecraftUser user = new MinecraftUser(username, getProfileId(), getName(), getAccessToken(), getClientToken());
+
+            LastLogin login = new LastLogin();
             login.setPath(mcPath.getMinecraftDir());
-            JSONWriter.saveLastLogin(login);
+            login.setSelectedUser(user);
+            if(login.getAvailableUsers() == null || login.getAvailableUsers().size() <= 0 || login.getAvailableUser(getProfileId()) != null)
+                login.addAvailableUser(user);
+            login.save();
 
             Logger.getInstance().logInfo("Saved showProfile to lastlogin.json");
         } else {
@@ -74,17 +79,17 @@ public class AuthenticationService {
     }
 
     public String getSessionID(LastLogin login) {
-        this.mValid = isValid(login.getAccessToken());
+        this.mValid = isValid(login.getSelectedUser().getAccessToken());
         String sessionID = null;
         if (this.mValid) {
             this.mLastLogin = login;
-            setClientToken(this.mLastLogin.getClientToken());
-            setAccessToken(this.mLastLogin.getAccessToken());
-            setProfileID(this.mLastLogin.getProfileID());
-            sessionID = "token:" + login.getAccessToken() + ":" + login.getProfileID();
+            setClientToken(this.mLastLogin.getSelectedUser().getClientToken());
+            setAccessToken(this.mLastLogin.getSelectedUser().getAccessToken());
+            setProfileID(this.mLastLogin.getSelectedUser().getProfileId());
+            sessionID = "token:" + login.getSelectedUser().getAccessToken() + ":" + login.getSelectedUser().getProfileId();
 
             login.setPath(mcPath.getMinecraftDir());
-            JSONWriter.saveLastLogin(login);
+            login.save();
             Logger.getInstance().logInfo("Login with LastLogin successful");
             return sessionID;
         } else {
@@ -95,7 +100,7 @@ public class AuthenticationService {
 
     public String getAccessToken() {
         if (this.mValid)
-            return mLastLogin.getAccessToken();
+            return mLastLogin.getSelectedUser().getAccessToken();
 
         JsonParser parser = new JsonParser();
         Object obj = parser.parse(this.mResponse);
@@ -111,7 +116,7 @@ public class AuthenticationService {
 
     public String getClientToken() {
         if (this.mValid)
-            return mLastLogin.getClientToken();
+            return mLastLogin.getSelectedUser().getClientToken();
 
         return mClientToken;
     }
@@ -141,13 +146,13 @@ public class AuthenticationService {
         this.mProfileID = profileID;
     }
 
-    public String getProfileID() {
+    public String getProfileId() {
         return mProfileID;
     }
 
     public String getName() {
         if (this.mValid)
-            return mLastLogin.getUsername();
+            return mLastLogin.getSelectedUser().getUsername();
 
         JsonParser parser = new JsonParser();
         Object obj = parser.parse(this.mResponse);
@@ -263,7 +268,6 @@ public class AuthenticationService {
             } catch (Exception e) {
                 Logger.getInstance().logError("Could not delete LastLogin at: " + path);
             }
-
         }
     }
 }

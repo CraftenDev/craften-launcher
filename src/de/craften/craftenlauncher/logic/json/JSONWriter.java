@@ -22,48 +22,68 @@
  */
 package de.craften.craftenlauncher.logic.json;
 
+import com.google.gson.stream.JsonWriter;
 import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.auth.LastLogin;
+import de.craften.craftenlauncher.logic.auth.MinecraftUser;
 import de.craften.util.OSHelper;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 
 public class JSONWriter {
     public static void saveLastLogin(LastLogin login){
-        String jsonEncoded = "{" +
-                "\"email\":\""
-                + login.getEmail() + "\"," +
-                "\"username\":\""
-                + login.getUsername() + "\"," +
-                "\"accesstoken\":\""
-                + login.getAccessToken() + "\"," +
-                "\"profileid\":\""
-                + login.getProfileID() + "\"," +
-                "\"clienttoken\":\""
-                + login.getClientToken() + "\"" +
-                "}";
+        JsonWriter writer;
+
         try{
-            FileWriter writer;
-            if(login.getPath() == null){
+            if(login.getPath() == null || login.getPath().equals("")){
                 Logger.getInstance().logInfo("Writing LastLogin to " + OSHelper.getInstance().getMinecraftPath());
-                writer = new FileWriter(OSHelper.getInstance().getMinecraftPath()+"lastLogin.json");
+                writer = new JsonWriter(new FileWriter(OSHelper.getInstance().getMinecraftPath()+"lastLogin.json"));
+                login.setPath(OSHelper.getInstance().getMinecraftPath());
             }
             else{
                 Logger.getInstance().logInfo("Writing LastLogin to " + login.getPath());
 
                 if(login.getPath().endsWith(File.separator)) {
-                    writer = new FileWriter(login.getPath()+"lastLogin.json");
+                    writer = new JsonWriter(new FileWriter(login.getPath()+"lastLogin.json"));
                 }
                 else {
-                    writer = new FileWriter(login.getPath()+ File.separator + "lastLogin.json");
+                    writer = new JsonWriter(new FileWriter(login.getPath()+ File.separator + "lastLogin.json"));
+                    login.setPath(login.getPath()+ File.separator);
                 }
             }
-            writer.write(jsonEncoded);
-            writer.flush();
+            writer.setIndent(" ");
+            writer.beginObject();
+
+            writer.name("selectedUser");
+            writer.beginObject();
+            writeMinecraftUser(writer, login.getSelectedUser());
+            writer.endObject();
+
+            writer.name("availableUsers");
+            writer.beginArray();
+            for (int i = 0; i < login.getAvailableUsers().size(); i++) {
+                MinecraftUser user = login.getAvailableUser(i);
+                writer.beginObject();
+                writeMinecraftUser(writer, user);
+                writer.endObject();
+            }
+            writer.endArray();
+
+            writer.endObject();
             writer.close();
+
         }catch (Exception e){
         	Logger.getInstance().logError("JSONWriter Error: " + e.getMessage());
         }
+    }
+
+    private static void writeMinecraftUser(JsonWriter writer, MinecraftUser user) throws IOException {
+        writer.name("email").value(user.getEmail());
+        writer.name("profileid").value(user.getProfileId());
+        writer.name("username").value(user.getUsername());
+        writer.name("accesstoken").value(user.getAccessToken());
+        writer.name("clienttoken").value(user.getClientToken());
     }
 }

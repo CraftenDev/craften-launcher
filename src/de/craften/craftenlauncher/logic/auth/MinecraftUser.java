@@ -14,76 +14,129 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @author redbeard
  */
 package de.craften.craftenlauncher.logic.auth;
 
 public class MinecraftUser {
-	private String mUsername, mPassword;
-	private String mSession, mAccessToken, mClientToken, mProfileId;
-	private String mResponse;
-	
-	//TODO Refacoteren. Vllt. auslagern in den AuthService?
-	private boolean mLoggedIn;
-	
-	public MinecraftUser(String username,String password) {
-		this.mUsername = username;
-		this.mPassword = password;
-	}
-	
-	public void setAuthentication(String username,String session, String accessToken, String clientToken, String profileId,String response) {
-		this.mUsername = username;
-		this.mSession = session;
-		this.mAccessToken = accessToken;
-		this.mClientToken = clientToken;
-		this.mProfileId = profileId;
-		this.mResponse = response;
-	}
-	
-	public String getUsername() {
-		return mUsername;
-	}
-	
-	public String getPassword() {
-		return mPassword;
-	}
+    private String mEmail, mUsername, mPassword;
+    private String mSession, mAccessToken, mClientToken, mProfileId;
+    private String mResponse;
 
-	public String getSession() {
-		if(mSession == null) {
-			 mSession = "token:" + getAccessToken() + ":" + getProfileId();
-		}
-		return mSession;
-	}
+    //TODO Refacoteren. Vllt. auslagern in den AuthService?
+    private boolean mLoggedIn;
 
-	public String getAccessToken() {
-		return mAccessToken;
-	}
+    public MinecraftUser() {
+    }
 
-	public String getClientToken() {
-		return mClientToken;
-	}
+    public MinecraftUser(String email, String password) {
+        mEmail = email;
+        mPassword = password;
+    }
 
-	public String getProfileId() {
-		return mProfileId;
-	}
-	
-	public String getResponse() {
-		return mResponse;
-	}
-	
-	/**
-	 * Returns true if the user was logged in successfully.
-	 * @return
-	 */
-	public boolean isLoggedIn() {
-		return mLoggedIn;
-	}
-	
-	/**
-	 * Bedeutet das dieser Nutzer erfolgreich eingeloggt wurde.
-	 */
-	public void loggingInSuccess() {
-		mLoggedIn = true;
-	}
+    public MinecraftUser(String email, String profileId, String username, String accessToken, String clientToken) {
+        setEmail(email);
+        setProfileId(profileId);
+        setUsername(username);
+        setAccessToken(accessToken);
+        setClientToken(clientToken);
+    }
+
+    public void setEmail(String email) {
+        mEmail = email;
+    }
+
+    public void setUsername(String username) {
+        mUsername = username;
+    }
+
+    public void setPassword(String password) {
+        mPassword = password;
+    }
+
+    public void setAccessToken(String accessToken) {
+        mAccessToken = accessToken;
+    }
+
+    public void setClientToken(String clientToken) {
+        mClientToken = clientToken;
+    }
+
+    public void setProfileId(String profileId) {
+        mProfileId = profileId;
+    }
+
+    public void setSession(String session) {
+        mSession = session;
+    }
+
+    public void setResponse(String response) {
+        mResponse = response;
+    }
+
+    public String getEmail() {
+        return mEmail;
+    }
+
+    public String getUsername() {
+        return mUsername;
+    }
+
+    public String getPassword() {
+        return mPassword;
+    }
+
+    public String getSession() {
+        if (mSession == null) {
+            mSession = "token:" + getAccessToken() + ":" + getProfileId();
+        }
+        return mSession;
+    }
+
+    public String getAccessToken() {
+        return mAccessToken;
+    }
+
+    public String getClientToken() {
+        return mClientToken;
+    }
+
+    public String getProfileId() {
+        return mProfileId;
+    }
+
+    public String getResponse() {
+        return mResponse;
+    }
+
+    /**
+     * Returns true if the user was logged in successfully.
+     *
+     * @return
+     */
+    public boolean isLoggedIn() {
+        return mLoggedIn;
+    }
+
+    /**
+     * Bedeutet das dieser Nutzer erfolgreich eingeloggt wurde.
+     */
+    public void loggingInSuccess() {
+        mLoggedIn = true;
+    }
+
+    public boolean equals(Object obj) {
+        MinecraftUser a = (MinecraftUser) obj;
+        if (this.getEmail().equals(a.getEmail()) &&
+                this.getProfileId().equals(a.getProfileId()) &&
+                this.getUsername().equals(a.getUsername()) &&
+                this.getAccessToken().equals(a.getAccessToken()) &&
+                this.getClientToken().equals(a.getClientToken()))
+
+        {
+            return true;
+        }
+        return false;
+    }
 }

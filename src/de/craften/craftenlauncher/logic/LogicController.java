@@ -124,11 +124,11 @@ public class LogicController {
 		LastLogin login = mAuthService.readLastLogin();
 		
 		if(login != null) {
-			Logger.getInstance().logInfo("LastLogin found! Username is: " + login.getUsername());
-			mUser = new MinecraftUser(login.getUsername(),"pw");
+			Logger.getInstance().logInfo("LastLogin found! Username is: " + login.getSelectedUser().getUsername());
+			mUser = new MinecraftUser(login.getSelectedUser().getUsername(),"pw");
 			
 			//TODO checken was genau die Response ist und was man damit so anfaengt!
-			//user.setAuthentication(showProfile.getUsername(), null, showProfile.getAccessToken(), showProfile.getClientToken(), showProfile.getProfileID(),null);
+			//user.setAuthentication(showProfile.getUsername(), null, showProfile.getAccessToken(), showProfile.getClientToken(), showProfile.getProfileId(),null);
 			
 			mLastLogin = login;
 		}
@@ -180,10 +180,14 @@ public class LogicController {
 			System.out.println("Error!");
 			throw new CraftenAuthenticationFailure("Error while authenticating!");
 		}
-		
-		mUser.setAuthentication(mAuthService.getName(), session, mAuthService.getAccessToken(), mAuthService.getClientToken(), mAuthService.getProfileID(),mAuthService.getResponse());
+		mUser.setUsername(mAuthService.getName());
+        mUser.setAccessToken(mAuthService.getAccessToken());
+        mUser.setClientToken(mAuthService.getClientToken());
+        mUser.setProfileId(mAuthService.getProfileId());
+        mUser.setResponse(mAuthService.getResponse());
+        mUser.setSession(session);
 		mUser.loggingInSuccess();
-		
+
 		startDownloadService();
 	}
 	
