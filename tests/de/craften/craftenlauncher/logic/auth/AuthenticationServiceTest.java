@@ -7,6 +7,7 @@ import de.craften.craftenlauncher.logic.minecraft.MinecraftPathImpl;
 import de.craften.util.OSHelper;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -21,7 +23,9 @@ import static org.junit.Assert.assertThat;
  */
 public class AuthenticationServiceTest {
 
-    List<MinecraftUser> expected;
+    private List<MinecraftUser> expected;
+    private AuthenticationService service;
+
 
     @Before
     public void setUpLastLogin() {
@@ -56,15 +60,43 @@ public class AuthenticationServiceTest {
 
     @Test
     public void testGetAllUsers() {
+        givenAuthServWithMCPath();
+
         List<MinecraftUser> actual = whenGetUsersIsCalled();
 
         assertThat(actual, is(expected));
     }
 
-    private List<MinecraftUser> whenGetUsersIsCalled() {
+    private void givenAuthServWithMCPath() {
         MinecraftPath path = new MinecraftPathImpl();
-        AuthenticationService service = new AuthenticationService(path);
+        service = new AuthenticationService(path);
+    }
 
+    private List<MinecraftUser> whenGetUsersIsCalled() {
         return service.getUsers();
+    }
+
+    @Test
+    @Ignore("Should be activated when mocking is available or user/pass is given!")
+    public void testGetUsersAfterNewGetSessionID() {
+        givenNewAuthService();
+
+        List<MinecraftUser> actual = whenGetUsersIsCalled();
+
+        // assertThat should be used when mocking is available.
+        // assertThat(actual, is(expected));
+        assertEquals(actual.size(),expected.size());
+    }
+
+    private void givenNewAuthService() {
+        expected = new ArrayList<MinecraftUser>();
+        expected.add(new MinecraftUser());
+
+        service = new AuthenticationService();
+
+        service.setMcPath(new MinecraftPathImpl());
+
+        // Username and Password need to be given.
+        service.getSessionID("","");
     }
 }

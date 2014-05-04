@@ -64,7 +64,7 @@ public class AuthenticationService {
      * Just for compatable purpose ;D.
      */
     public AuthenticationService() {
-
+        mLastLogin = new LastLogin();
     }
 
     public String getResponse() {
@@ -82,12 +82,11 @@ public class AuthenticationService {
 
             MinecraftUser user = new MinecraftUser(username, getProfileId(), getName(), getAccessToken(), getClientToken());
 
-            LastLogin login = new LastLogin();
-            login.setPath(mcPath.getMinecraftDir());
-            login.setSelectedUser(user);
-            if(login.getAvailableUsers() == null || login.getAvailableUsers().size() <= 0 || login.getAvailableUser(getProfileId()) != null)
-                login.addAvailableUser(user);
-            login.save();
+            mLastLogin.setPath(mcPath.getMinecraftDir());
+            mLastLogin.setSelectedUser(user);
+            if(mLastLogin.getAvailableUsers() == null || mLastLogin.getAvailableUsers().size() <= 0 || mLastLogin.getAvailableUser(getProfileId()) != null)
+                mLastLogin.addAvailableUser(user);
+            mLastLogin.save();
 
             Logger.getInstance().logInfo("Saved showProfile to lastlogin.json");
         } else {
