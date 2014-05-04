@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 import java.util.UUID;
 
 import com.google.gson.Gson;
@@ -269,5 +270,9 @@ public class AuthenticationService {
                 Logger.getInstance().logError("Could not delete LastLogin at: " + path);
             }
         }
+    }
+
+    public List<MinecraftUser> getUsers() {
+        return mLastLogin.getAvailableUsers();
     }
 }

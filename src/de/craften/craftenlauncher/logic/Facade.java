@@ -25,6 +25,7 @@ package de.craften.craftenlauncher.logic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Observer;
 
 import de.craften.craftenlauncher.exception.CraftenLogicException;
@@ -83,6 +84,15 @@ public class Facade {
 	public MinecraftUser getUser() throws CraftenLogicException {
 		return mController.getUser();
 	}
+
+    /**
+     * Liefert eine Liste der aktuell gespeicherten Benutzer.
+     * @return
+     */
+    // TODO AuthenticationService in die Facade reinziehen.
+    public List<MinecraftUser> getUsers() {
+        return mController.getUsers();
+    }
 	
 	/**
 	 * Authentifiziert den aktuellen Benutzer.

@@ -22,6 +22,7 @@ package de.craften.craftenlauncher.logic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Observer;
 
 import de.craften.craftenlauncher.exception.CraftenAuthenticationFailure;
@@ -349,4 +350,8 @@ public class LogicController {
 			mDownService.downloadSkin(mSkinVM, mUser.getUsername());
 		}
 	}
+
+    public List<MinecraftUser> getUsers() {
+        return mAuthService.getUsers();
+    }
 }
