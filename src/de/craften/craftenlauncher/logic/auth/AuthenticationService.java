@@ -50,6 +50,23 @@ public class AuthenticationService {
     private LastLogin mLastLogin;
     private MinecraftPath mcPath;
 
+    /**
+     * Creates a new Authentication Service with the given MinecraftPath.
+     * Path is uses to read the lastLogin.
+     * @param path
+     */
+    public AuthenticationService(MinecraftPath path) {
+        this.mcPath = path;
+        mLastLogin = JSONReader.readLastLogin(mcPath.getMinecraftDir());
+    }
+
+    /**
+     * Just for compatable purpose ;D.
+     */
+    public AuthenticationService() {
+
+    }
+
     public String getResponse() {
         return mResponse;
     }
@@ -272,6 +289,10 @@ public class AuthenticationService {
         }
     }
 
+    /**
+     * Returns a list of users from the current lastLogin.
+     * @return
+     */
     public List<MinecraftUser> getUsers() {
         return mLastLogin.getAvailableUsers();
     }
