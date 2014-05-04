@@ -126,4 +126,16 @@ public class LastLogin {
         }
         return flag;
     }
+
+    /**
+     * Ändert den SelectedUser zum dem User mit der übergebenen profileID.
+     * @param profileID
+     */
+    public void changeSelectedUser(String profileID) {
+        for(MinecraftUser user : availableUsers) {
+            if(user.getProfileId().equals(profileID)) {
+                selectedUser = user;
+            }
+        }
+    }
 }
