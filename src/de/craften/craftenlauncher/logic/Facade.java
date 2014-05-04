@@ -160,14 +160,6 @@ public class Facade {
 	}
 	
 	/**
-	 * Gibt an ob der Launcher mit Auto-Login gestartet wurde.
-	 * @return
-	 */
-	public boolean isAutoLogin() {
-		return false;
-	}
-	
-	/**
 	 * Setzt einen Observer auf die GUIAccess-Klasse. Damit kann angezeigt werden was gerade heruntergeladen wird.
 	 * @param server
 	 */
