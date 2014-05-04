@@ -126,6 +126,11 @@ public class LogicController {
 		
 		if(login != null) {
 			Logger.getInstance().logInfo("LastLogin found! Username is: " + login.getSelectedUser().getUsername());
+
+            if(mParser.hasArg("profileid")) {
+                login.changeSelectedUser(mParser.getArg("profileid"));
+            }
+
 			mUser = new MinecraftUser(login.getSelectedUser().getUsername(),"pw");
 			
 			//TODO checken was genau die Response ist und was man damit so anfaengt!

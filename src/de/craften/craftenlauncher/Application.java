@@ -29,6 +29,7 @@
  * --mcpath     = Minecraft-Path
  * --xmx        = [1024m,4g, ....] ram-amount with witch mc will be started
  * --quickplay  = [] skip profile page and start minecrat directly
+ * --profileid  = chooses a saved user
  * 
  * @author redbeard
  */
