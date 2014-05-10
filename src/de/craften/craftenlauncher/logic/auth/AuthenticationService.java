@@ -64,26 +64,7 @@ public class AuthenticationService {
     }
 
     public String getSessionID(MinecraftUser user) {
-        if(user.getAccessToken().equals("")){
-            String response = getSSID(user.getEmail(), user.getPassword());
-            String sessionID = null;
-            if (response != null && !response.equals("")) {
-                this.user.setEmail(user.getEmail());
-                setAccessTokenFromResponse(this.user, response);
-                setClientTokenFromResponse(this.user, response);
-                setProfileIDFromResponse(this.user, response);
-                this.user.setResponse(response);
-                this.user.setUsername(getName(response));
-
-                sessionID = "token:" + user.getAccessToken() + ":" + user.getProfileId();
-                this.user.setSession(sessionID);
-                Logger.getInstance().logInfo("SessionID created");
-            } else {
-                Logger.getInstance().logError("Login failed");
-            }
-            return sessionID;
-        }
-        else {
+        if(user.hasAccessToken()){
             if (isValid(user.getAccessToken())) {
                 Logger.getInstance().logInfo("Login with craftenlauncher_profiles successful");
                 return user.getSession();
@@ -92,31 +73,45 @@ public class AuthenticationService {
             }
             return null;
         }
+        else {
+            String response = getSSID(user.getEmail(), user.getPassword());
+            String sessionID = null;
+            if (response != null && !response.equals("")) {
+                this.user = new MinecraftUser(user.getEmail(), getProfileIDFromResponse(response),getName(response),getAccessTokenFromResponse(response),getClientTokenFromResponse(response));
+                this.user.setResponse(response);
+
+                sessionID = "token:" + user.getAccessToken() + ":" + user.getProfileId();
+                Logger.getInstance().logInfo("SessionID created");
+            } else {
+                Logger.getInstance().logError("Login failed");
+            }
+            return sessionID;
+        }
     }
 
-    public void setAccessTokenFromResponse(MinecraftUser user, String response) {
+    public String getAccessTokenFromResponse(String response) {
         JsonParser parser = new JsonParser();
         Object obj = parser.parse(response);
         JsonObject jsonObject = (JsonObject) obj;
 
-        user.setAccessToken(jsonObject.get("accessToken").getAsString());
+        return jsonObject.get("accessToken").getAsString();
     }
 
-    public void setClientTokenFromResponse(MinecraftUser user, String response) {
+    public String getClientTokenFromResponse(String response) {
         JsonParser parser = new JsonParser();
         Object obj = parser.parse(response);
         JsonObject jsonObject = (JsonObject) obj;
 
-        user.setClientToken(jsonObject.get("clientToken").getAsString());
+        return jsonObject.get("clientToken").getAsString();
     }
 
-    private void setProfileIDFromResponse(MinecraftUser user, String response) {
+    private String getProfileIDFromResponse(String response) {
         JsonParser parser = new JsonParser();
         Object obj = parser.parse(response);
         JsonObject jsonObject = (JsonObject) obj;
 
         JsonObject selectedProfile = jsonObject.get("selectedProfile").getAsJsonObject();
-        user.setProfileId(selectedProfile.get("id").getAsString());
+        return selectedProfile.get("id").getAsString();
     }
 
     public String getName(String response) {
