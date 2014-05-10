@@ -151,7 +151,7 @@ public class LogicController {
         	Logger.getInstance().logError("Username is null!");
 			throw new CraftenLogicValueIsNullException("Username is missing!");
 		}
-		if(pass == null || pass.equals(" ") || pass.equals("")) {
+		if(pass.equals(" ") || pass.equals("")) {
 			Logger.getInstance().logError("Password is null!");
 			throw new CraftenLogicValueIsNullException("Password is missing!");
 		}
@@ -170,7 +170,7 @@ public class LogicController {
 	}
 
 	public void authenticateUser() throws CraftenLogicException {
-		String session = null;
+		String session;
 		
 		System.out.println("Authenticate!");
 		
@@ -327,8 +327,7 @@ public class LogicController {
 	}
 	
 	public HashMap<String,String> getMinecraftArguments() {
-		HashMap<String,String> map = new HashMap<String, String>(mMincraftArgs);
-		return map;
+		return new HashMap<String, String>(mMincraftArgs);
 	}
 	
 	public String getMinecraftArgument(String key) throws CraftenLogicException {

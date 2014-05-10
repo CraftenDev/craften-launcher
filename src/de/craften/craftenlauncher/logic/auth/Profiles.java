@@ -60,9 +60,7 @@ public class Profiles {
     }
 
     public MinecraftUser getAvailableUser(String id) {
-        for (int i = 0; i < availableUsers.size(); i++) {
-            MinecraftUser minecraftUser = availableUsers.get(i);
-
+        for (MinecraftUser minecraftUser : availableUsers) {
             if (minecraftUser.getProfileId().equals(id)) {
                 return minecraftUser;
             }
@@ -129,7 +127,7 @@ public class Profiles {
 
     /**
      * Ändert den SelectedUser zum dem User mit der übergebenen profileID.
-     * @param profileID
+     * @param profileID Eindeutiger Qualifier des Users
      */
     public void changeSelectedUser(String profileID) {
         for(MinecraftUser user : availableUsers) {

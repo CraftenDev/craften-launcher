@@ -73,9 +73,9 @@ public class AuthenticationService {
     public String getSessionID(String username, String password) {
         getSSID(username, password);
         String sessionID = null;
-        if (this.mResponse != null && this.mResponse != "") {
+        if (this.mResponse != null && !this.mResponse.equals("")) {
             setClientTokenFromResponse(this.mResponse);
-            setProfileIDFromRequest(this.mResponse);
+            setProfileIDFromRequest();
             sessionID = "token:" + getAccessToken() + ":" + getProfileId();
             Logger.getInstance().logInfo("SessionID created");
 
@@ -96,8 +96,8 @@ public class AuthenticationService {
 
     public String getSessionID(Profiles login) {
         this.mValid = isValid(login.getSelectedUser().getAccessToken());
-        String sessionID = null;
         if (this.mValid) {
+            String sessionID;
             this.mProfiles = login;
             setClientToken(this.mProfiles.getSelectedUser().getClientToken());
             setAccessToken(this.mProfiles.getSelectedUser().getAccessToken());
@@ -111,7 +111,7 @@ public class AuthenticationService {
         } else {
             Logger.getInstance().logError("Login failed");
         }
-        return sessionID;
+        return null;
     }
 
     public String getAccessToken() {
@@ -149,7 +149,7 @@ public class AuthenticationService {
         this.mClientToken = jsonObject.get("clientToken").getAsString();
     }
 
-    private void setProfileIDFromRequest(String response) {
+    private void setProfileIDFromRequest() {
         JsonParser parser = new JsonParser();
         Object obj = parser.parse(this.mResponse);
         JsonObject jsonObject = (JsonObject) obj;
@@ -175,8 +175,7 @@ public class AuthenticationService {
         JsonObject jsonObject = (JsonObject) obj;
 
         JsonObject selectedProfile = jsonObject.get("selectedProfile").getAsJsonObject();
-        String name = selectedProfile.get("name").getAsString();
-        return name;
+        return selectedProfile.get("name").getAsString();
     }
 
     private String getSSID(String username, String password) {
@@ -233,7 +232,7 @@ public class AuthenticationService {
             InputStream is = connection.getInputStream();
             BufferedReader rd = new BufferedReader(new InputStreamReader(is));
             String line;
-            StringBuffer response = new StringBuffer();
+            StringBuilder response = new StringBuilder();
             while ((line = rd.readLine()) != null) {
                 response.append(line);
                 response.append('\r');
