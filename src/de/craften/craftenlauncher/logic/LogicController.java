@@ -54,11 +54,12 @@ public class LogicController {
 	private HashMap<String,String> mMincraftArgs;
 	private Profiles mProfiles;
     private boolean mQuickPlay;
-	
+    private boolean mForceLogin;
+
 	private DownloadVM mDownloadVM;
 	private SkinVM mSkinVM;
-	
-	public LogicController() {
+
+    public LogicController() {
 		logLauncherVersion();
 		mAuthService = new AuthenticationService();
 		mDownloadVM = new DownloadVM();
@@ -119,6 +120,10 @@ public class LogicController {
 
         if(mParser.hasKey("quickplay")) {
             mQuickPlay = true;
+        }
+
+        if(mParser.hasKey("forcelogin")) {
+            mForceLogin = true;
         }
 
 		mAuthService.setMcPath(mMinecraftPath);
@@ -279,6 +284,10 @@ public class LogicController {
 
     public boolean isQuickPlay(){
         return mQuickPlay;
+    }
+
+    public boolean isForceLogin(){
+        return mForceLogin;
     }
 	
 	public void startMinecraft() throws CraftenLogicException {

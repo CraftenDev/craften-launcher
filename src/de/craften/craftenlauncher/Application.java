@@ -29,7 +29,8 @@
  * --mcpath     = Minecraft-Path
  * --xmx        = [1024m,4g, ....] ram-amount with witch mc will be started
  * --quickplay  = [] skip profile page and start minecrat directly
- * --profileid  = chooses a saved user
+ * --profileid  = [54bnb5br_profileid_berb4b3] chooses a saved user
+ * --forcelogin = erzwingt das Einloggen eines Users
  * 
  * @author redbeard
  */
@@ -47,10 +48,8 @@ public class Application {
 
 	public static void main(String[] args) throws CraftenLogicException {
         Logger.getInstance().logInfo("Launcher started!");
-        
-		UIParser parser = new UIParser(args);
 
-		Facade.getInstance().init(parser);
+		Facade.getInstance().init(new UIParser(args));
 		startGUI();
 	}
 
