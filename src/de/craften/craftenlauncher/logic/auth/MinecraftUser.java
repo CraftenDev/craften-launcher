@@ -126,6 +126,7 @@ public class MinecraftUser {
         mLoggedIn = true;
     }
 
+    @Override
     public boolean equals(Object obj) {
         MinecraftUser a = (MinecraftUser) obj;
         if (this.getEmail().equals(a.getEmail()) &&

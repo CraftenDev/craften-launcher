@@ -96,6 +96,7 @@ public class Profiles {
         JSONWriter.saveProfiles(this);
     }
 
+    @Override
     public boolean equals(Object obj) {
         if(!(obj instanceof Profiles))
             return false;
