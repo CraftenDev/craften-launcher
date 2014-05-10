@@ -111,7 +111,7 @@ public class MinecraftUser {
     }
 
     public boolean hasAccessToken(){
-        return !(mAccessToken == null && mAccessToken.equals(""));
+        return mAccessToken != null && !mAccessToken.equals("");
     }
 
     /**

@@ -179,24 +179,28 @@ public class LogicController {
 		
 		System.out.println("Authenticate!");
 
-
-		if(mProfiles.getSelectedUser().getAccessToken().equals("")) {      //new User
+        if(mProfiles.getSelectedUser().hasAccessToken()) {                                                           // existing user
+            session = mAuthService.getSessionID(mProfiles.getSelectedUser());
+            if(session != null){
+                mProfiles.getSelectedUser().loggingInSuccess();
+                mProfiles.save();
+            }
+        }
+		else{      //new User
 			session = mAuthService.getSessionID(mProfiles.getSelectedUser());
 
             if(session != null) {
                 mProfiles.setSelectedUser(mAuthService.getUser());
                 mProfiles.getSelectedUser().loggingInSuccess();
+
+                if(mProfiles.getAvailableUser(mProfiles.getSelectedUser().getProfileId()) != null)
+                    mProfiles.removeAvailableUser(mProfiles.getSelectedUser().getProfileId());
                 mProfiles.addAvailableUser(mProfiles.getSelectedUser());
+
                 mProfiles.save();
             }
 		}
-		else {                                                           // existing user
-			session = mAuthService.getSessionID(mProfiles.getSelectedUser());
-            if(session != null){
-                mProfiles.getSelectedUser().loggingInSuccess();
-                mProfiles.save();
-            }
-		}
+
 		
 		if(session == null) {
 			System.out.println("Error!");
@@ -243,9 +247,8 @@ public class LogicController {
 		mProfiles.setSelectedUser(null);
 		// TODO: Muss das unbedingt null werden?
 		// mCurrentVersion = null;
-		mProfiles = null;
 		mDownloadVM.setProgressBarToNull();
-		mAuthService.deleteProfiles();
+		//mAuthService.deleteProfiles();
 		mAuthService = new AuthenticationService();
 		
 		if(mDownService != null) {
