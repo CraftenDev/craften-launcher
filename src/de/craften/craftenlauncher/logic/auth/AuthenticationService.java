@@ -37,6 +37,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import de.craften.craftenlauncher.logic.Logger;
+import de.craften.craftenlauncher.logic.json.JSONConnector;
 import de.craften.craftenlauncher.logic.json.JSONReader;
 import de.craften.craftenlauncher.logic.minecraft.MinecraftPath;
 
@@ -83,7 +84,7 @@ public class AuthenticationService {
 
             mProfiles.setPath(mcPath.getMinecraftDir());
             mProfiles.setSelectedUser(user);
-            if(mProfiles.getAvailableUsers() == null || mProfiles.getAvailableUsers().size() <= 0 || mProfiles.getAvailableUser(getProfileId()) != null)
+            if(!(mProfiles.getAvailableUsers() == null || mProfiles.getAvailableUsers().size() <= 0 || mProfiles.getAvailableUser(getProfileId()) == null))
                 mProfiles.addAvailableUser(user);
             mProfiles.save();
 
@@ -189,7 +190,7 @@ public class AuthenticationService {
         jsonResult.addProperty("username", username);
         jsonResult.addProperty("password", password);
 
-        this.mResponse = executePost("https://authserver.mojang.com/authenticate", gson.toJson(jsonResult));
+        this.mResponse = JSONConnector.executePost("https://authserver.mojang.com/authenticate", gson.toJson(jsonResult));
 
         return this.mResponse;
     }
@@ -198,59 +199,8 @@ public class AuthenticationService {
         JsonObject jsonAccessToken = new JsonObject();
         jsonAccessToken.addProperty("accessToken", accessToken);
 
-        String dummy = executePost("https://authserver.mojang.com/validate", jsonAccessToken.toString());
+        String dummy = JSONConnector.executePost("https://authserver.mojang.com/validate", jsonAccessToken.toString());
         return dummy != null;
-    }
-
-    public static String executePost(String targetURL, String urlParameters) {
-        URL url;
-        HttpURLConnection connection = null;
-        try {
-            byte[] bytes = urlParameters.getBytes("UTF-8");
-            //Create connection
-            url = new URL(targetURL);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type",
-                    "application/json; charset=utf-8");
-            connection.setRequestProperty("Content-Length", "" +
-                    Integer.toString(bytes.length));
-            connection.setRequestProperty("Content-Language", "en-US");
-
-            connection.setUseCaches(false);
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            System.out.println(connection.getURL());
-            //Send request
-            DataOutputStream wr = new DataOutputStream(
-                    connection.getOutputStream());
-            wr.write(bytes);
-            wr.flush();
-            wr.close();
-
-            //Get Response
-            InputStream is = connection.getInputStream();
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-            String line;
-            StringBuilder response = new StringBuilder();
-            while ((line = rd.readLine()) != null) {
-                response.append(line);
-                response.append('\r');
-            }
-            rd.close();
-            return response.toString();
-
-        } catch (Exception e) {
-
-        	Logger.getInstance().logError("AuthSer->executePost error: " + e.getMessage());
-            return null;
-
-        } finally {
-
-            if (connection != null) {
-                connection.disconnect();
-            }
-        }
     }
 
     public String genUUID() {
