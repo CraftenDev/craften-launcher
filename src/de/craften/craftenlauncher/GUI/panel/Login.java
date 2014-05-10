@@ -72,26 +72,29 @@ public class Login extends Basic {
         buildUI();
         addHelpLabels();
 
-        try {
-            if (Facade.getInstance().getUser() != null) {
-                Facade.getInstance().authenticateUser();
+        if (!Facade.getInstance().isForceLogin()) {
+            try {
+                if (Facade.getInstance().getUser() != null) {
+                    Facade.getInstance().authenticateUser();
 
-                Manager.getInstance().showProfile();
+                    Manager.getInstance().showProfile();
+                }
+            } catch (CraftenLogicException e) {
+                _error.setErrortext(e.getMessage());
             }
-        } catch (CraftenLogicException e) {
-            _error.setErrortext(e.getMessage());
         }
         repaint();
     }
 
-    public void sliderAction(){
+    public void sliderAction() {
         doLogin();
     }
 
     private void doLogin() {
         String username = null;
-        if(!_Username.getText().equals(_defaultUsername))
+        if (!_Username.getText().equals(_defaultUsername)) {
             username = _Username.getText();
+        }
         try {
             _error.setText("");
             Facade.getInstance().setUser(username, _Password.getPassword());
@@ -132,22 +135,25 @@ public class Login extends Basic {
         _Username.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (_Username.getText().equals(_defaultUsername))
+                if (_Username.getText().equals(_defaultUsername)) {
                     _Username.setText("");
+                }
             }
 
             @Override
             public void focusLost(FocusEvent e) {
                 // TODO Auto-generated method stub
-                if (_Username.getText().equals(""))
+                if (_Username.getText().equals("")) {
                     _Username.setText(_defaultUsername);
+                }
             }
         });
         _Username.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
 
-                if (e.getKeyCode() == KeyEvent.VK_ENTER)
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     doLogin();
+                }
             }
         });
 
@@ -167,8 +173,9 @@ public class Login extends Basic {
         _Password.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
 
-                if (e.getKeyCode() == KeyEvent.VK_ENTER)
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     doLogin();
+                }
             }
         });
         add(_Password);
