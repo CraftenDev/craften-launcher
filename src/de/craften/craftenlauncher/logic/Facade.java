@@ -209,4 +209,8 @@ public class Facade {
     public boolean isQuickPlay(){
         return mController.isQuickPlay();
     }
+
+    public boolean isForceLogin(){
+        return mController.isForceLogin();
+    }
 }
