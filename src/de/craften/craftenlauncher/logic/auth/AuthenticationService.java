@@ -71,8 +71,8 @@ public class AuthenticationService {
         return mResponse;
     }
 
-    public String getSessionID(String username, String password) {
-        getSSID(username, password);
+    public String getSessionID(String email, String password) {
+        getSSID(email, password);
         String sessionID = null;
         if (this.mResponse != null && !this.mResponse.equals("")) {
             setClientTokenFromResponse(this.mResponse);
@@ -80,7 +80,7 @@ public class AuthenticationService {
             sessionID = "token:" + getAccessToken() + ":" + getProfileId();
             Logger.getInstance().logInfo("SessionID created");
 
-            MinecraftUser user = new MinecraftUser(username, getProfileId(), getName(), getAccessToken(), getClientToken());
+            MinecraftUser user = new MinecraftUser(email, getProfileId(), getName(), getAccessToken(), getClientToken());
 
             mProfiles.setPath(mcPath.getMinecraftDir());
             mProfiles.setSelectedUser(user);
