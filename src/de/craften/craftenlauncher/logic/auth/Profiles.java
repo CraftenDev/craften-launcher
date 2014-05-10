@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * LastLogin class:
+ * Profiles class:
  *
  * @author saschb2b
  */
@@ -26,12 +26,12 @@ import de.craften.craftenlauncher.logic.json.JSONWriter;
 
 import java.util.ArrayList;
 
-public class LastLogin {
+public class Profiles {
     private MinecraftUser selectedUser;
     private ArrayList<MinecraftUser> availableUsers;
     private String mPath;
 
-    public LastLogin() {
+    public Profiles() {
         availableUsers = new ArrayList<MinecraftUser>();
     }
 
@@ -95,14 +95,14 @@ public class LastLogin {
     }
 
     public void save() {
-        JSONWriter.saveLastLogin(this);
+        JSONWriter.saveProfiles(this);
     }
 
     public boolean equals(Object obj) {
-        if(!(obj instanceof LastLogin))
+        if(!(obj instanceof Profiles))
             return false;
 
-        LastLogin a = (LastLogin) obj;
+        Profiles a = (Profiles) obj;
         Boolean flag = false;
 
 

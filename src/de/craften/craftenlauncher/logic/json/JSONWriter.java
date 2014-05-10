@@ -24,7 +24,7 @@ package de.craften.craftenlauncher.logic.json;
 
 import com.google.gson.stream.JsonWriter;
 import de.craften.craftenlauncher.logic.Logger;
-import de.craften.craftenlauncher.logic.auth.LastLogin;
+import de.craften.craftenlauncher.logic.auth.Profiles;
 import de.craften.craftenlauncher.logic.auth.MinecraftUser;
 import de.craften.util.OSHelper;
 
@@ -33,23 +33,24 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class JSONWriter {
-    public static void saveLastLogin(LastLogin login){
+    public static void saveProfiles(Profiles login){
+        String filename = "craftenlauncher_profiles.json";
         JsonWriter writer;
 
         try{
             if(login.getPath() == null || login.getPath().equals("")){
-                Logger.getInstance().logInfo("Writing LastLogin to " + OSHelper.getInstance().getMinecraftPath());
-                writer = new JsonWriter(new FileWriter(OSHelper.getInstance().getMinecraftPath()+"lastLogin.json"));
+                Logger.getInstance().logInfo("Writing craftenlauncher_profiles to " + OSHelper.getInstance().getMinecraftPath());
+                writer = new JsonWriter(new FileWriter(OSHelper.getInstance().getMinecraftPath()+ filename));
                 login.setPath(OSHelper.getInstance().getMinecraftPath());
             }
             else{
-                Logger.getInstance().logInfo("Writing LastLogin to " + login.getPath());
+                Logger.getInstance().logInfo("Writing craftenlauncher_profiles to " + login.getPath());
 
                 if(login.getPath().endsWith(File.separator)) {
-                    writer = new JsonWriter(new FileWriter(login.getPath()+"lastLogin.json"));
+                    writer = new JsonWriter(new FileWriter(login.getPath()+ filename));
                 }
                 else {
-                    writer = new JsonWriter(new FileWriter(login.getPath()+ File.separator + "lastLogin.json"));
+                    writer = new JsonWriter(new FileWriter(login.getPath()+ File.separator + filename));
                     login.setPath(login.getPath()+ File.separator);
                 }
             }

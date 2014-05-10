@@ -1,6 +1,5 @@
 package de.craften.craftenlauncher.logic.auth;
 
-import de.craften.craftenlauncher.logic.json.JSONReader;
 import de.craften.craftenlauncher.logic.json.JSONWriter;
 import de.craften.craftenlauncher.logic.minecraft.MinecraftPath;
 import de.craften.craftenlauncher.logic.minecraft.MinecraftPathImpl;
@@ -28,13 +27,13 @@ public class AuthenticationServiceTest {
 
 
     @Before
-    public void setUpLastLogin() {
+    public void setUpProfiles() {
         MinecraftUser
                 user1 = new MinecraftUser("email_one@test.de", "54bnb5br_profileid_berb4b3","one","b43v4bvbvt_accesstoken_bhbghtr","km787men56_clienttoken_45nbbntvb"),
                 user2 = new MinecraftUser("email_two@test.de", "7m67mnb_profileid_kmmmnu","two","wj5wzw5_accesstoken_sdnmenb5","7mnmn5nbbnt_clienttoken_ws5mnza"),
                 user3 = new MinecraftUser("email_three@test.de", "ymtnbb43_profileid_qhj454n4a","three","emm7m_accesstoken_wmnw6na","aws4nbnb_clienttoken_aw4hbt");
 
-        LastLogin login = new LastLogin();
+        Profiles login = new Profiles();
         login.clearAvailableUsers();
         login.addAvailableUser(user1);
         login.addAvailableUser(user2);
@@ -42,7 +41,7 @@ public class AuthenticationServiceTest {
 
         login.setSelectedUser(user1);
 
-        JSONWriter.saveLastLogin(login);
+        JSONWriter.saveProfiles(login);
 
         expected = new ArrayList<MinecraftUser>();
         expected.add(user1);
@@ -52,8 +51,8 @@ public class AuthenticationServiceTest {
     }
 
     @After
-    public void deleteLastLogin() {
-        File login = new File(OSHelper.getInstance().getMinecraftPath() + "lastLogin.json");
+    public void deleteProfiles() {
+        File login = new File(OSHelper.getInstance().getMinecraftPath() + "craftenlauncher_profiles.json");
 
         login.delete();
     }

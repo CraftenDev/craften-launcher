@@ -33,7 +33,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 
 import de.craften.craftenlauncher.logic.Logger;
-import de.craften.craftenlauncher.logic.auth.LastLogin;
+import de.craften.craftenlauncher.logic.auth.Profiles;
 import de.craften.craftenlauncher.logic.auth.MinecraftUser;
 import de.craften.craftenlauncher.logic.download.DownloadHelper;
 import de.craften.craftenlauncher.logic.resources.Version;
@@ -128,28 +128,29 @@ public class JSONReader {
 
 
 
-    public static LastLogin readLastLogin(String minecraftDir){
-        LastLogin lastLogin = null;
+    public static Profiles readProfiles(String minecraftDir){
+        String filename = "craftenlauncher_profiles.json";
+        Profiles profiles = null;
 
         JsonObject jsonObject;
         if(minecraftDir == null){
-        	Logger.getInstance().logInfo("Reading lastLogin from: " + OSHelper.getInstance().getMinecraftPath());
-            jsonObject = readJson(OSHelper.getInstance().getMinecraftPath()+"lastLogin.json");
+        	Logger.getInstance().logInfo("Reading craftenlauncher_profiles from: " + OSHelper.getInstance().getMinecraftPath());
+            jsonObject = readJson(OSHelper.getInstance().getMinecraftPath()+ filename);
         }
         else{
-        	Logger.getInstance().logInfo("Reading lastLogin from: " + minecraftDir);
+        	Logger.getInstance().logInfo("Reading craftenlauncher_profiles from: " + minecraftDir);
         	
             if(minecraftDir.endsWith(File.separator) ) {
-                jsonObject = readJson(minecraftDir + "lastLogin.json");
+                jsonObject = readJson(minecraftDir + filename);
             }
             else {
-                jsonObject = readJson(minecraftDir + File.separator + "lastLogin.json");
+                jsonObject = readJson(minecraftDir + File.separator + filename);
             }
         }
 
         if(jsonObject != null){
-            lastLogin = new LastLogin();
-            lastLogin.setPath(minecraftDir);
+            profiles = new Profiles();
+            profiles.setPath(minecraftDir);
 
             if (jsonObject.has("selectedUser")) {
                 JsonObject json_selectedUser = jsonObject.get("selectedUser").getAsJsonObject();
@@ -162,11 +163,11 @@ public class JSONReader {
                 user.setAccessToken(json_selectedUser.get("accesstoken").getAsString());
                 user.setClientToken(json_selectedUser.get("clienttoken").getAsString());
 
-                lastLogin.setSelectedUser(user);
+                profiles.setSelectedUser(user);
             }
 
             if (jsonObject.has("availableUsers")) {
-                lastLogin.clearAvailableUsers();
+                profiles.clearAvailableUsers();
 
                 JsonArray jsonArray_availableUsers = jsonObject.get("availableUsers").getAsJsonArray();
                 for (int i = 0; i < jsonArray_availableUsers.size(); i++){
@@ -180,10 +181,10 @@ public class JSONReader {
                     user.setAccessToken(json_availableUsers.getAsJsonObject().get("accesstoken").getAsString());
                     user.setClientToken(json_availableUsers.getAsJsonObject().get("clienttoken").getAsString());
 
-                    lastLogin.addAvailableUser(user);
+                    profiles.addAvailableUser(user);
                 }
             }
         }
-        return lastLogin;
+        return profiles;
     }
 }

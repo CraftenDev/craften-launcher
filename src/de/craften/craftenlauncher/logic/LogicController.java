@@ -30,7 +30,7 @@ import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.exception.CraftenLogicValueIsNullException;
 import de.craften.craftenlauncher.exception.CraftenUserException;
 import de.craften.craftenlauncher.logic.auth.AuthenticationService;
-import de.craften.craftenlauncher.logic.auth.LastLogin;
+import de.craften.craftenlauncher.logic.auth.Profiles;
 import de.craften.craftenlauncher.logic.auth.MinecraftUser;
 import de.craften.craftenlauncher.logic.download.DownloadService;
 import de.craften.craftenlauncher.logic.download.DownloadTasks;
@@ -52,7 +52,7 @@ public class LogicController {
 	private MinecraftPathImpl mMinecraftPath;
 	private MinecraftVersion mCurrentVersion;
 	private HashMap<String,String> mMincraftArgs;
-	private LastLogin mLastLogin;
+	private Profiles mProfiles;
     private boolean mQuickPlay;
 	
 	private DownloadVM mDownloadVM;
@@ -122,10 +122,10 @@ public class LogicController {
         }
 
 		mAuthService.setMcPath(mMinecraftPath);
-		LastLogin login = mAuthService.readLastLogin();
+		Profiles login = mAuthService.readProfiles();
 		
 		if(login != null) {
-			Logger.getInstance().logInfo("LastLogin found! Username is: " + login.getSelectedUser().getUsername());
+			Logger.getInstance().logInfo("craftenlauncher_profiles found! Username is: " + login.getSelectedUser().getUsername());
 
             if(mParser.hasArg("profileid")) {
                 login.changeSelectedUser(mParser.getArg("profileid"));
@@ -136,10 +136,10 @@ public class LogicController {
 			//TODO checken was genau die Response ist und was man damit so anfaengt!
 			//user.setAuthentication(showProfile.getUsername(), null, showProfile.getAccessToken(), showProfile.getClientToken(), showProfile.getProfileId(),null);
 			
-			mLastLogin = login;
+			mProfiles = login;
 		}
 		else {
-			Logger.getInstance().logInfo("No LastLogin found at Position: " + mMinecraftPath.getMinecraftDir() + "lastLogin.json");
+			Logger.getInstance().logInfo("No craftenlauncher_profiles found at Position: " + mMinecraftPath.getMinecraftDir() + "craftenlauncher_profiles.json");
 		}
 	}
 	
@@ -156,7 +156,7 @@ public class LogicController {
 			throw new CraftenLogicValueIsNullException("Password is missing!");
 		}
 		mUser = new MinecraftUser(username,pass);
-		mLastLogin = null;
+		mProfiles = null;
 	}
 	
 	public MinecraftUser getUser() throws CraftenLogicException{
@@ -174,11 +174,11 @@ public class LogicController {
 		
 		System.out.println("Authenticate!");
 		
-		if(mLastLogin == null) {
-			session = mAuthService.getSessionID(mUser.getUsername(), mUser.getPassword());
+		if(mProfiles == null) {
+			session = mAuthService.getSessionID(mUser.getEmail(), mUser.getPassword());
 		}
 		else {
-			session = mAuthService.getSessionID(mLastLogin);
+			session = mAuthService.getSessionID(mProfiles);
 			
 		}
 		
@@ -232,9 +232,9 @@ public class LogicController {
 		mUser = null;
 		// TODO: Muss das unbedingt null werden?
 		// mCurrentVersion = null;
-		mLastLogin = null;
+		mProfiles = null;
 		mDownloadVM.setProgressBarToNull();
-		mAuthService.deleteLastLogin();
+		mAuthService.deleteProfiles();
 		mAuthService = new AuthenticationService();
 		
 		if(mDownService != null) {

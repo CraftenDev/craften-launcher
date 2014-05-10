@@ -38,7 +38,6 @@ import com.google.gson.JsonParser;
 
 import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.json.JSONReader;
-import de.craften.craftenlauncher.logic.json.JSONWriter;
 import de.craften.craftenlauncher.logic.minecraft.MinecraftPath;
 
 public class AuthenticationService {
@@ -47,24 +46,24 @@ public class AuthenticationService {
     private String mClientToken = "";
     private String mProfileID = "";
     private boolean mValid = false;
-    private LastLogin mLastLogin;
+    private Profiles mProfiles;
     private MinecraftPath mcPath;
 
     /**
      * Creates a new Authentication Service with the given MinecraftPath.
-     * Path is uses to read the lastLogin.
+     * Path is uses to read the craftenlauncher_profiles.
      * @param path
      */
     public AuthenticationService(MinecraftPath path) {
         this.mcPath = path;
-        mLastLogin = JSONReader.readLastLogin(mcPath.getMinecraftDir());
+        mProfiles = JSONReader.readProfiles(mcPath.getMinecraftDir());
     }
 
     /**
      * Just for compatable purpose ;D.
      */
     public AuthenticationService() {
-        mLastLogin = new LastLogin();
+        mProfiles = new Profiles();
     }
 
     public String getResponse() {
@@ -82,32 +81,32 @@ public class AuthenticationService {
 
             MinecraftUser user = new MinecraftUser(username, getProfileId(), getName(), getAccessToken(), getClientToken());
 
-            mLastLogin.setPath(mcPath.getMinecraftDir());
-            mLastLogin.setSelectedUser(user);
-            if(mLastLogin.getAvailableUsers() == null || mLastLogin.getAvailableUsers().size() <= 0 || mLastLogin.getAvailableUser(getProfileId()) != null)
-                mLastLogin.addAvailableUser(user);
-            mLastLogin.save();
+            mProfiles.setPath(mcPath.getMinecraftDir());
+            mProfiles.setSelectedUser(user);
+            if(mProfiles.getAvailableUsers() == null || mProfiles.getAvailableUsers().size() <= 0 || mProfiles.getAvailableUser(getProfileId()) != null)
+                mProfiles.addAvailableUser(user);
+            mProfiles.save();
 
-            Logger.getInstance().logInfo("Saved showProfile to lastlogin.json");
+            Logger.getInstance().logInfo("Saved showProfile to craftenlauncher_profiles.json");
         } else {
             Logger.getInstance().logError("Login failed");
         }
         return sessionID;
     }
 
-    public String getSessionID(LastLogin login) {
+    public String getSessionID(Profiles login) {
         this.mValid = isValid(login.getSelectedUser().getAccessToken());
         String sessionID = null;
         if (this.mValid) {
-            this.mLastLogin = login;
-            setClientToken(this.mLastLogin.getSelectedUser().getClientToken());
-            setAccessToken(this.mLastLogin.getSelectedUser().getAccessToken());
-            setProfileID(this.mLastLogin.getSelectedUser().getProfileId());
+            this.mProfiles = login;
+            setClientToken(this.mProfiles.getSelectedUser().getClientToken());
+            setAccessToken(this.mProfiles.getSelectedUser().getAccessToken());
+            setProfileID(this.mProfiles.getSelectedUser().getProfileId());
             sessionID = "token:" + login.getSelectedUser().getAccessToken() + ":" + login.getSelectedUser().getProfileId();
 
             login.setPath(mcPath.getMinecraftDir());
             login.save();
-            Logger.getInstance().logInfo("Login with LastLogin successful");
+            Logger.getInstance().logInfo("Login with craftenlauncher_profiles successful");
             return sessionID;
         } else {
             Logger.getInstance().logError("Login failed");
@@ -117,7 +116,7 @@ public class AuthenticationService {
 
     public String getAccessToken() {
         if (this.mValid)
-            return mLastLogin.getSelectedUser().getAccessToken();
+            return mProfiles.getSelectedUser().getAccessToken();
 
         JsonParser parser = new JsonParser();
         Object obj = parser.parse(this.mResponse);
@@ -133,7 +132,7 @@ public class AuthenticationService {
 
     public String getClientToken() {
         if (this.mValid)
-            return mLastLogin.getSelectedUser().getClientToken();
+            return mProfiles.getSelectedUser().getClientToken();
 
         return mClientToken;
     }
@@ -169,7 +168,7 @@ public class AuthenticationService {
 
     public String getName() {
         if (this.mValid)
-            return mLastLogin.getSelectedUser().getUsername();
+            return mProfiles.getSelectedUser().getUsername();
 
         JsonParser parser = new JsonParser();
         Object obj = parser.parse(this.mResponse);
@@ -263,36 +262,36 @@ public class AuthenticationService {
         this.mcPath = mcPath;
     }
 
-    public LastLogin readLastLogin() {
-        return JSONReader.readLastLogin(mcPath.getMinecraftDir());
+    public Profiles readProfiles() {
+        return JSONReader.readProfiles(mcPath.getMinecraftDir());
     }
 
-    public void deleteLastLogin() {
+    public void deleteProfiles() {
 
-        String path = mcPath.getMinecraftDir() + "lastLogin.json";
+        String path = mcPath.getMinecraftDir() + "craftenlauncher_profiles.json";
 
-        Logger.getInstance().logInfo("Trying to delete lastLogin! (At: " + path + " )");
+        Logger.getInstance().logInfo("Trying to delete craftenlauncher_profiles! (At: " + path + " )");
 
-        File lastLogin = new File(path);
+        File craftenlauncher_profiles = new File(path);
 
-        if (lastLogin.exists()) {
+        if (craftenlauncher_profiles.exists()) {
             try {
-                if(lastLogin.delete()) {
-                    Logger.getInstance().logInfo("LastLogin at: " + path + " deleted!");
+                if(craftenlauncher_profiles.delete()) {
+                    Logger.getInstance().logInfo("craftenlauncher_profiles at: " + path + " deleted!");
                 } else {
-                    Logger.getInstance().logError("Could not delete LastLogin at: " + path);
+                    Logger.getInstance().logError("Could not delete craftenlauncher_profiles at: " + path);
                 }
             } catch (Exception e) {
-                Logger.getInstance().logError("Could not delete LastLogin at: " + path);
+                Logger.getInstance().logError("Could not delete craftenlauncher_profiles at: " + path);
             }
         }
     }
 
     /**
-     * Returns a list of users from the current lastLogin.
+     * Returns a list of users from the current craftenlauncher_profiles.
      * @return
      */
     public List<MinecraftUser> getUsers() {
-        return mLastLogin.getAvailableUsers();
+        return mProfiles.getAvailableUsers();
     }
 }
