@@ -32,8 +32,6 @@ import de.craften.craftenlauncher.logic.Facade;
 import javax.swing.*;
 import java.awt.*;
 
-import static javax.swing.SwingUtilities.invokeLater;
-
 @SuppressWarnings("serial")
 public class Manager extends JFrame {
     private static final long serialVersionUID = 1L;

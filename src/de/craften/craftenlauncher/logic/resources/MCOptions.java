@@ -57,16 +57,18 @@ public class MCOptions {
     }
 
     public void setValue(String name, String value) {
-        for (int i = 0; i < mContent.size(); i++) {
-            if (mContent.get(i).getName().equals(name))
-                mContent.get(i).setValue(value);
+        for (MCOptionEntry aMContent : mContent) {
+            if (aMContent.getName().equals(name)) {
+                aMContent.setValue(value);
+            }
         }
     }
 
     public String getValue(String name) {
-        for (int i = 0; i < mContent.size(); i++) {
-            if (mContent.get(i).getName().equals(name))
-                return mContent.get(i).getValue();
+        for (MCOptionEntry aMContent : mContent) {
+            if (aMContent.getName().equals(name)) {
+                return aMContent.getValue();
+            }
         }
         return null;
     }

@@ -45,7 +45,6 @@ public class Logger {
 		} catch (FileNotFoundException e) {
 			System.err.println("Could not open file!");
 			e.printStackTrace(System.err);
-			return;
 		}
 	}
 	

@@ -32,13 +32,14 @@ public class VersionHelper {
     public static ArrayList<String> getLibFilePathsAsArray(MinecraftPath info, Libraries libraries) {
         ArrayList<String> list = new ArrayList<String>();
         ArrayList<LibEntry> entries = libraries.get();
-        for (int i = 0; i < entries.size(); i++) {
-            File folder = new File(info.getLibraryDir() + File.separator + entries.get(i).getPath() + File.separator);
+        for (LibEntry entry : entries) {
+            File folder = new File(info.getLibraryDir() + File.separator + entry.getPath() + File.separator);
             File[] listAllFiles = folder.listFiles();
-            if (listAllFiles != null)
+            if (listAllFiles != null) {
                 for (int j = 0; j < listAllFiles.length; j++) {
                     list.add(listAllFiles[j].getAbsolutePath());
                 }
+            }
         }
         return list;
     }
@@ -46,8 +47,8 @@ public class VersionHelper {
     public static ArrayList<String> getLibPathsAsArray(MinecraftPath info, Libraries libraries) {
         ArrayList<String> list = new ArrayList<String>();
         ArrayList<LibEntry> entries = libraries.get();
-        for (int i = 0; i < entries.size(); i++) {
-            File folder = new File(info.getLibraryDir() + File.separator + entries.get(i).getPath());
+        for (LibEntry entry : entries) {
+            File folder = new File(info.getLibraryDir() + File.separator + entry.getPath());
             list.add(folder.getAbsolutePath());
         }
         return list;
@@ -58,9 +59,9 @@ public class VersionHelper {
                 argmument = "";
         ArrayList<LibEntry> libEntries = libraries.get();
 
-        for (int i = 0; i < libEntries.size(); i++) {
-            if (libEntries.get(i).isNeeded() && !libEntries.get(i).isNativ()) {
-                argmument += libPath + libEntries.get(i).getPath() + File.separator + libEntries.get(i).getFileName() + ";";
+        for (LibEntry libEntry : libEntries) {
+            if (libEntry.isNeeded() && !libEntry.isNativ()) {
+                argmument += libPath + libEntry.getPath() + File.separator + libEntry.getFileName() + ";";
             }
         }
 

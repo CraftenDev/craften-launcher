@@ -24,6 +24,7 @@
 package de.craften.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.regex.Pattern;
 
 import com.google.gson.JsonObject;
@@ -38,8 +39,7 @@ public class JVMArgmuments {
         JsonObject jsonObject = JSONReader.readJson(path);
         if(jsonObject != null && jsonObject.has("JVMArguments")) {
             String[] dummy = jsonObject.get("JVMArguments").getAsString().split(Pattern.quote(" "));
-            for(int i = 0; i< dummy.length; i++)
-                arg.add(dummy[i]);
+            Collections.addAll(arg, dummy);
         }
 
         return arg;

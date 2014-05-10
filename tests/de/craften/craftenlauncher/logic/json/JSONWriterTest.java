@@ -1,6 +1,5 @@
 package de.craften.craftenlauncher.logic.json;
 
-import de.craften.craftenlauncher.GUI.panel.Profile;
 import de.craften.craftenlauncher.logic.auth.Profiles;
 import de.craften.craftenlauncher.logic.auth.MinecraftUser;
 import org.junit.Before;

@@ -179,7 +179,7 @@ public class AuthenticationService {
         return selectedProfile.get("name").getAsString();
     }
 
-    private String getSSID(String username, String password) {
+    private void getSSID(String username, String password) {
         Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
         JsonObject jsonResult = new JsonObject(), jsonNameVersion = new JsonObject();
@@ -191,8 +191,6 @@ public class AuthenticationService {
         jsonResult.addProperty("password", password);
 
         this.mResponse = JSONConnector.executePost("https://authserver.mojang.com/authenticate", gson.toJson(jsonResult));
-
-        return this.mResponse;
     }
 
     public static boolean isValid(String accessToken) {

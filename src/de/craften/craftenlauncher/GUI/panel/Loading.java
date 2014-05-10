@@ -34,8 +34,6 @@ import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
-import static java.awt.EventQueue.invokeLater;
-
 @SuppressWarnings("serial")
 public class Loading extends Basic implements Observer {
     JProgressBar pbar = new JProgressBar();

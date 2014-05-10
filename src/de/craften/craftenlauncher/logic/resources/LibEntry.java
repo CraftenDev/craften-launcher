@@ -138,14 +138,17 @@ public class LibEntry {
             needed = true;
         else {
             OSHelper oshelper = OSHelper.getInstance();
-            for (int i = 0; i < mRules.length; i++)
-                if (mRules[i].getAction().equals("allow")) {
-                    if (mRules[i].getOs() == null || oshelper.getOPSystem().equals(mRules[i].getOs().getName()))
+            for (Rules mRule : mRules) {
+                if (mRule.getAction().equals("allow")) {
+                    if (mRule.getOs() == null || oshelper.getOPSystem().equals(mRule.getOs().getName())) {
                         needed = true;
-                } else if (mRules[i].getAction().equals("disallow")) {
-                    if (mRules[i].getOs() != null && oshelper.getOPSystem().equals(mRules[i].getOs().getName()))
+                    }
+                } else if (mRule.getAction().equals("disallow")) {
+                    if (mRule.getOs() != null && oshelper.getOPSystem().equals(mRule.getOs().getName())) {
                         needed = false;
+                    }
                 }
+            }
         }
         return needed;
     }

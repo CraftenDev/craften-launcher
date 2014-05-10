@@ -35,14 +35,14 @@ public class FileNameHelper {
         if (entry.getFileName().contains("${arch}")) {
             String archInfo = System.getProperty("os.arch");
             if (archInfo != null && !archInfo.equals("")) {
-            	for (int i = 0; i < mOsArch32.length; i++) {
-                    if (archInfo.equals(mOsArch32[i])) {
+                for (String aMOsArch32 : mOsArch32) {
+                    if (archInfo.equals(aMOsArch32)) {
                         entry.setFilename(entry.getFileName().replace("${arch}", "32"));
                         break;
                     }
                 }
-                for (int i = 0; i < mOsArch64.length; i++) {
-                    if (archInfo.equals(mOsArch64[i])) {
+                for (String aMOsArch64 : mOsArch64) {
+                    if (archInfo.equals(aMOsArch64)) {
                         entry.setFilename(entry.getFileName().replace("${arch}", "64"));
                         break;
                     }

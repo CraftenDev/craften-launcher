@@ -50,7 +50,7 @@ public class DownloadHelper {
     /**
      * 
      * @param fAddress Addresse der Datei welche heruntergeladen werden soll.
-     * @return String Repräsentation der Datei.
+     * @return String Reprï¿½sentation der Datei.
      */
     public static String downloadFileToString(String fAddress) {
     	FileHelper helper = new FileHelper(fAddress, fAddress, fAddress);
@@ -84,7 +84,7 @@ public class DownloadHelper {
             	 downloader.appendBytes(buf, ByteRead);
             	 dlKB++;
             	 
-            	 //TODO: Workaround dwvm früher setzen
+            	 //TODO: Workaround dwvm frï¿½her setzen
                  if(dwvm != null) {
                 	 if(dlKB == 10) {
                 		 dwvm.addDownloadedKByte(10); 
@@ -170,9 +170,7 @@ public class DownloadHelper {
     }
 
     /**
-     * @param fAddress
-     * @param destinationDir
-     * @param myFileName
+     * @param fileHelper
      * @param shouldCheck
      * @return Dateiname, unter dem der Download tatsaechlich gespeichert wurde
      * @throws CraftenDownloadException
@@ -208,7 +206,7 @@ public class DownloadHelper {
             }
         } else {
         	//TODO: Bessere Fehlermeldung als should not be downloaded? Alte Fehlermeldung ( From: " + fAddress + " to: " + destinationDir + " )
-        	// Vlt. besser den Grund für "shoudl not be" angeben?
+        	// Vlt. besser den Grund fï¿½r "shoudl not be" angeben?
         	Logger.getInstance().logInfo(fileName + " should not be downloaded!");
         }
 
@@ -217,9 +215,7 @@ public class DownloadHelper {
     
     /**
      * Checks if a file is okey by checking it's existence, length and if force-downloading is activated.
-     * @param fAddress
-     * @param destinationDir
-     * @param fileName
+     * @param fileHelper
      * @param shouldCheck
      * @return
      */
@@ -238,9 +234,7 @@ public class DownloadHelper {
     /**
      * Versucht die Datei herunterzuladen. Checkt dabei die vorhandene + uebertragene File-Groesse.
      * Falls diese nicht gleich sind, wird versuch die Datei nochmals herunterzuladen.
-     * @param fAddress
-     * @param fileName
-     * @param destinationDir
+     * @param fileHelper
      * @throws Exception
      */
     private static void tryDownloadFile(FileHelper fileHelper) throws Exception{
@@ -294,7 +288,7 @@ public class DownloadHelper {
      * @return
      */
     private static boolean isLengthEqual(String url, String filename) {
-        URL Url = null;
+        URL Url;
         HttpURLConnection uCon = null;
         
         try {
@@ -341,7 +335,7 @@ public class DownloadHelper {
      */
     public static void unpackJarFile(String zipFile, String destFolder)
             throws IOException {
-        BufferedOutputStream dest = null;
+        BufferedOutputStream dest;
         ZipInputStream zis = new ZipInputStream(new BufferedInputStream(
                 new FileInputStream(zipFile)));
 
@@ -422,7 +416,7 @@ abstract class Downloader {
 	
 	public abstract void appendBytes(byte[] buffer, int byteRead) throws Exception;
 	/**
-	 * Um z.B. Streams zu schließen.
+	 * Um z.B. Streams zu schlieï¿½en.
 	 * @throws IOException 
 	 */
 	public abstract void finished() throws IOException;
@@ -452,7 +446,7 @@ class StringDownloader extends Downloader {
 	}
 	
 	/**
-	 * Leer da nichts zu schließen ist.
+	 * Leer da nichts zu schlieï¿½en ist.
 	 */
 	@Override
 	public void finished() {
@@ -502,7 +496,7 @@ class FileHelper {
 	}
 	
 	private void setLocalFileName(String fileName) {
-		if (fileName == null || fileName == "" || fileName == " ") {
+		if (fileName == null || fileName.equals("") || fileName.equals(" ")) {
 			int lastSlashIndex = fAddress.lastIndexOf('/');
 			
 			localFileName = fAddress.substring(lastSlashIndex + 1);

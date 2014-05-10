@@ -47,7 +47,7 @@ public class SkinDownloader implements Downloader {
 		
 		String url = DownloadURLHelper.URL_SKINS;
 		
-		URL skinURL = null;
+		URL skinURL;
 		try {
 			skinURL = new URL(url + mUsername + ".png");
 		} catch (MalformedURLException e) {

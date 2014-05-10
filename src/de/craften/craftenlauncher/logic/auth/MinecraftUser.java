@@ -129,15 +129,10 @@ public class MinecraftUser {
     @Override
     public boolean equals(Object obj) {
         MinecraftUser a = (MinecraftUser) obj;
-        if (this.getEmail().equals(a.getEmail()) &&
+        return this.getEmail().equals(a.getEmail()) &&
                 this.getProfileId().equals(a.getProfileId()) &&
                 this.getUsername().equals(a.getUsername()) &&
                 this.getAccessToken().equals(a.getAccessToken()) &&
-                this.getClientToken().equals(a.getClientToken()))
-
-        {
-            return true;
-        }
-        return false;
+                this.getClientToken().equals(a.getClientToken());
     }
 }

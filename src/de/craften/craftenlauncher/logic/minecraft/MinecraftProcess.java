@@ -131,7 +131,7 @@ public class MinecraftProcess {
         if(mcArgs.indexOf("${game_directory}") >= 0)
 		    mcArgs.set(mcArgs.indexOf("${game_directory}"), mInfo.getMinecraftPath().getMinecraftDir());
         if(mcArgs.indexOf("${game_assets}") >= 0)
-		    mcArgs.set(mcArgs.indexOf("${game_assets}"), ((MinecraftPathImpl)mInfo.getMinecraftPath()).getResourcePath() + "virtual" + fs + "legacy");
+		    mcArgs.set(mcArgs.indexOf("${game_assets}"), mInfo.getMinecraftPath().getResourcePath() + "virtual" + fs + "legacy");
         if(mcArgs.indexOf("${user_properties}") >= 0)
             mcArgs.set(mcArgs.indexOf("${user_properties}"), "{}");
         if(mcArgs.indexOf("${assets_index_name}") >= 0) {
@@ -143,7 +143,7 @@ public class MinecraftProcess {
         	}
         }
         if(mcArgs.indexOf("${assets_root}") >= 0) {
-        	mcArgs.set(mcArgs.indexOf("${assets_root}"), ((MinecraftPathImpl)mInfo.getMinecraftPath()).getResourcePath() );
+        	mcArgs.set(mcArgs.indexOf("${assets_root}"), mInfo.getMinecraftPath().getResourcePath() );
         }
 
 		if(mInfo.hasServerAdress()) {

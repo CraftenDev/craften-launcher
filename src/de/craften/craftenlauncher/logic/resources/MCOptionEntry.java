@@ -58,14 +58,12 @@ public class MCOptionEntry {
                 Integer.parseInt(dummy[1]);
                 return "DOUBLE";
             } catch (NumberFormatException e) {
-                ;
             }
         } else {
             try {
                 Integer.parseInt(mValue);
                 return "INTEGER";
             } catch (NumberFormatException e) {
-                ;
             }
         }
         return "STRING";
