@@ -1,5 +1,6 @@
 package de.craften.craftenlauncher.logic.auth;
 
+import de.craften.craftenlauncher.logic.LogicController;
 import de.craften.craftenlauncher.logic.json.JSONWriter;
 import de.craften.craftenlauncher.logic.minecraft.MinecraftPath;
 import de.craften.craftenlauncher.logic.minecraft.MinecraftPathImpl;
@@ -24,6 +25,7 @@ public class AuthenticationServiceTest {
 
     private List<MinecraftUser> expected;
     private AuthenticationService service;
+    private LogicController controller;
 
 
     @Before
@@ -67,12 +69,11 @@ public class AuthenticationServiceTest {
     }
 
     private void givenAuthServWithMCPath() {
-        MinecraftPath path = new MinecraftPathImpl();
-        service = new AuthenticationService(path);
+        controller = new LogicController();
     }
 
     private List<MinecraftUser> whenGetUsersIsCalled() {
-        return service.getUsers();
+        return controller.getUsers();
     }
 
     @Test
@@ -91,11 +92,7 @@ public class AuthenticationServiceTest {
         expected = new ArrayList<MinecraftUser>();
         expected.add(new MinecraftUser());
 
-        service = new AuthenticationService();
-
-        service.setMcPath(new MinecraftPathImpl());
-
         // Username and Password need to be given.
-        service.getSessionID("","");
+        service.getSessionID(new MinecraftUser("",""));
     }
 }

@@ -36,18 +36,14 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import de.craften.craftenlauncher.logic.Facade;
 import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.json.JSONConnector;
 import de.craften.craftenlauncher.logic.json.JSONReader;
 import de.craften.craftenlauncher.logic.minecraft.MinecraftPath;
 
 public class AuthenticationService {
-    private String mResponse = "";
-    private String mAccessToken = "";
-    private String mClientToken = "";
-    private String mProfileID = "";
-    private boolean mValid = false;
-    private Profiles mProfiles;
+    private MinecraftUser user;
     private MinecraftPath mcPath;
 
     /**
@@ -56,130 +52,83 @@ public class AuthenticationService {
      * @param path
      */
     public AuthenticationService(MinecraftPath path) {
+        user = new MinecraftUser();
         this.mcPath = path;
-        mProfiles = JSONReader.readProfiles(mcPath.getMinecraftDir());
     }
 
     /**
      * Just for compatable purpose ;D.
      */
     public AuthenticationService() {
-        mProfiles = new Profiles();
+        user = new MinecraftUser();
     }
 
-    public String getResponse() {
-        return mResponse;
-    }
+    public String getSessionID(MinecraftUser user) {
+        if(user.getAccessToken().equals("")){
+            String response = getSSID(user.getEmail(), user.getPassword());
+            String sessionID = null;
+            if (response != null && !response.equals("")) {
+                this.user.setEmail(user.getEmail());
+                setAccessTokenFromResponse(this.user, response);
+                setClientTokenFromResponse(this.user, response);
+                setProfileIDFromResponse(this.user, response);
+                this.user.setResponse(response);
+                this.user.setUsername(getName(response));
 
-    public String getSessionID(String email, String password) {
-        getSSID(email, password);
-        String sessionID = null;
-        if (this.mResponse != null && !this.mResponse.equals("")) {
-            setClientTokenFromResponse(this.mResponse);
-            setProfileIDFromRequest();
-            sessionID = "token:" + getAccessToken() + ":" + getProfileId();
-            Logger.getInstance().logInfo("SessionID created");
-
-            MinecraftUser user = new MinecraftUser(email, getProfileId(), getName(), getAccessToken(), getClientToken());
-
-            mProfiles.setPath(mcPath.getMinecraftDir());
-            mProfiles.setSelectedUser(user);
-            if(!(mProfiles.getAvailableUsers() == null || mProfiles.getAvailableUsers().size() <= 0 || mProfiles.getAvailableUser(getProfileId()) == null))
-                mProfiles.addAvailableUser(user);
-            mProfiles.save();
-
-            Logger.getInstance().logInfo("Saved showProfile to craftenlauncher_profiles.json");
-        } else {
-            Logger.getInstance().logError("Login failed");
-        }
-        return sessionID;
-    }
-
-    public String getSessionID(Profiles login) {
-        this.mValid = isValid(login.getSelectedUser().getAccessToken());
-        if (this.mValid) {
-            String sessionID;
-            this.mProfiles = login;
-            setClientToken(this.mProfiles.getSelectedUser().getClientToken());
-            setAccessToken(this.mProfiles.getSelectedUser().getAccessToken());
-            setProfileID(this.mProfiles.getSelectedUser().getProfileId());
-            sessionID = "token:" + login.getSelectedUser().getAccessToken() + ":" + login.getSelectedUser().getProfileId();
-
-            login.setPath(mcPath.getMinecraftDir());
-            login.save();
-            Logger.getInstance().logInfo("Login with craftenlauncher_profiles successful");
+                sessionID = "token:" + user.getAccessToken() + ":" + user.getProfileId();
+                this.user.setSession(sessionID);
+                Logger.getInstance().logInfo("SessionID created");
+            } else {
+                Logger.getInstance().logError("Login failed");
+            }
             return sessionID;
-        } else {
-            Logger.getInstance().logError("Login failed");
         }
-        return null;
+        else {
+            if (isValid(user.getAccessToken())) {
+                Logger.getInstance().logInfo("Login with craftenlauncher_profiles successful");
+                return user.getSession();
+            } else {
+                Logger.getInstance().logError("Login failed");
+            }
+            return null;
+        }
     }
 
-    public String getAccessToken() {
-        if (this.mValid)
-            return mProfiles.getSelectedUser().getAccessToken();
-
-        JsonParser parser = new JsonParser();
-        Object obj = parser.parse(this.mResponse);
-        JsonObject jsonObject = (JsonObject) obj;
-
-        this.mAccessToken = jsonObject.get("accessToken").getAsString();
-        return this.mAccessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.mAccessToken = accessToken;
-    }
-
-    public String getClientToken() {
-        if (this.mValid)
-            return mProfiles.getSelectedUser().getClientToken();
-
-        return mClientToken;
-    }
-
-    public void setClientToken(String value) {
-        this.mClientToken = value;
-    }
-
-    public void setClientTokenFromResponse(String response) {
+    public void setAccessTokenFromResponse(MinecraftUser user, String response) {
         JsonParser parser = new JsonParser();
         Object obj = parser.parse(response);
         JsonObject jsonObject = (JsonObject) obj;
 
-        this.mClientToken = jsonObject.get("clientToken").getAsString();
+        user.setAccessToken(jsonObject.get("accessToken").getAsString());
     }
 
-    private void setProfileIDFromRequest() {
+    public void setClientTokenFromResponse(MinecraftUser user, String response) {
         JsonParser parser = new JsonParser();
-        Object obj = parser.parse(this.mResponse);
+        Object obj = parser.parse(response);
+        JsonObject jsonObject = (JsonObject) obj;
+
+        user.setClientToken(jsonObject.get("clientToken").getAsString());
+    }
+
+    private void setProfileIDFromResponse(MinecraftUser user, String response) {
+        JsonParser parser = new JsonParser();
+        Object obj = parser.parse(response);
         JsonObject jsonObject = (JsonObject) obj;
 
         JsonObject selectedProfile = jsonObject.get("selectedProfile").getAsJsonObject();
-        this.mProfileID = selectedProfile.get("id").getAsString();
+        user.setProfileId(selectedProfile.get("id").getAsString());
     }
 
-    public void setProfileID(String profileID) {
-        this.mProfileID = profileID;
-    }
-
-    public String getProfileId() {
-        return mProfileID;
-    }
-
-    public String getName() {
-        if (this.mValid)
-            return mProfiles.getSelectedUser().getUsername();
-
+    public String getName(String response) {
         JsonParser parser = new JsonParser();
-        Object obj = parser.parse(this.mResponse);
+        Object obj = parser.parse(response);
         JsonObject jsonObject = (JsonObject) obj;
 
         JsonObject selectedProfile = jsonObject.get("selectedProfile").getAsJsonObject();
         return selectedProfile.get("name").getAsString();
     }
 
-    private void getSSID(String username, String password) {
+    private String getSSID(String username, String password) {
         Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
         JsonObject jsonResult = new JsonObject(), jsonNameVersion = new JsonObject();
@@ -190,7 +139,7 @@ public class AuthenticationService {
         jsonResult.addProperty("username", username);
         jsonResult.addProperty("password", password);
 
-        this.mResponse = JSONConnector.executePost("https://authserver.mojang.com/authenticate", gson.toJson(jsonResult));
+        return JSONConnector.executePost("https://authserver.mojang.com/authenticate", gson.toJson(jsonResult));
     }
 
     public static boolean isValid(String accessToken) {
@@ -199,10 +148,6 @@ public class AuthenticationService {
 
         String dummy = JSONConnector.executePost("https://authserver.mojang.com/validate", jsonAccessToken.toString());
         return dummy != null;
-    }
-
-    public String genUUID() {
-        return UUID.randomUUID().toString();
     }
 
     public void setMcPath(MinecraftPath mcPath) {
@@ -234,11 +179,7 @@ public class AuthenticationService {
         }
     }
 
-    /**
-     * Returns a list of users from the current craftenlauncher_profiles.
-     * @return
-     */
-    public List<MinecraftUser> getUsers() {
-        return mProfiles.getAvailableUsers();
+    public MinecraftUser getUser() {
+        return user;
     }
 }

@@ -62,6 +62,7 @@ public class LogicController {
     public LogicController() {
 		logLauncherVersion();
 		mAuthService = new AuthenticationService();
+        mProfiles = new Profiles();
 		mDownloadVM = new DownloadVM();
 		mMincraftArgs = new HashMap<String, String>();
 	}
@@ -89,7 +90,9 @@ public class LogicController {
 		else {
 			mMinecraftPath = new MinecraftPathImpl();
 		}
-		
+
+        mProfiles.setPath(mMinecraftPath.getMinecraftDir());
+
 		if(mParser.hasArg("server")) {
 			mMincraftArgs.put("server", mParser.getArg("server"));
 		}
@@ -135,8 +138,6 @@ public class LogicController {
             if(mParser.hasArg("profileid")) {
                 login.changeSelectedUser(mParser.getArg("profileid"));
             }
-
-			mUser = new MinecraftUser(login.getSelectedUser().getUsername(),"pw");
 			
 			//TODO checken was genau die Response ist und was man damit so anfaengt!
 			//user.setAuthentication(showProfile.getUsername(), null, showProfile.getAccessToken(), showProfile.getClientToken(), showProfile.getProfileId(),null);
@@ -160,13 +161,12 @@ public class LogicController {
 			Logger.getInstance().logError("Password is null!");
 			throw new CraftenLogicValueIsNullException("Password is missing!");
 		}
-		mUser = new MinecraftUser(username,pass);
-		mProfiles = null;
+        mProfiles.setSelectedUser(new MinecraftUser(username,pass));
 	}
 	
 	public MinecraftUser getUser() throws CraftenLogicException{
-		if(mUser != null) {
-			return mUser;
+		if(mProfiles.getSelectedUser() != null) {
+			return mProfiles.getSelectedUser();
 		}
 		else {
 			Logger.getInstance().logError("No User known!");
@@ -178,26 +178,32 @@ public class LogicController {
 		String session;
 		
 		System.out.println("Authenticate!");
-		
-		if(mProfiles == null) {
-			session = mAuthService.getSessionID(mUser.getEmail(), mUser.getPassword());
+
+
+		if(mProfiles.getSelectedUser().getAccessToken().equals("")) {      //new User
+			session = mAuthService.getSessionID(mProfiles.getSelectedUser());
+
+            if(session != null) {
+                mProfiles.setSelectedUser(mAuthService.getUser());
+                mProfiles.getSelectedUser().loggingInSuccess();
+                mProfiles.addAvailableUser(mProfiles.getSelectedUser());
+                mProfiles.save();
+            }
 		}
-		else {
-			session = mAuthService.getSessionID(mProfiles);
-			
+		else {                                                           // existing user
+			session = mAuthService.getSessionID(mProfiles.getSelectedUser());
+            if(session != null){
+                mProfiles.getSelectedUser().loggingInSuccess();
+                mProfiles.save();
+            }
 		}
 		
 		if(session == null) {
 			System.out.println("Error!");
 			throw new CraftenAuthenticationFailure("Error while authenticating!");
 		}
-		mUser.setUsername(mAuthService.getName());
-        mUser.setAccessToken(mAuthService.getAccessToken());
-        mUser.setClientToken(mAuthService.getClientToken());
-        mUser.setProfileId(mAuthService.getProfileId());
-        mUser.setResponse(mAuthService.getResponse());
-        mUser.setSession(session);
-		mUser.loggingInSuccess();
+
+
 
 		startDownloadService();
 	}
@@ -207,7 +213,7 @@ public class LogicController {
 			return;
 		}
 		
-		if(!mUser.isLoggedIn()) {
+		if(!mProfiles.getSelectedUser().isLoggedIn()) {
 			Logger.getInstance().logError("Trying to start DownloadService although user is not logged in!");
 		}
 		
@@ -230,11 +236,11 @@ public class LogicController {
 	}
 	
 	public void logout() {
-		Logger.getInstance().logInfo("Trying to logout user: " + mUser.getUsername());
+		Logger.getInstance().logInfo("Trying to logout user: " + mProfiles.getSelectedUser().getUsername());
 		
-		String name = mUser.getUsername();
+		String name = mProfiles.getSelectedUser().getUsername();
 		
-		mUser = null;
+		mProfiles.setSelectedUser(null);
 		// TODO: Muss das unbedingt null werden?
 		// mCurrentVersion = null;
 		mProfiles = null;
@@ -296,13 +302,13 @@ public class LogicController {
 			throw new CraftenLogicException("Minecraft has not been downloaded fully yet!");
 		}
 		
-		if(!mUser.isLoggedIn()) {
+		if(!mProfiles.getSelectedUser().isLoggedIn()) {
 			Logger.getInstance().logError("Trying to start Minecraft although User is not logged in!");
 			throw new CraftenLogicException("Trying to start Minecraft although User is not logged in!");
 		}
 		
 		MinecraftInfo info = new MinecraftInfo(mCurrentVersion.getVersion());
-		info.setUser(mUser);
+		info.setUser(mProfiles.getSelectedUser());
 		info.setMSV(mCurrentVersion);
 		info.setMinecraftPath(mMinecraftPath);
 		info.setXMX(mMincraftArgs.get("xmx"));
@@ -360,11 +366,19 @@ public class LogicController {
 		mSkinVM.addObserver(server);
 		
 		if( mDownService != null ) {
-			mDownService.downloadSkin(mSkinVM, mUser.getUsername());
+			mDownService.downloadSkin(mSkinVM, mProfiles.getSelectedUser().getUsername());
 		}
 	}
 
+    public void setSelectedUser(MinecraftUser user){
+        mProfiles.setSelectedUser(user);
+    }
+
+    /**
+     * Returns a list of users from the current craftenlauncher_profiles.
+     * @return
+     */
     public List<MinecraftUser> getUsers() {
-        return mAuthService.getUsers();
+        return mProfiles.getAvailableUsers();
     }
 }

@@ -21,7 +21,7 @@ package de.craften.craftenlauncher.logic.auth;
 
 public class MinecraftUser {
     private String mEmail, mUsername, mPassword;
-    private String mSession, mAccessToken, mClientToken, mProfileId;
+    private String mSession, mAccessToken = "", mClientToken, mProfileId;
     private String mResponse;
 
     //TODO Refacoteren. Vllt. auslagern in den AuthService?
@@ -124,6 +124,10 @@ public class MinecraftUser {
      */
     public void loggingInSuccess() {
         mLoggedIn = true;
+    }
+
+    public void loggingInFailed() {
+        mLoggedIn = false;
     }
 
     @Override

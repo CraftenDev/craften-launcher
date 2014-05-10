@@ -131,26 +131,30 @@ public class JSONReader {
     public static Profiles readProfiles(String minecraftDir){
         String filename = "craftenlauncher_profiles.json";
         Profiles profiles = null;
+        String path;
 
         JsonObject jsonObject;
         if(minecraftDir == null){
         	Logger.getInstance().logInfo("Reading craftenlauncher_profiles from: " + OSHelper.getInstance().getMinecraftPath());
-            jsonObject = readJson(OSHelper.getInstance().getMinecraftPath()+ filename);
+            path = OSHelper.getInstance().getMinecraftPath();
+            jsonObject = readJson(path + filename);
         }
         else{
         	Logger.getInstance().logInfo("Reading craftenlauncher_profiles from: " + minecraftDir);
         	
             if(minecraftDir.endsWith(File.separator) ) {
-                jsonObject = readJson(minecraftDir + filename);
+                path = minecraftDir;
+                jsonObject = readJson(path + filename);
             }
             else {
-                jsonObject = readJson(minecraftDir + File.separator + filename);
+                path = minecraftDir + File.separator;
+                jsonObject = readJson(path + filename);
             }
         }
 
         if(jsonObject != null){
             profiles = new Profiles();
-            profiles.setPath(minecraftDir);
+            profiles.setPath(path);
 
             if (jsonObject.has("selectedUser")) {
                 JsonObject json_selectedUser = jsonObject.get("selectedUser").getAsJsonObject();
