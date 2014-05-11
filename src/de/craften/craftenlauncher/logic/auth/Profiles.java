@@ -88,6 +88,10 @@ public class Profiles {
         availableUsers.clear();
     }
 
+    public void clearSelectedUser(){
+        selectedUser = new MinecraftUser("","");
+    }
+
     public String getPath() {
         return mPath;
     }

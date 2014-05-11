@@ -244,7 +244,8 @@ public class LogicController {
 		
 		String name = mProfiles.getSelectedUser().getUsername();
 		
-		mProfiles.setSelectedUser(null);
+		mProfiles.clearSelectedUser();
+        mProfiles.save();
 		// TODO: Muss das unbedingt null werden?
 		// mCurrentVersion = null;
 		mDownloadVM.setProgressBarToNull();

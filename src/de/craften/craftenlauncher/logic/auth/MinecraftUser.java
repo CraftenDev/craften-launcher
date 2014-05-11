@@ -76,14 +76,20 @@ public class MinecraftUser {
     }
 
     public String getEmail() {
+        if(mEmail == null)
+            return "";
         return mEmail;
     }
 
     public String getUsername() {
+        if(mUsername == null)
+            return "";
         return mUsername;
     }
 
     public String getPassword() {
+        if(mPassword == null)
+            return "";
         return mPassword;
     }
 
@@ -95,18 +101,26 @@ public class MinecraftUser {
     }
 
     public String getAccessToken() {
+        if(mResponse == null)
+            return "";
         return mAccessToken;
     }
 
     public String getClientToken() {
+        if(mResponse == null)
+            return "";
         return mClientToken;
     }
 
     public String getProfileId() {
+        if(mResponse == null)
+            return "";
         return mProfileId;
     }
 
     public String getResponse() {
+        if(mResponse == null)
+            return "";
         return mResponse;
     }
 

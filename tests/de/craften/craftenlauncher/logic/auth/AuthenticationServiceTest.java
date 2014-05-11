@@ -93,6 +93,6 @@ public class AuthenticationServiceTest {
         expected.add(new MinecraftUser());
 
         // Username and Password need to be given.
-        service.getSessionID(new MinecraftUser("",""));
+        service.getSessionID(new MinecraftUser("", ""));
     }
 }
