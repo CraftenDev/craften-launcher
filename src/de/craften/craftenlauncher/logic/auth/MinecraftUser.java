@@ -101,19 +101,19 @@ public class MinecraftUser {
     }
 
     public String getAccessToken() {
-        if(mResponse == null)
+        if(mAccessToken == null)
             return "";
         return mAccessToken;
     }
 
     public String getClientToken() {
-        if(mResponse == null)
+        if(mClientToken == null)
             return "";
         return mClientToken;
     }
 
     public String getProfileId() {
-        if(mResponse == null)
+        if(mProfileId == null)
             return "";
         return mProfileId;
     }
