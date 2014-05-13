@@ -2,8 +2,11 @@ package de.craften.craftenlauncher.logic.json;
 
 import de.craften.craftenlauncher.logic.auth.Profiles;
 import de.craften.craftenlauncher.logic.auth.MinecraftUser;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import java.io.File;
 
@@ -35,29 +38,41 @@ public class JSONWriterTest {
 
         prof2.setSelectedUser(user1);
 
-
         JSONWriter.saveProfiles(prof1);
     }
 
-    @Test
-    public void testSaveLastLogin() throws Exception {
-        assertTrue("craftenlauncher_profiles wurde geschrieben", new File(prof1.getPath() + "craftenlauncher_profiles.json").exists());
+    @After
+    public void deleteProfiles() {
+        File login = new File(prof1.getPath() + "craftenlauncher_profiles.json");
+        login.delete();
     }
 
     @Test
-    public void testProfiles() throws Exception {
-        Profiles temp = JSONReader.readProfiles(prof1.getPath());
-        assertEquals("Vorherige geschriebene craftenlauncher_profiles ist aktuell gelesene", temp, prof1);
+    public void testJsonCreated() throws Exception {
+        assertTrue(new File(prof1.getPath() + "craftenlauncher_profiles.json").exists());
     }
 
     @Test
-    public void testEquals() throws Exception {
-        assertEquals(prof2, prof1);
+    public void testEquals_onFile() throws Exception {
+        Profiles dummy = JSONReader.readProfiles(prof1.getPath());
+        assertEquals(dummy, prof1);
     }
 
     @Test
-    public void testNotEquals() throws Exception {
+    public void testEquals_onObject() throws Exception {
+        assertEquals(prof1, prof2);
+    }
+
+    @Test
+    public void testNotEquals_onFile() throws Exception {
+        Profiles dummy = JSONReader.readProfiles(prof1.getPath());
+        dummy.setSelectedUser(user3);
+        assertNotEquals(dummy, prof2);
+    }
+
+    @Test
+    public void testNotEquals_onObject() throws Exception {
         prof2.setSelectedUser(user3);
-        assertNotEquals(prof2, prof1);
+        assertNotEquals(prof1, prof2);
     }
 }
