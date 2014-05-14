@@ -203,7 +203,7 @@ public class DownloadService implements Runnable{
 	}
 	
 	/**
-	 * Lädt fuer den uebergebenen Nutzer seinen Skin herunter.
+	 * Laedt fuer den uebergebenen Nutzer seinen Skin herunter.
 	 * @param skin
 	 * @param username
 	 */

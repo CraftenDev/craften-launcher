@@ -23,7 +23,7 @@ import de.craften.craftenlauncher.exception.CraftenDownloadException;
 
 public interface Downloader {
 	/**
-	 * Download-Funktion welche die entsprechenden Dateien herunterlädt.
+	 * Download-Funktion welche die entsprechenden Dateien herunterlaedt.
 	 * @throws CraftenDownloadException
 	 */
 	public void download() throws CraftenDownloadException;

@@ -86,7 +86,7 @@ public class DownloadVM extends Observable{
 	}
 	
 	/**
-	 * Um den Fortschritt zurückzusetzen.
+	 * Um den Fortschritt zurueckzusetzen.
 	 */
 	public synchronized void setProgressBarToNull() {
 		mProgress = 0;
@@ -111,7 +111,7 @@ public class DownloadVM extends Observable{
 	}
 	
 	/**
-	 * Liefert die Anzahl heruntergeladener KByte-Blöcke.
+	 * Liefert die Anzahl heruntergeladener KByte-Bloecke.
 	 * @return
 	 */
 	public int getDownloadedKByte() {
