@@ -33,6 +33,11 @@ public class JarDownloader implements Downloader {
 	private MinecraftVersion mVersion;
 	private MinecraftPathImpl mMinecraftPath;
 
+    /**
+     *
+     * @param version
+     * @param mcPath
+     */
 	public JarDownloader(MinecraftVersion version, MinecraftPathImpl mcPath) {
 		this.mVersion = version;
 		this.mMinecraftPath = mcPath;
