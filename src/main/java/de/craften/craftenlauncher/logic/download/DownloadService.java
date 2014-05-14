@@ -51,7 +51,7 @@ public class DownloadService implements Runnable{
 	 * Minecraft Pfade benoetigt ( NewPath ). Die DownloadVM stellt den Zuganngspunkt fuer
 	 * die GUI dar.
 	 * @param mcPath
-	 * @param access
+	 * @param downVM
 	 */
 	public DownloadService(MinecraftPathImpl mcPath, DownloadVM downVM) {
 		this.mDownloadVM = downVM;
@@ -203,7 +203,7 @@ public class DownloadService implements Runnable{
 	}
 	
 	/**
-	 * Laedt fuer den uebergebenen Nutzer seinen Skin herunter.
+	 * Loads skin for given username.
 	 * @param skin
 	 * @param username
 	 */
@@ -217,7 +217,7 @@ public class DownloadService implements Runnable{
 				try {
 					downloader.download();
 				} catch (CraftenDownloadException e) {
-					//TODO Catch bedeutet StandardSkin verwenden!
+					//TODO Use the standard skin
 				}
 			}
 		});
