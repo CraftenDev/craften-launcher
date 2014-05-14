@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: . CraftenLauncher_lib/gson-2.2.4.jar
-Specification-Version: 0.12.0
-Main-Class: de.craften.craftenlauncher.Application
-

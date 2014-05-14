@@ -60,6 +60,7 @@ public class AuthenticationServiceTest {
     }
 
     @Test
+    @Ignore()
     public void testGetAllUsers() {
         givenAuthServWithMCPath();
 
