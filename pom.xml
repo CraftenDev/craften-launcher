@@ -61,7 +61,9 @@
         </dependency>
     </dependencies>
 
-    <packaging>jar</packaging>
+    <packaging>
+        jar
+    </packaging>
 
     <build>
         <plugins>
