@@ -42,8 +42,8 @@ public class Loading extends Basic implements Observer {
 
     public Loading(Dimension d) {
         super(d);
-        setBackground("/image/LoadingBackground.png");
-        setSlider("/image/LoadingSlider.png");
+        setBackground("/images/LoadingBackground.png");
+        setSlider("/images/LoadingSlider.png");
 
         addProgressBar();
         addInfo();

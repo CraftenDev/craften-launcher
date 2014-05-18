@@ -50,7 +50,7 @@ public class Manager extends JFrame {
 
     private Manager() {
         try {
-            setIconImage(new ImageIcon(getClass().getResource("/image/icon.png")).getImage());
+            setIconImage(new ImageIcon(getClass().getResource("/images/icon.png")).getImage());
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -101,7 +101,7 @@ public class Manager extends JFrame {
         profile.setVisible(true);
         profile.init();
         try {
-            setIconImage(new ImageIcon(getClass().getResource("/image/icon2.png")).getImage());
+            setIconImage(new ImageIcon(getClass().getResource("/images/icon2.png")).getImage());
         } catch (NullPointerException e) {
             e.printStackTrace();
         }

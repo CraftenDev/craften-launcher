@@ -73,9 +73,9 @@ public class CL_CloseButton extends JPanel {
     private void loadImage(boolean hover) {
         try {
             if (hover) {
-                img = ImageIO.read(getClass().getResource("/image/CloseButton_Hover.png"));
+                img = ImageIO.read(getClass().getResource("/images/CloseButton_Hover.png"));
             } else {
-                img = ImageIO.read(getClass().getResource("/image/CloseButton.png"));
+                img = ImageIO.read(getClass().getResource("/images/CloseButton.png"));
             }
         } catch (IOException e) {
             e.printStackTrace();

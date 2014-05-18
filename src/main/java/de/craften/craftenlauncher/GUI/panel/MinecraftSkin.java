@@ -65,7 +65,7 @@ public class MinecraftSkin extends JPanel implements Observer {
         setOpaque(false);
 
         try {
-            skin = ImageIO.read(getClass().getResource("/image/steve.png"));
+            skin = ImageIO.read(getClass().getResource("/images/steve.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

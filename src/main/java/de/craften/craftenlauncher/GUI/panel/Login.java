@@ -60,8 +60,8 @@ public class Login extends Basic {
 
     public Login(Dimension d) {
         super(d);
-        setBackground("/image/LoginBackground.png");
-        setSlider("/image/LoginSlider.png");
+        setBackground("/images/LoginBackground.png");
+        setSlider("/images/LoginSlider.png");
         setSliderClickable(true);
     }
 

@@ -54,8 +54,8 @@ public class Profile extends Basic {
     public Profile(Dimension d) {
         super(d);
 
-        setBackground("/image/PlayPanel.png");
-        setSlider("/image/PlaySlider.png");
+        setBackground("/images/PlayPanel.png");
+        setSlider("/images/PlaySlider.png");
         setSliderClickable(true);
     }
 
