@@ -46,29 +46,7 @@ public final class OSHelper {
 		} else if (operatingSystem.contains("Mac")) {
 			operatingSystem = "osx";
 		}
-		
-		
-		//TODO: Alle Logger Aufrufen verschieben. Vllt. in die Main?
-		
-		Logger.getInstance().logDebug("OS : " + operatingSystem);
-		Logger.getInstance().logDebug("OS Arch : " + System.getProperty("os.arch"));
-		Logger.getInstance().logDebug("OS Version : " + System.getProperty("os.version"));
-		Logger.getInstance().logDebug("Username : " + System.getProperty("user.name"));
-		Logger.getInstance().logDebug("Java Vendor : " + System.getProperty("java.vendor"));
-		Logger.getInstance().logDebug("Java Version : " + System.getProperty("java.version"));
-		Logger.getInstance().logDebug("Java Home : " + System.getProperty("java.home"));
-		Logger.getInstance().logDebug("Java Classpath : " + System.getProperty("java.class.path"));
-		
-		Logger.getInstance().logDebug("Available processors (cores): " + 
-		        Runtime.getRuntime().availableProcessors());
-		Logger.getInstance().logDebug("Total memory (bytes): " + 
-		        Runtime.getRuntime().totalMemory());
-		
-		DateFormat formatter = new SimpleDateFormat("dd.MM.yy");
-		
-		Logger.getInstance().logInfo("Date: " + formatter.format(new Date()));
-		
-	}
+    }
 
 	public synchronized static OSHelper getInstance() {
 		if (instance == null) {
