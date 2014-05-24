@@ -100,8 +100,12 @@ public class DownloadHelper {
     	}
     	finally {
     		 try {
-                 is.close();
-                 uCon.disconnect();
+                 if (is != null) {
+                     is.close();
+                 }
+                 if (uCon != null) {
+                     uCon.disconnect();
+                 }
              } catch (IOException e) {
                  Logger.getInstance().logError("Could not close Download-Stream: " + e.getMessage());
              }
