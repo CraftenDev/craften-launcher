@@ -30,9 +30,11 @@ import de.craften.craftenlauncher.logic.download.FileNameHelper;
 import de.craften.craftenlauncher.logic.json.JSONReader;
 import de.craften.craftenlauncher.logic.minecraft.MinecraftPath;
 import de.craften.craftenlauncher.logic.resources.LibEntry;
+import de.craften.craftenlauncher.logic.resources.Os;
 import de.craften.craftenlauncher.logic.resources.Version;
 import de.craften.craftenlauncher.logic.version.MinecraftVersion;
 import de.craften.craftenlauncher.logic.vm.DownloadVM;
+import de.craften.util.OSHelper;
 
 public class LibraryDownloader implements Downloader {
 	
@@ -61,8 +63,13 @@ public class LibraryDownloader implements Downloader {
 			
 			if (entry.isNeeded()) {
 				
-                if(FileNameHelper.hasVariables(entry)) {
-                    FileNameHelper.replaceVariables(entry);
+                if(entry.getFileName().contains("$")) {
+                    if(OSHelper.getInstance().is32bit())
+                        entry.setFilename(entry.getFileName().replace("${arch}", "32"));
+                    else if(OSHelper.getInstance().is64bit())
+                        entry.setFilename(entry.getFileName().replace("${arch}", "64"));
+                    else
+                        Logger.getInstance().logError("LibraryDownloader-> No OS arch detected!");
                 }
                 
 				String replaced = entry.getPath().replace(File.separator, "/");
