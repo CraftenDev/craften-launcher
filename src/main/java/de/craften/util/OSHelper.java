@@ -33,6 +33,8 @@ public final class OSHelper {
 	private static String operatingSystem;
 	private static OSHelper instance;
 	private static String pS = File.separator;
+    private static String[] mOsArch32 = {"x86", "i386", "i686"}, //32-bit
+            mOsArch64 = {"x64", "ia64", "amd64"};                //64-bit
 
 	private OSHelper() {
 		operatingSystem = System.getProperty("os.name");
@@ -74,6 +76,32 @@ public final class OSHelper {
 		}
 		return instance;
 	}
+
+    public boolean is32bit(){
+        String archInfo = System.getProperty("os.arch");
+
+        if (archInfo != null && !archInfo.equals("")) {
+            for (String aMOsArch32 : mOsArch32) {
+                if (archInfo.equals(aMOsArch32)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean is64bit(){
+        String archInfo = System.getProperty("os.arch");
+
+        if (archInfo != null && !archInfo.equals("")) {
+            for (String aMOsArch64 : mOsArch64) {
+                if (archInfo.equals(aMOsArch64)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
 	public String getMinecraftPath() {
 		String path = "";
