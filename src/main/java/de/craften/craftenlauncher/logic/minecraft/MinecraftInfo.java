@@ -36,10 +36,11 @@ public class MinecraftInfo {
     private String mResponse;
 	private MinecraftPath mMinecraftPath;
 	private String mServer, mPort;
-	private String mXmx, mFullscreen, mDemo; 
+	private String mXmx, mDemo;
     private MinecraftVersion mMinecraftVersion;
-	
-	public MinecraftInfo(String version) {
+    private boolean mFullscreen;
+
+    public MinecraftInfo(String version) {
 		this.mVersion = version;
 	}
 	
@@ -107,7 +108,11 @@ public class MinecraftInfo {
 	public void setMinecraftPath(MinecraftPath path) {
 		this.mMinecraftPath = path;
 	}
-	
+
+    public void setFullscreen(boolean fullscreen){
+        mFullscreen = fullscreen;
+    }
+
 	public void setXMX(String xmx) {
 		if(xmx == null || xmx.contains(" ")) {
 			this.mXmx = null;
@@ -181,8 +186,7 @@ public class MinecraftInfo {
 		return mXmx;
 	}
 
-	//TODO not yet implemented fully!
-    public String getFullscreen() { 
+    public boolean isFullscreen() {
         return mFullscreen;
     }
     

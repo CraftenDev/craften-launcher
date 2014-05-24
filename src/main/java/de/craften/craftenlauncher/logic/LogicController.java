@@ -53,8 +53,7 @@ public class LogicController {
 	private MinecraftVersion mCurrentVersion;
 	private HashMap<String,String> mMincraftArgs;
 	private Profiles mProfiles;
-    private boolean mQuickPlay;
-    private boolean mForceLogin;
+    private boolean mQuickPlay,mForceLogin,mFullscreen;
 
 	private DownloadVM mDownloadVM;
 	private SkinVM mSkinVM;
@@ -127,6 +126,10 @@ public class LogicController {
 
         if(mParser.hasKey("forcelogin")) {
             mForceLogin = true;
+        }
+
+        if(mParser.hasKey("fullscreen")) {
+            mFullscreen = true;
         }
 
 		mAuthService.setMcPath(mMinecraftPath);
@@ -319,6 +322,7 @@ public class LogicController {
 		//TODO Server und Port Anfrage ueberpruefen und falls noetig korrigieren.
 		String server = mMincraftArgs.get("server");
 		info.setServerAdress(server);
+        info.setFullscreen(mFullscreen);
 		
 		MinecraftProcess process = new MinecraftProcess(info, info.getMSV().getVersionJson());
 		

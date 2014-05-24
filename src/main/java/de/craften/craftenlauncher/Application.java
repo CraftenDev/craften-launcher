@@ -31,6 +31,7 @@
  * --quickplay  = [] skip profile page and start minecrat directly
  * --profileid  = [54bnb5br_profileid_berb4b3] chooses a saved user
  * --forcelogin = erzwingt das Einloggen eines Users
+ * --fullscreen = starts minecraft in fullscreen mode
  * 
  * @author redbeard
  */

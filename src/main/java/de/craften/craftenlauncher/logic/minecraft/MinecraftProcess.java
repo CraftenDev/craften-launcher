@@ -154,6 +154,10 @@ public class MinecraftProcess {
                 mcArgs.add(mInfo.getServerPort());
             }
 		}
+
+        if(mInfo.isFullscreen()) {
+            mcArgs.add("--fullscreen");
+        }
         //mcArgs.add("--demo");
         System.out.println(mcArgs.toString());
         mParams.addAll(mcArgs);
