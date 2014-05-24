@@ -6,27 +6,29 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class OSHelperTest{
+    OSHelper oshelper;
 
     @Before
     public void setUp() throws Exception {
         System.setProperty("os.name","Mac-SuperDuper-Machine");
         System.setProperty("os.arch","x64");
+        oshelper = OSHelper.TEST_CreateInstance();
     }
 
     @Test
     public void testIs32bit() throws Exception {
-        assertFalse(OSHelper.getInstance().is32bit());
+        assertFalse(oshelper.is32bit());
     }
 
     @Test
     public void testIs64bit() throws Exception {
-        assertTrue(OSHelper.getInstance().is64bit());
+        assertTrue(oshelper.is64bit());
     }
 
     @Test
     public void testGetOperatingSystem() throws Exception {
-        assertNotEquals(OSHelper.getInstance().getOperatingSystem(),"windows");
-        assertNotEquals(OSHelper.getInstance().getOperatingSystem(),"linux");
-        assertEquals(OSHelper.getInstance().getOperatingSystem(),"osx");
+        assertNotEquals(oshelper.getOperatingSystem(),"windows");
+        assertNotEquals(oshelper.getOperatingSystem(),"linux");
+        assertEquals(oshelper.getOperatingSystem(),"osx");
     }
 }

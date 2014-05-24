@@ -55,6 +55,10 @@ public final class OSHelper {
 		return instance;
 	}
 
+    public static OSHelper TEST_CreateInstance() {
+        return new OSHelper();
+    }
+
     public boolean is32bit(){
         String archInfo = System.getProperty("os.arch");
 
