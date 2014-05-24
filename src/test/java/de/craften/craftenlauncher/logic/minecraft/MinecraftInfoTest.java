@@ -18,12 +18,12 @@ public class MinecraftInfoTest {
     @Test
     public void testgetXMX(){
         mcinfo.setXMX("4g");                  // Too much for 32 bit
-        assertEquals(mcinfo.getXMX(),"2048m");
+        assertEquals("2048m",mcinfo.getXMX());
     }
 
     @Test
     public void testgetXMX2(){
         mcinfo.setXMX("4096m");              // Too much for 32 bit
-        assertEquals(mcinfo.getXMX(),"2048m");
+        assertEquals("2048m",mcinfo.getXMX());
     }
 }
