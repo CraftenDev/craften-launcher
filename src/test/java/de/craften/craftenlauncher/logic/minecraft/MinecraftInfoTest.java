@@ -18,12 +18,18 @@ public class MinecraftInfoTest {
     @Test
     public void testgetXMX(){
         mcinfo.setXMX("4g");                  // Too much for 32 bit
-        assertEquals("2048m",mcinfo.getXMX());
+        if(System.getProperty("os.name").contains("Win"))
+            assertEquals("2048m",mcinfo.getXMX());
+        else
+            assertEquals("4096m",mcinfo.getXMX());
     }
 
     @Test
     public void testgetXMX2(){
         mcinfo.setXMX("4096m");              // Too much for 32 bit
-        assertEquals("2048m",mcinfo.getXMX());
+        if(System.getProperty("os.name").contains("Win"))
+            assertEquals("2048m",mcinfo.getXMX());
+        else
+            assertEquals("4096m",mcinfo.getXMX());
     }
 }
