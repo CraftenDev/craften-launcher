@@ -27,6 +27,7 @@ package de.craften.craftenlauncher.logic.minecraft;
 import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.auth.MinecraftUser;
 import de.craften.craftenlauncher.logic.version.MinecraftVersion;
+import de.craften.util.OSHelper;
 
 public class MinecraftInfo {
 	private String mVersion;
@@ -127,7 +128,7 @@ public class MinecraftInfo {
 				amount *= 1024;
 			}
 			
-			if(System.getProperty("os.arch").contains("32") && amount > 2048) {
+			if(OSHelper.getInstance().is32bit() && amount > 2048) {
 				Logger.getInstance().logInfo("Trying to set Xmx="+xmx+" changing to 2048m.");
 				return "2048m";
 			}
