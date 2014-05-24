@@ -150,6 +150,9 @@ public class MinecraftUser {
 
     @Override
     public boolean equals(Object obj) {
+        if(!(obj instanceof MinecraftUser))
+            return false;
+
         MinecraftUser a = (MinecraftUser) obj;
         return this.getEmail().equals(a.getEmail()) &&
                 this.getProfileId().equals(a.getProfileId()) &&
