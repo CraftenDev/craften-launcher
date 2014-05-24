@@ -21,7 +21,7 @@ public class MinecraftInfoTest {
         if(System.getProperty("os.name").contains("Win"))
             assertEquals("2048m",mcinfo.getXMX());
         else
-            assertEquals("4096m",mcinfo.getXMX());
+            assertEquals("4g",mcinfo.getXMX());
     }
 
     @Test
