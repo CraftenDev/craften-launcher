@@ -21,22 +21,12 @@
  */
 package de.craften.craftenlauncher.logic.auth;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.List;
-import java.util.UUID;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import de.craften.craftenlauncher.logic.Facade;
 import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.json.JSONConnector;
 import de.craften.craftenlauncher.logic.json.JSONReader;

@@ -2,8 +2,6 @@ package de.craften.craftenlauncher.logic.auth;
 
 import de.craften.craftenlauncher.logic.LogicController;
 import de.craften.craftenlauncher.logic.json.JSONWriter;
-import de.craften.craftenlauncher.logic.minecraft.MinecraftPath;
-import de.craften.craftenlauncher.logic.minecraft.MinecraftPathImpl;
 import de.craften.util.OSHelper;
 import org.junit.After;
 import org.junit.Before;

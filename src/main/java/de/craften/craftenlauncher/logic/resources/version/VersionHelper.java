@@ -36,8 +36,8 @@ public class VersionHelper {
             File folder = new File(info.getLibraryDir() + File.separator + entry.getPath() + File.separator);
             File[] listAllFiles = folder.listFiles();
             if (listAllFiles != null) {
-                for (int j = 0; j < listAllFiles.length; j++) {
-                    list.add(listAllFiles[j].getAbsolutePath());
+                for (File listAllFile : listAllFiles) {
+                    list.add(listAllFile.getAbsolutePath());
                 }
             }
         }

@@ -131,27 +131,25 @@ public class RessourceDownloader implements Downloader{
 	
 	private Callable<String> getCallable(final ResEntry res) {
 		final String file = mResDir + res.getPath();
-		
-		Callable<String> c = new Callable<String>() {
 
-			@Override
-			public String call() throws Exception {
-				Logger.getInstance().logInfo("File Download started: " + file);
-				mAccess.updateDownloadFile(res.getName());
-				
-				try {
-					DownloadHelper.downloadFileToDiskWithoutCheck(mResURL + res.getDownloadPath(), file);
-				} catch (CraftenDownloadException e) {
-					Logger.getInstance().logError("Could not download " + res.getName());
-				}
-				mAccess.updateProgress(1);
-				
-				
-				return file;
-			}
-		};
-		
-		return c;
+        return new Callable<String>() {
+
+            @Override
+            public String call() throws Exception {
+                Logger.getInstance().logInfo("File Download started: " + file);
+                mAccess.updateDownloadFile(res.getName());
+
+                try {
+                    DownloadHelper.downloadFileToDiskWithoutCheck(mResURL + res.getDownloadPath(), file);
+                } catch (CraftenDownloadException e) {
+                    Logger.getInstance().logError("Could not download " + res.getName());
+                }
+                mAccess.updateProgress(1);
+
+
+                return file;
+            }
+        };
 	}
 
 	private void checkDownloadedFilesNumber(ArrayList<String> files) {

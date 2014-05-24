@@ -52,8 +52,7 @@ public class UIParser {
 
     public String getArg(String name) {
         if (hasArg(name)) {
-            String arg = mArguments.get(name);
-            return arg;
+            return mArguments.get(name);
         }
 
         return null;

@@ -44,7 +44,7 @@ import de.craften.craftenlauncher.logic.Facade;
 import de.craften.craftenlauncher.logic.Logger;
 import de.craften.util.UIParser;
 
-public class Application {
+class Application {
 
 	public static void main(String[] args) throws CraftenLogicException {
         Logger.getInstance().logInfo("Launcher started!");
