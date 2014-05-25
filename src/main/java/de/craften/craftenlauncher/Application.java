@@ -43,9 +43,9 @@ import de.craften.craftenlauncher.GUI.Manager;
 import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.logic.Facade;
 import de.craften.craftenlauncher.logic.Logger;
+import de.craften.util.OSHelper;
 import de.craften.util.UIParser;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -54,7 +54,8 @@ class Application {
 	public static void main(String[] args) throws CraftenLogicException {
         Logger.getInstance().logInfo("Launcher started!");
         Logger.getInstance().logDebug("OS : " + System.getProperty("os.name"));
-        Logger.getInstance().logDebug("OS Arch : " + System.getProperty("os.arch"));
+        Logger.getInstance().logDebug("OS Arch: " + OSHelper.getInstance().getOSArch());
+        Logger.getInstance().logDebug("OS Java Arch : " + System.getProperty("os.arch"));
         Logger.getInstance().logDebug("OS Version : " + System.getProperty("os.version"));
         Logger.getInstance().logDebug("Username : " + System.getProperty("user.name"));
         Logger.getInstance().logDebug("Java Vendor : " + System.getProperty("java.vendor"));

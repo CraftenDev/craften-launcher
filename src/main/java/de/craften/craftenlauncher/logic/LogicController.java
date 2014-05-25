@@ -83,6 +83,7 @@ public class LogicController {
      * Inits the logic layer.
      */
 	public void init() {
+        Logger.getInstance().logInfo(mParser.toString());
 		if(mParser.hasArg("mcpath")) {
 			mMinecraftPath = new MinecraftPathImpl(mParser.getArg("mcpath"));
 		}

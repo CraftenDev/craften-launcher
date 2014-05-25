@@ -59,7 +59,7 @@ public final class OSHelper {
         return new OSHelper();
     }
 
-    public boolean is32bit(){
+    public boolean isJava32bit(){
         String archInfo = System.getProperty("os.arch");
 
         if (archInfo != null && !archInfo.equals("")) {
@@ -72,7 +72,7 @@ public final class OSHelper {
         return false;
     }
 
-    public boolean is64bit(){
+    public boolean isJava64bit(){
         String archInfo = System.getProperty("os.arch");
 
         if (archInfo != null && !archInfo.equals("")) {
@@ -83,6 +83,16 @@ public final class OSHelper {
             }
         }
         return false;
+    }
+
+    public String getOSArch(){
+        String arch = System.getenv("PROCESSOR_ARCHITECTURE");
+        String wow64Arch = System.getenv("PROCESSOR_ARCHITEW6432");
+
+        String realArch = arch.endsWith("64")
+                || wow64Arch != null && wow64Arch.endsWith("64")
+                ? "64" : "32";
+        return realArch;
     }
 
 	public String getMinecraftPath() {

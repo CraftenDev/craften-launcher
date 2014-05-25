@@ -17,12 +17,12 @@ public class OSHelperTest{
 
     @Test
     public void testIs32bit() throws Exception {
-        assertFalse(oshelper.is32bit());
+        assertFalse(oshelper.isJava32bit());
     }
 
     @Test
     public void testIs64bit() throws Exception {
-        assertTrue(oshelper.is64bit());
+        assertTrue(oshelper.isJava64bit());
     }
 
     @Test

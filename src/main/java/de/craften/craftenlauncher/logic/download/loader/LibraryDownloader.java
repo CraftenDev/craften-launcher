@@ -62,9 +62,9 @@ public class LibraryDownloader implements Downloader {
 			if (entry.isNeeded()) {
 				
                 if(entry.getFileName().contains("$")) {
-                    if(OSHelper.getInstance().is32bit())
+                    if(OSHelper.getInstance().getOSArch().equals("32"))
                         entry.setFilename(entry.getFileName().replace("${arch}", "32"));
-                    else if(OSHelper.getInstance().is64bit())
+                    else if(OSHelper.getInstance().getOSArch().equals("64"))
                         entry.setFilename(entry.getFileName().replace("${arch}", "64"));
                     else
                         Logger.getInstance().logError("LibraryDownloader-> No OS arch detected!");
