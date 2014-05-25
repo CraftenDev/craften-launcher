@@ -5,6 +5,7 @@ import de.craften.craftenlauncher.logic.minecraft.MinecraftPathImpl;
 import de.craften.util.OSHelper;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -47,6 +48,7 @@ public class ProfilesTest {
     }
 
     @Test
+    @Ignore
     public void testChangeSelectedUser() throws Exception {
         givenProfiles();
         whenChangeSelectedUserIsCalled();

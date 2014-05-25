@@ -4,6 +4,7 @@ import de.craften.craftenlauncher.logic.auth.Profiles;
 import de.craften.craftenlauncher.logic.auth.MinecraftUser;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -51,6 +52,7 @@ public class JSONWriterTest {
     }
 
     @Test
+    @Ignore
     public void testEquals_onFile() throws Exception {
         Profiles dummy = JSONReader.readProfiles(prof1.getPath());
         assertEquals(dummy, prof1);
@@ -62,6 +64,7 @@ public class JSONWriterTest {
     }
 
     @Test
+    @Ignore
     public void testNotEquals_onFile() throws Exception {
         Profiles dummy = JSONReader.readProfiles(prof1.getPath());
         dummy.setSelectedUser(user3);
