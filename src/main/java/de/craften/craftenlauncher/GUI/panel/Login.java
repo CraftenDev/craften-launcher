@@ -76,6 +76,7 @@ public class Login extends Basic {
             try {
                 if (Facade.getInstance().getUser() != null) {
                     _Username.setText(Facade.getInstance().getUser().getEmail());
+                    _Password.grabFocus();
                     Facade.getInstance().authenticateUser();
 
                     Manager.getInstance().showProfile();
