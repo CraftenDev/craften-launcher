@@ -252,7 +252,11 @@ public class LogicController {
 		Logger.getInstance().logInfo("Trying to logout user: " + mProfiles.getSelectedUser().getUsername());
 		
 		String name = mProfiles.getSelectedUser().getUsername();
-		
+
+        mAuthService.invalidate(mProfiles.getSelectedUser());
+        if(mProfiles.getAvailableUser(mProfiles.getSelectedUser().getProfileId()) != null)
+            mProfiles.removeAvailableUser(mProfiles.getSelectedUser().getProfileId());
+
 		mProfiles.clearSelectedUser();
         mProfiles.save();
 		// TODO: Muss das unbedingt null werden?

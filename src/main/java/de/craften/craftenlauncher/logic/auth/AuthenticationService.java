@@ -161,6 +161,16 @@ public class AuthenticationService {
         return true;
     }
 
+    public void invalidate(MinecraftUser user) {
+        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+        JsonObject jsonPayload = new JsonObject();
+
+        jsonPayload.addProperty("accessToken", user.getAccessToken());
+        jsonPayload.addProperty("clientToken", user.getClientToken());
+
+        JSONConnector.executePost("https://authserver.mojang.com/invalidate", gson.toJson(jsonPayload));
+    }
+
     public void setMcPath(MinecraftPath mcPath) {
         this.mcPath = mcPath;
     }
