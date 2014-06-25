@@ -55,7 +55,7 @@ public class AuthenticationService {
 
     public String getSessionID(MinecraftUser user) {
         if(user.hasAccessToken()){
-            if (isValid(user.getAccessToken())) {
+            if (refresh(user)) {
                 Logger.getInstance().logInfo("Login with craftenlauncher_profiles successful");
                 return user.getSession();
             } else {
@@ -127,12 +127,38 @@ public class AuthenticationService {
         return JSONConnector.executePost("https://authserver.mojang.com/authenticate", gson.toJson(jsonResult));
     }
 
+    /*
+    Checks if an accessToken is a valid session token with a currently-active session.
+    Note: this method will not respond successfully to all currently-logged-in sessions, just the most recently-logged-in for each user.
+    It is intended to be used by servers to validate that a user should be connecting
+    (and reject users who have logged in elsewhere since starting Minecraft), NOT to auth that a particular session token is valid for authentication purposes.
+    To authenticate a user by session token, use the refresh verb and catch resulting errors.
+     */
+    @Deprecated
     public static boolean isValid(String accessToken) {
+        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
         JsonObject jsonAccessToken = new JsonObject();
         jsonAccessToken.addProperty("accessToken", accessToken);
 
-        String dummy = JSONConnector.executePost("https://authserver.mojang.com/validate", jsonAccessToken.toString());
+        String dummy = JSONConnector.executePost("https://authserver.mojang.com/validate", gson.toJson(jsonAccessToken));
         return dummy != null;
+    }
+
+    private boolean refresh(MinecraftUser user) {
+        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+        JsonObject jsonPayload = new JsonObject();
+
+        jsonPayload.addProperty("accessToken", user.getAccessToken());
+        jsonPayload.addProperty("clientToken", user.getClientToken());
+
+        String response = JSONConnector.executePost("https://authserver.mojang.com/refresh", gson.toJson(jsonPayload));
+
+        if(response == null || response.equals(""))
+            return false;
+
+        user.setAccessToken(getAccessTokenFromResponse(response));
+
+        return true;
     }
 
     public void setMcPath(MinecraftPath mcPath) {

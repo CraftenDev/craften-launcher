@@ -187,6 +187,11 @@ public class LogicController {
             session = mAuthService.getSessionID(mProfiles.getSelectedUser());
             if(session != null){
                 mProfiles.getSelectedUser().loggingInSuccess();
+
+                if(mProfiles.getAvailableUser(mProfiles.getSelectedUser().getProfileId()) != null)
+                    mProfiles.removeAvailableUser(mProfiles.getSelectedUser().getProfileId());
+                mProfiles.addAvailableUser(mProfiles.getSelectedUser());
+
                 mProfiles.save();
             }
         }
