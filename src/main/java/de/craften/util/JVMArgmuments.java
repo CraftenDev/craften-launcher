@@ -38,7 +38,7 @@ public class JVMArgmuments {
 
         JsonObject jsonObject = JSONReader.readJson(path);
         if(jsonObject != null && jsonObject.has("JVMArguments")) {
-            String[] dummy = jsonObject.get("JVMArguments").getAsString().split(Pattern.quote(" "));
+            String[] dummy = jsonObject.get("JVMArguments").getAsString().split(Pattern.quote(";"));
             Collections.addAll(arg, dummy);
         }
 

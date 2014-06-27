@@ -88,8 +88,8 @@ public class MinecraftProcess {
 		
 		ProcessBuilder pb = new ProcessBuilder(mParams);
         pb.directory(new File(mInfo.getMinecraftPath().getMinecraftDir()));
-		
-		return pb.start();
+
+        return pb.start();
 	}
 	
 	private void addJavaCommand() {
@@ -108,7 +108,7 @@ public class MinecraftProcess {
 		String libraries = VersionHelper.getLibFilessAsArgmument(mInfo.getMinecraftPath(), mVersion.getLibraries()) + "";
 		String jar = mInfo.getMinecraftPath().getMinecraftJarPath() + mInfo.getMinecraftVersion() + ".jar";
 
-		mParams.add("-Djava.library.path="+natives);
+		mParams.add("-Djava.library.path=" + natives);
 		mParams.add("-cp");
 		mParams.add(libraries + ";" + jar);
 		mParams.add(mVersion.getMainClass());	
