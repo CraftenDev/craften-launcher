@@ -127,14 +127,15 @@ public final class OSHelper {
 	}
 
     public String getJavaPath() {
-        String path = "";
-        if (operatingSystem.equals("windows")) {
-            path = "\"" + System.getProperty("java.home") + "\\bin\\" + "javaw.exe\"";
-        } else if (operatingSystem.equals("linux")) {
-            path = "todo";
-        } else if (operatingSystem.equals("osx")) {
-            path = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
+        String fs = File.separator;
+
+        String path = System.getProperty("java.home") + fs + "bin" + fs;
+
+        if ((operatingSystem.equals("windows")) &&
+                (new File(path + "javaw.exe").isFile())) {
+            return path + "javaw.exe";
         }
-        return path;
+
+        return path + "java";
     }
 }
