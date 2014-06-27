@@ -88,7 +88,8 @@ public final class OSHelper {
     public String getOSArch(){
         String arch = System.getenv("PROCESSOR_ARCHITECTURE");
         String wow64Arch = System.getenv("PROCESSOR_ARCHITEW6432");
-
+        if (arch == null && wow64Arch == null)
+            return "";
         String realArch = arch.endsWith("64")
                 || wow64Arch != null && wow64Arch.endsWith("64")
                 ? "64" : "32";
@@ -108,7 +109,7 @@ public final class OSHelper {
 			if (new File(path).exists()) {
 				return path;
 			}
-		} else if (operatingSystem.equals("mac")) {
+		} else if (operatingSystem.equals("mac") || operatingSystem.equals("osx")) {
 			path = System.getProperty("user.home") + pS + "Library" + pS
 					+ "Application Support" + pS + "minecraft" + pS;
 			if (new File(path).exists()) {
