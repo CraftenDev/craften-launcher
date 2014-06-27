@@ -352,12 +352,12 @@ public class DownloadHelper {
             }
 
             if (entry.isDirectory()) {
-                new File(destFolder + "/" + entry.getName()).mkdirs();
+                new File(destFolder + File.separator + entry.getName()).mkdirs();
                 continue;
             } else {
                 int di = entry.getName().lastIndexOf('/');
                 if (di != -1) {
-                    new File(destFolder + "/"
+                    new File(destFolder + File.separator
                             + entry.getName().substring(0, di)).mkdirs();
                 }
             }
@@ -365,7 +365,7 @@ public class DownloadHelper {
             int count;
             byte data[] = new byte[1024];
             
-            dest = new BufferedOutputStream(new FileOutputStream(destFolder + "/"
+            dest = new BufferedOutputStream(new FileOutputStream(destFolder + File.separator
                     + entry.getName()));
 
             while ((count = zis.read(data)) != -1) {

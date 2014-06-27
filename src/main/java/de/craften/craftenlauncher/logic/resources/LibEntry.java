@@ -26,6 +26,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import de.craften.util.OSHelper;
 
+import java.io.File;
+
 public class LibEntry {
     private String mName, mPath, mFilename, mUrl;
     private Rules[] mRules;
@@ -37,7 +39,7 @@ public class LibEntry {
 
     public void setPath(String path) {
         this.mPath = path;
-        String[] splitter = path.split("\\\\");
+        String[] splitter = path.split(File.separator);
         String result = splitter[splitter.length - 2] + "-" + splitter[splitter.length - 1];
         if (this.isNativ()) {
             if (OSHelper.getInstance().getOperatingSystem().equals("windows"))
@@ -82,9 +84,9 @@ public class LibEntry {
         this.mName = name;
 
         String[] dummy = name.split(":");
-        String path = dummy[0].replace(".", "\\");
+        String path = dummy[0].replace(".", File.separator);
         for (int i = 1; i < dummy.length; i++) {
-            path += "\\" + dummy[i];
+            path += File.separator + dummy[i];
         }
         setPath(path);
     }

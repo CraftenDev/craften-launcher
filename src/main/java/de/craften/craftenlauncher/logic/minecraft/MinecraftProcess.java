@@ -34,6 +34,7 @@ import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.resources.Version;
 import de.craften.craftenlauncher.logic.resources.version.VersionHelper;
 import de.craften.util.JVMArgmuments;
+import de.craften.util.OSHelper;
 
 public class MinecraftProcess {
 	private MinecraftInfo mInfo;
@@ -78,8 +79,8 @@ public class MinecraftProcess {
 	}
 	
 	private Process startProcess() throws IOException {
-		String java = "\"" + System.getProperty("java.home") + "\\bin\\" + "javaw.exe\"";
-		
+		String java = OSHelper.getInstance().getJavaPath();
+
 		mParams.add(java);
 		addJavaCommand();
 		addMinecraftPaths();

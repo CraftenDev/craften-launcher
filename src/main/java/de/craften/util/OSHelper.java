@@ -109,7 +109,7 @@ public final class OSHelper {
 			if (new File(path).exists()) {
 				return path;
 			}
-		} else if (operatingSystem.equals("mac") || operatingSystem.equals("osx")) {
+		} else if (operatingSystem.equals("osx")) {
 			path = System.getProperty("user.home") + pS + "Library" + pS
 					+ "Application Support" + pS + "minecraft" + pS;
 			if (new File(path).exists()) {
@@ -125,4 +125,16 @@ public final class OSHelper {
 	public String getOperatingSystem() {
 		return operatingSystem;
 	}
+
+    public String getJavaPath() {
+        String path = "";
+        if (operatingSystem.equals("windows")) {
+            path = "\"" + System.getProperty("java.home") + "\\bin\\" + "javaw.exe\"";
+        } else if (operatingSystem.equals("linux")) {
+            path = "todo";
+        } else if (operatingSystem.equals("osx")) {
+            path = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
+        }
+        return path;
+    }
 }
