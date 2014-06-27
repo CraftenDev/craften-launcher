@@ -39,7 +39,11 @@ public class LibEntry {
 
     public void setPath(String path) {
         this.mPath = path;
-        String[] splitter = path.split(File.separator);
+        String[] splitter;
+                if(path.contains("\\"))
+                    splitter = path.split("\\\\");
+                else
+                    splitter = path.split(File.separator);
         String result = splitter[splitter.length - 2] + "-" + splitter[splitter.length - 1];
         if (this.isNativ()) {
             if (OSHelper.getInstance().getOperatingSystem().equals("windows"))
