@@ -110,7 +110,7 @@ public class MinecraftProcess {
 
 		mParams.add("-Djava.library.path=" + natives);
 		mParams.add("-cp");
-		mParams.add(libraries + ";" + jar);
+		mParams.add(libraries + jar);
 		mParams.add(mVersion.getMainClass());	
 	}
 	

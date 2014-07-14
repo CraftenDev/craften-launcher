@@ -30,22 +30,25 @@ import java.util.Date;
 import de.craften.craftenlauncher.logic.Logger;
 
 public final class OSHelper {
-	private static String operatingSystem;
+	private static OS os;
 	private static OSHelper instance;
 	private static String pS = File.separator;
     private static String[] mOsArch32 = {"x86", "i386", "i686"}, //32-bit
             mOsArch64 = {"x64", "ia64", "amd64"};                //64-bit
 
 	private OSHelper() {
-		operatingSystem = System.getProperty("os.name");
+        String operatingSystem = System.getProperty("os.name");
 		
 		if (operatingSystem.contains("Win")) {
-			operatingSystem = "windows";
+			os = OS.WINDOWS;
 		} else if (operatingSystem.contains("Linux")) {
-			operatingSystem = "linux";
+			os = OS.LINUX;
 		} else if (operatingSystem.contains("Mac")) {
-			operatingSystem = "osx";
+			os = OS.OSX;
 		}
+        else{
+            os = OS.UNDEFINED;
+        }
     }
 
 	public synchronized static OSHelper getInstance() {
@@ -98,18 +101,18 @@ public final class OSHelper {
 
 	public String getMinecraftPath() {
 		String path = "";
-		if (operatingSystem.equals("windows")) {
+		if (os.equals(OS.WINDOWS)) {
 			path = System.getenv("APPDATA") + pS + ".minecraft" + pS;
 			if (new File(path).exists()) {
 				return path;
 			}
-		} else if (operatingSystem.equals("linux")) {
+		} else if (os.equals(OS.LINUX)) {
 			path = System.getProperty("user.home") + pS + ".minecraft"
 					+ pS;
 			if (new File(path).exists()) {
 				return path;
 			}
-		} else if (operatingSystem.equals("osx")) {
+		} else if (os.equals(OS.OSX)) {
 			path = System.getProperty("user.home") + pS + "Library" + pS
 					+ "Application Support" + pS + "minecraft" + pS;
 			if (new File(path).exists()) {
@@ -122,16 +125,20 @@ public final class OSHelper {
 		return path;
 	}
 	
-	public String getOperatingSystem() {
-		return operatingSystem;
+	public OS getOS() {
+		return os;
 	}
+
+    public String getOSasString(){
+        return os.toString().toLowerCase();
+    }
 
     public String getJavaPath() {
         String fs = File.separator;
 
         String path = System.getProperty("java.home") + fs + "bin" + fs;
 
-        if ((operatingSystem.equals("windows")) &&
+        if (os.equals(OS.WINDOWS) &&
                 (new File(path + "javaw.exe").isFile())) {
             return path + "javaw.exe";
         }

@@ -27,6 +27,7 @@ package de.craften.craftenlauncher.logic.minecraft;
 import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.auth.MinecraftUser;
 import de.craften.craftenlauncher.logic.version.MinecraftVersion;
+import de.craften.util.OS;
 import de.craften.util.OSHelper;
 
 public class MinecraftInfo {
@@ -133,7 +134,7 @@ public class MinecraftInfo {
 				amount *= 1024;
 			}
 			
-			if(OSHelper.getInstance().isJava32bit() && OSHelper.getInstance().getOperatingSystem().equals("windows") && amount > 1024) {
+			if(OSHelper.getInstance().isJava32bit() && OSHelper.getInstance().getOS().equals(OS.WINDOWS) && amount > 1024) {
 				Logger.getInstance().logInfo("Trying to set Xmx="+xmx+" changing to 1024m.");
 				return "1024m";
 			}

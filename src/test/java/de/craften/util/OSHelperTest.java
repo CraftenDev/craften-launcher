@@ -27,8 +27,8 @@ public class OSHelperTest{
 
     @Test
     public void testGetOperatingSystem() throws Exception {
-        assertNotEquals("windows",oshelper.getOperatingSystem());
-        assertNotEquals("linux",oshelper.getOperatingSystem());
-        assertEquals("osx",oshelper.getOperatingSystem());
+        assertNotEquals("windows",oshelper.getOSasString());
+        assertNotEquals("linux",oshelper.getOSasString());
+        assertEquals("osx",oshelper.getOSasString());
     }
 }

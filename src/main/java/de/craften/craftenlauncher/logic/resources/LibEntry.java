@@ -24,6 +24,7 @@ package de.craften.craftenlauncher.logic.resources;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import de.craften.util.OS;
 import de.craften.util.OSHelper;
 
 import java.io.File;
@@ -46,11 +47,11 @@ public class LibEntry {
                     splitter = path.split(File.separator);
         String result = splitter[splitter.length - 2] + "-" + splitter[splitter.length - 1];
         if (this.isNativ()) {
-            if (OSHelper.getInstance().getOperatingSystem().equals("windows"))
+            if (OSHelper.getInstance().getOS().equals(OS.WINDOWS))
                 result += "-" + this.mNatives.getWindows();
-            else if (OSHelper.getInstance().getOperatingSystem().equals("linux"))
+            else if (OSHelper.getInstance().getOS().equals(OS.LINUX))
                 result += "-" + this.mNatives.getLinux();
-            else if (OSHelper.getInstance().getOperatingSystem().equals("osx"))
+            else if (OSHelper.getInstance().getOS().equals(OS.OSX))
                 result += "-" + this.mNatives.getOsx();
         }
         setFilename(result + ".jar");
@@ -146,11 +147,11 @@ public class LibEntry {
             OSHelper oshelper = OSHelper.getInstance();
             for (Rules mRule : mRules) {
                 if (mRule.getAction().equals("allow")) {
-                    if (mRule.getOs() == null || oshelper.getOperatingSystem().equals(mRule.getOs().getName())) {
+                    if (mRule.getOs() == null || oshelper.getOSasString().equals(mRule.getOs().getName())) {
                         needed = true;
                     }
                 } else if (mRule.getAction().equals("disallow")) {
-                    if (mRule.getOs() != null && oshelper.getOperatingSystem().equals(mRule.getOs().getName())) {
+                    if (mRule.getOs() != null && oshelper.getOSasString().equals(mRule.getOs().getName())) {
                         needed = false;
                     }
                 }
