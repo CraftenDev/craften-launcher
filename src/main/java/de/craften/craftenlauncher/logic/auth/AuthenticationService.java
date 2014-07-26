@@ -33,7 +33,13 @@ import de.craften.craftenlauncher.logic.json.JSONReader;
 import de.craften.craftenlauncher.logic.minecraft.MinecraftPath;
 
 public class AuthenticationService {
+    /**
+     * Stores the current user
+     */
     private MinecraftUser user;
+    /**
+     * Stores the current Minecraft path. Used for saving the craftenlauncher_profiles
+     */
     private MinecraftPath mcPath;
 
     /**
