@@ -23,11 +23,6 @@
 package de.craften.util;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import de.craften.craftenlauncher.logic.Logger;
 
 public final class OSHelper {
 	private static OS os;
