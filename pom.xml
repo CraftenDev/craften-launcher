@@ -12,7 +12,7 @@
     <name>CraftenLauncher</name>
     <groupId>de.craften.craftenlauncher</groupId>
     <artifactId>CraftenLauncher</artifactId>
-    <version>0.12.0</version>
+    <version>0.13.0</version>
 
     <developers>
         <developer>
