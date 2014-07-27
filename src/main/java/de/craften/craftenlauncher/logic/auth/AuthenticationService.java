@@ -38,7 +38,7 @@ public class AuthenticationService {
      */
     private MinecraftUser user;
     /**
-     * Stores the current Minecraft path. Used for saving the craftenlauncher_profiles
+     * Stores the current Minecraft path, used for saving the craftenlauncher_profiles
      */
     private MinecraftPath mcPath;
 
@@ -59,6 +59,13 @@ public class AuthenticationService {
         user = new MinecraftUser();
     }
 
+    /**
+     * Returns a SessionID from a given user.
+     * Either it contains a refreshable AccessToken or it will create a new set of keys.
+     * AccessToken + ProfileID is named SessionID
+     * @param user the selected user from craftenlauncher_profiles or fresh created with password and email
+     * @return a valid SessionID or NULL if something went wrong
+     */
     public String getSessionID(MinecraftUser user) {
         if(user.hasAccessToken()){
             if (refresh(user)) {
@@ -85,6 +92,11 @@ public class AuthenticationService {
         }
     }
 
+    /**
+     * Extracts the Accesstoken from the returned login response
+     * @param response Mojangs response to our login
+     * @return a fresh Accesstoken
+     */
     public String getAccessTokenFromResponse(String response) {
         JsonParser parser = new JsonParser();
         Object obj = parser.parse(response);
@@ -93,6 +105,11 @@ public class AuthenticationService {
         return jsonObject.get("accessToken").getAsString();
     }
 
+    /**
+     * Extracts the ClientToken from the returned login response
+     * @param response Mojangs response to our login
+     * @return a fresh ClientToken
+     */
     public String getClientTokenFromResponse(String response) {
         JsonParser parser = new JsonParser();
         Object obj = parser.parse(response);
@@ -101,6 +118,11 @@ public class AuthenticationService {
         return jsonObject.get("clientToken").getAsString();
     }
 
+    /**
+     * Extracts the ProfileID from the returned login response
+     * @param response Mojangs response to our login
+     * @return a fresh ProfileID
+     */
     private String getProfileIDFromResponse(String response) {
         JsonParser parser = new JsonParser();
         Object obj = parser.parse(response);
@@ -110,6 +132,11 @@ public class AuthenticationService {
         return selectedProfile.get("id").getAsString();
     }
 
+    /**
+     * Extracts the Name from the returned login response
+     * @param response Mojangs response to our login
+     * @return a fresh Name
+     */
     public String getName(String response) {
         JsonParser parser = new JsonParser();
         Object obj = parser.parse(response);
@@ -119,6 +146,12 @@ public class AuthenticationService {
         return selectedProfile.get("name").getAsString();
     }
 
+    /**
+     * Connects to Mojangs server with given username and password
+     * @param username Users username
+     * @param password Users password
+     * @return a response string with needed data if successful.
+     */
     private String getSSID(String username, String password) {
         Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
@@ -133,12 +166,14 @@ public class AuthenticationService {
         return JSONConnector.executePost("https://authserver.mojang.com/authenticate", gson.toJson(jsonResult));
     }
 
-    /*
-    Checks if an accessToken is a valid session token with a currently-active session.
-    Note: this method will not respond successfully to all currently-logged-in sessions, just the most recently-logged-in for each user.
-    It is intended to be used by servers to validate that a user should be connecting
-    (and reject users who have logged in elsewhere since starting Minecraft), NOT to auth that a particular session token is valid for authentication purposes.
-    To authenticate a user by session token, use the refresh verb and catch resulting errors.
+    /**
+     * Checks if an accessToken is a valid session token with a currently-active session.
+     * Note: this method will not respond successfully to all currently-logged-in sessions, just the most recently-logged-in for each user.
+     * It is intended to be used by servers to validate that a user should be connecting
+     * (and reject users who have logged in elsewhere since starting Minecraft), NOT to auth that a particular session token is valid for authentication purposes.
+     * To authenticate a user by session token, use the refresh verb and catch resulting errors.
+     * @param accessToken
+     * @return
      */
     @Deprecated
     public static boolean isValid(String accessToken) {
@@ -150,6 +185,13 @@ public class AuthenticationService {
         return dummy != null;
     }
 
+    /**
+     * Refreshes a user with Mojangs server.
+     * A refresh is needed to check its validity
+     * Sending Accesstoken and Clienttoken
+     * @param user the user we want to refresh
+     * @return true if new achieved Accesstoken is valid or false if something went wrong
+     */
     private boolean refresh(MinecraftUser user) {
         Gson gson = new GsonBuilder().disableHtmlEscaping().create();
         JsonObject jsonPayload = new JsonObject();
@@ -167,6 +209,11 @@ public class AuthenticationService {
         return true;
     }
 
+    /**
+     * Invalidates a users' data
+     * Needed to logout a user properly
+     * @param user the user we want to logout
+     */
     public void invalidate(MinecraftUser user) {
         Gson gson = new GsonBuilder().disableHtmlEscaping().create();
         JsonObject jsonPayload = new JsonObject();
@@ -177,14 +224,33 @@ public class AuthenticationService {
         JSONConnector.executePost("https://authserver.mojang.com/invalidate", gson.toJson(jsonPayload));
     }
 
+    /**
+     * Set the minecraft path
+     * @param mcPath the location where minecraft is located
+     */
     public void setMcPath(MinecraftPath mcPath) {
         this.mcPath = mcPath;
     }
 
+    /**
+     * Get the user
+     * @return
+     */
+    public MinecraftUser getUser() {
+        return user;
+    }
+
+    /**
+     * Reads the craftenlauncher_profiles
+     * @return a Profiles object with read user/s
+     */
     public Profiles readProfiles() {
         return JSONReader.readProfiles(mcPath.getMinecraftDir());
     }
 
+    /**
+     * Deletes the craftenlauncher_profiles file
+     */
     public void deleteProfiles() {
 
         String path = mcPath.getMinecraftDir() + "craftenlauncher_profiles.json";
@@ -204,9 +270,5 @@ public class AuthenticationService {
                 Logger.getInstance().logError("Could not delete craftenlauncher_profiles at: " + path);
             }
         }
-    }
-
-    public MinecraftUser getUser() {
-        return user;
     }
 }
