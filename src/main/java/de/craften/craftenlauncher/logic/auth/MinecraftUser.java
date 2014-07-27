@@ -35,6 +35,9 @@ public class MinecraftUser {
     //TODO Refacoteren. Vllt. auslagern in den AuthService?
     private boolean mLoggedIn;
 
+    /**
+     * Creates an empty MinecraftUser
+     */
     public MinecraftUser() {
     }
 
@@ -44,8 +47,8 @@ public class MinecraftUser {
      * @param password The users' password
      */
     public MinecraftUser(String email, String password) {
-        mEmail = email;
-        mPassword = password;
+        setEmail(email);
+        setPassword(password);
     }
 
     /**
@@ -65,7 +68,71 @@ public class MinecraftUser {
     }
 
     /**
-     * The email of the user
+     *
+     * @param email
+     */
+    public void setEmail(String email) {
+        mEmail = email;
+    }
+
+    /**
+     *
+     * @param username
+     */
+    public void setUsername(String username) {
+        mUsername = username;
+    }
+
+    /**
+     *
+     * @param password
+     */
+    public void setPassword(String password) {
+        mPassword = password;
+    }
+
+    /**
+     *
+     * @param accessToken
+     */
+    public void setAccessToken(String accessToken) {
+        mAccessToken = accessToken;
+    }
+
+    /**
+     *
+     * @param clientToken
+     */
+    public void setClientToken(String clientToken) {
+        mClientToken = clientToken;
+    }
+
+    /**
+     *
+     * @param profileId
+     */
+    public void setProfileId(String profileId) {
+        mProfileId = profileId;
+    }
+
+    /**
+     *
+     * @param session
+     */
+    public void setSession(String session) {
+        mSession = session;
+    }
+
+    /**
+     *
+     * @param response
+     */
+    public void setResponse(String response) {
+        mResponse = response;
+    }
+
+    /**
+     * @return current email of the user
      */
     public String getEmail() {
         if(mEmail == null)
@@ -74,7 +141,7 @@ public class MinecraftUser {
     }
 
     /**
-     * The username of the user
+     * @return current username of the user
      */
     public String getUsername() {
         if(mUsername == null)
@@ -83,7 +150,7 @@ public class MinecraftUser {
     }
 
     /**
-     * The password of the user
+     * @return current password of the user
      */
     public String getPassword() {
         if(mPassword == null)
@@ -92,9 +159,8 @@ public class MinecraftUser {
     }
 
 
-
     /**
-     * The accesstoken of the user
+     * @return The accesstoken of the user
      */
     public String getAccessToken() {
         if(mAccessToken == null)
@@ -103,7 +169,7 @@ public class MinecraftUser {
     }
 
     /**
-     * The clienttoken of the user
+     * @return current clienttoken of the user
      */
     public String getClientToken() {
         if(mClientToken == null)
@@ -112,7 +178,7 @@ public class MinecraftUser {
     }
 
     /**
-     * The profileId of the user
+     * @return current profileId of the user
      */
     public String getProfileId() {
         if(mProfileId == null)
@@ -121,7 +187,7 @@ public class MinecraftUser {
     }
 
     /**
-     * The sessionId of the user
+     * @return current sessionId of the user
      */
     public String getSession() {
         if (mSession == null) {
@@ -131,68 +197,12 @@ public class MinecraftUser {
     }
 
     /**
-     * The response from Mojangs' servers after authenticating the user
+     * @return current response from Mojangs' servers after authenticating the user
      */
     public String getResponse() {
         if(mResponse == null)
             return "";
         return mResponse;
-    }
-
-    /**
-     * (@link MinecraftUser#getEmail)
-     */
-    public void setEmail(String email) {
-        mEmail = email;
-    }
-
-    /**
-     * (@link MinecraftUser#getUsernam)
-     */
-    public void setUsername(String username) {
-        mUsername = username;
-    }
-
-    /**
-     * (@link MinecraftUser#getPassword)
-     */
-    public void setPassword(String password) {
-        mPassword = password;
-    }
-
-    /**
-     * (@link MinecraftUser#AccessToken)
-     */
-    public void setAccessToken(String accessToken) {
-        mAccessToken = accessToken;
-    }
-
-    /**
-     * (@link MinecraftUser#getClientToken)
-     */
-    public void setClientToken(String clientToken) {
-        mClientToken = clientToken;
-    }
-
-    /**
-     * (@link MinecraftUser#ProfileId)
-     */
-    public void setProfileId(String profileId) {
-        mProfileId = profileId;
-    }
-
-    /**
-     * (@link MinecraftUser#getSession)
-     */
-    public void setSession(String session) {
-        mSession = session;
-    }
-
-    /**
-     * (@link MinecraftUser#getResponse)
-     */
-    public void setResponse(String response) {
-        mResponse = response;
     }
 
     /**
