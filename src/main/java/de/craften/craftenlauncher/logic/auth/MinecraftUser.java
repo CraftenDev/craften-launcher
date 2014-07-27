@@ -20,8 +20,16 @@
 package de.craften.craftenlauncher.logic.auth;
 
 public class MinecraftUser {
-    private String mEmail, mUsername, mPassword;
-    private String mSession, mAccessToken, mClientToken, mProfileId;
+
+    private String mEmail;
+    private String mUsername;
+    private String mPassword;
+
+    private String mAccessToken;
+    private String mClientToken;
+    private String mProfileId;
+    private String mSession;
+
     private String mResponse;
 
     //TODO Refacoteren. Vllt. auslagern in den AuthService?
@@ -30,11 +38,24 @@ public class MinecraftUser {
     public MinecraftUser() {
     }
 
+    /**
+     * Creates a new MinecraftUser
+     * @param email The users' email
+     * @param password The users' password
+     */
     public MinecraftUser(String email, String password) {
         mEmail = email;
         mPassword = password;
     }
 
+    /**
+     * Creates a new MinecraftUser where a login with password is not needed
+     * @param email The users' email
+     * @param profileId The users' profileId
+     * @param username The users' username
+     * @param accessToken The users' accessToken
+     * @param clientToken The users' clientToken
+     */
     public MinecraftUser(String email, String profileId, String username, String accessToken, String clientToken) {
         setEmail(email);
         setProfileId(profileId);
@@ -43,56 +64,65 @@ public class MinecraftUser {
         setClientToken(clientToken);
     }
 
-    public void setEmail(String email) {
-        mEmail = email;
-    }
-
-    public void setUsername(String username) {
-        mUsername = username;
-    }
-
-    public void setPassword(String password) {
-        mPassword = password;
-    }
-
-    public void setAccessToken(String accessToken) {
-        mAccessToken = accessToken;
-    }
-
-    public void setClientToken(String clientToken) {
-        mClientToken = clientToken;
-    }
-
-    public void setProfileId(String profileId) {
-        mProfileId = profileId;
-    }
-
-    public void setSession(String session) {
-        mSession = session;
-    }
-
-    public void setResponse(String response) {
-        mResponse = response;
-    }
-
+    /**
+     * The email of the user
+     */
     public String getEmail() {
         if(mEmail == null)
             return "";
         return mEmail;
     }
 
+    /**
+     * The username of the user
+     */
     public String getUsername() {
         if(mUsername == null)
             return "";
         return mUsername;
     }
 
+    /**
+     * The password of the user
+     */
     public String getPassword() {
         if(mPassword == null)
             return "";
         return mPassword;
     }
 
+
+
+    /**
+     * The accesstoken of the user
+     */
+    public String getAccessToken() {
+        if(mAccessToken == null)
+            return "";
+        return mAccessToken;
+    }
+
+    /**
+     * The clienttoken of the user
+     */
+    public String getClientToken() {
+        if(mClientToken == null)
+            return "";
+        return mClientToken;
+    }
+
+    /**
+     * The profileId of the user
+     */
+    public String getProfileId() {
+        if(mProfileId == null)
+            return "";
+        return mProfileId;
+    }
+
+    /**
+     * The sessionId of the user
+     */
     public String getSession() {
         if (mSession == null) {
             mSession = "token:" + getAccessToken() + ":" + getProfileId();
@@ -100,37 +130,81 @@ public class MinecraftUser {
         return mSession;
     }
 
-    public String getAccessToken() {
-        if(mAccessToken == null)
-            return "";
-        return mAccessToken;
-    }
-
-    public String getClientToken() {
-        if(mClientToken == null)
-            return "";
-        return mClientToken;
-    }
-
-    public String getProfileId() {
-        if(mProfileId == null)
-            return "";
-        return mProfileId;
-    }
-
+    /**
+     * The response from Mojangs' servers after authenticating the user
+     */
     public String getResponse() {
         if(mResponse == null)
             return "";
         return mResponse;
     }
 
+    /**
+     * (@link MinecraftUser#getEmail)
+     */
+    public void setEmail(String email) {
+        mEmail = email;
+    }
+
+    /**
+     * (@link MinecraftUser#getUsernam)
+     */
+    public void setUsername(String username) {
+        mUsername = username;
+    }
+
+    /**
+     * (@link MinecraftUser#getPassword)
+     */
+    public void setPassword(String password) {
+        mPassword = password;
+    }
+
+    /**
+     * (@link MinecraftUser#AccessToken)
+     */
+    public void setAccessToken(String accessToken) {
+        mAccessToken = accessToken;
+    }
+
+    /**
+     * (@link MinecraftUser#getClientToken)
+     */
+    public void setClientToken(String clientToken) {
+        mClientToken = clientToken;
+    }
+
+    /**
+     * (@link MinecraftUser#ProfileId)
+     */
+    public void setProfileId(String profileId) {
+        mProfileId = profileId;
+    }
+
+    /**
+     * (@link MinecraftUser#getSession)
+     */
+    public void setSession(String session) {
+        mSession = session;
+    }
+
+    /**
+     * (@link MinecraftUser#getResponse)
+     */
+    public void setResponse(String response) {
+        mResponse = response;
+    }
+
+    /**
+     * Checks if user has an Accesstoken
+     * @return true if it has false if not
+     */
     public boolean hasAccessToken(){
         return mAccessToken != null && !mAccessToken.equals("");
     }
 
     /**
-     * Returns true if the user was logged in successfully.
-     *
+     * Checks if the user was logged in successfully.
      * @return
      */
     public boolean isLoggedIn() {
@@ -138,12 +212,15 @@ public class MinecraftUser {
     }
 
     /**
-     * Bedeutet das dieser Nutzer erfolgreich eingeloggt wurde.
+     * Set the isLoggedIn flag to true
      */
     public void loggingInSuccess() {
         mLoggedIn = true;
     }
 
+    /**
+     * Set the isLoggedIn flag to false
+     */
     public void loggingInFailed() {
         mLoggedIn = false;
     }
