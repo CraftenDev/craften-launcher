@@ -35,7 +35,7 @@ import de.craften.craftenlauncher.logic.version.MinecraftVersion;
 import de.craften.util.UIParser;
 
 public class Facade {
-	private static Facade instance = new Facade();
+	private static Facade mInstance = new Facade();
 	private LogicController mController;
 	
 	private Facade() {
@@ -47,7 +47,7 @@ public class Facade {
 	 * @return
 	 */
 	public static Facade getInstance() {
-		return instance;
+		return mInstance;
 	}
 	
 	/**
