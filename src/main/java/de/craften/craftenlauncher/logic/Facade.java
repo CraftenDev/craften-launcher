@@ -51,7 +51,8 @@ public class Facade {
 	}
 	
 	/**
-	 * Initialisiert alle ben�tigten Klassen. Muss zum Start der Applikation aufgerufen werden!!!!
+	 * Initialisiert alle ben�tigten Klassen. Muss zwingend als erste
+     * Methode aufgerufen werdne!
 	 * @throws CraftenLogicException 
 	 */
 	public void init(UIParser parser) throws CraftenLogicException {
