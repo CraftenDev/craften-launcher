@@ -131,7 +131,7 @@ public final class OSHelper {
 		return path;
 	}
 	
-	public String getOperatingSystem() {
+	public String getOS() {
 		return operatingSystem;
 	}
 }
