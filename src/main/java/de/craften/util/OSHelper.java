@@ -23,27 +23,29 @@
 package de.craften.util;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import de.craften.craftenlauncher.logic.Logger;
 
 public final class OSHelper {
-	private static OS os;
+	private static String operatingSystem;
 	private static OSHelper instance;
 	private static String pS = File.separator;
     private static String[] mOsArch32 = {"x86", "i386", "i686"}, //32-bit
             mOsArch64 = {"x64", "ia64", "amd64"};                //64-bit
 
 	private OSHelper() {
-        String operatingSystem = System.getProperty("os.name");
+		operatingSystem = System.getProperty("os.name");
 		
 		if (operatingSystem.contains("Win")) {
-			os = OS.WINDOWS;
+			operatingSystem = "windows";
 		} else if (operatingSystem.contains("Linux")) {
-			os = OS.LINUX;
+			operatingSystem = "linux";
 		} else if (operatingSystem.contains("Mac")) {
-			os = OS.OSX;
+			operatingSystem = "osx";
 		}
-        else{
-            os = OS.UNDEFINED;
-        }
     }
 
 	public synchronized static OSHelper getInstance() {
@@ -86,28 +88,37 @@ public final class OSHelper {
     public String getOSArch(){
         String arch = System.getenv("PROCESSOR_ARCHITECTURE");
         String wow64Arch = System.getenv("PROCESSOR_ARCHITEW6432");
-        if (arch == null && wow64Arch == null)
-            return "";
-        String realArch = arch.endsWith("64")
-                || wow64Arch != null && wow64Arch.endsWith("64")
-                ? "64" : "32";
+
+		String realArch = null;
+
+        if(arch != null) {  	
+			if(arch.endsWith("64") || wow64Arch != null && wow64Arch.endsWith("64")) {
+				realArch = "64";
+			} else {
+				realArch = "32";			
+			}
+		} else {
+			if(wow64Arch != null && wow64Arch.endsWith("64")) {
+				realArch = "64";			
+			}
+		}
         return realArch;
     }
 
 	public String getMinecraftPath() {
 		String path = "";
-		if (os.equals(OS.WINDOWS)) {
+		if (operatingSystem.equals("windows")) {
 			path = System.getenv("APPDATA") + pS + ".minecraft" + pS;
 			if (new File(path).exists()) {
 				return path;
 			}
-		} else if (os.equals(OS.LINUX)) {
+		} else if (operatingSystem.equals("linux")) {
 			path = System.getProperty("user.home") + pS + ".minecraft"
 					+ pS;
 			if (new File(path).exists()) {
 				return path;
 			}
-		} else if (os.equals(OS.OSX)) {
+		} else if (operatingSystem.equals("mac")) {
 			path = System.getProperty("user.home") + pS + "Library" + pS
 					+ "Application Support" + pS + "minecraft" + pS;
 			if (new File(path).exists()) {
@@ -120,24 +131,7 @@ public final class OSHelper {
 		return path;
 	}
 	
-	public OS getOS() {
-		return os;
+	public String getOperatingSystem() {
+		return operatingSystem;
 	}
-
-    public String getOSasString(){
-        return os.toString().toLowerCase();
-    }
-
-    public String getJavaPath() {
-        String fs = File.separator;
-
-        String path = System.getProperty("java.home") + fs + "bin" + fs;
-
-        if (os.equals(OS.WINDOWS) &&
-                (new File(path + "javaw.exe").isFile())) {
-            return path + "javaw.exe";
-        }
-
-        return path + "java";
-    }
 }
