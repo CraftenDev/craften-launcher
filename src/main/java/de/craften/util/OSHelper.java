@@ -134,4 +134,21 @@ public final class OSHelper {
 	public String getOS() {
 		return operatingSystem;
 	}
+
+	public String getOSasString(){
+        return os.toString().toLowerCase();
+    }
+
+    public String getJavaPath() {
+        String fs = File.separator;
+
+        String path = System.getProperty("java.home") + fs + "bin" + fs;
+
+        if (os.equals(OS.WINDOWS) &&
+                (new File(path + "javaw.exe").isFile())) {
+            return path + "javaw.exe";
+        }
+
+        return path + "java";
+    }
 }
