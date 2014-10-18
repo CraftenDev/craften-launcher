@@ -14,9 +14,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * Main-function of the Craften Launcher.
- * Starts Logic and GUI Layer.
+ *
  * 
  * Commandline input format:
  * --[parameter]=[value]
@@ -32,8 +30,7 @@
  * --profileid  = [54bnb5br_profileid_berb4b3] chooses a saved user
  * --forcelogin = erzwingt das Einloggen eines Users
  * --fullscreen = starts minecraft in fullscreen mode
- * 
- * @author redbeard
+ *
  */
 package de.craften.craftenlauncher;
 
@@ -49,14 +46,30 @@ import de.craften.util.UIParser;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Craften Launcher main class.
+ * Logs several infos about the system and starts / initializes the logic and gui.
+ *
+ * @author redbeard
+ * @author saschb2b
+ */
 class Application {
 
+    /**
+     * Main Method!
+     *
+     * @param args
+     * @throws CraftenLogicException
+     */
 	public static void main(String[] args) throws CraftenLogicException {
         logSystemInfo();
 		Facade.getInstance().init(new UIParser(args));
 		startGUI();
 	}
 
+    /**
+     * Logs several system information.
+     */
     private static void logSystemInfo() {
         Logger.getInstance().logInfo("Launcher started!");
         Logger.getInstance().logDebug("OS : " + System.getProperty("os.name"));
@@ -75,6 +88,9 @@ class Application {
         Logger.getInstance().logInfo("Date: " + new SimpleDateFormat("dd.MM.yy").format(new Date()));
     }
 
+    /**
+     * Starts the gui by invoking the gui manager.
+     */
 	private static void startGUI() {
 		Logger.getInstance().logInfo("loading gui!");
 
