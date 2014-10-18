@@ -52,6 +52,12 @@ import java.util.Date;
 class Application {
 
 	public static void main(String[] args) throws CraftenLogicException {
+        logSystemInfo();
+		Facade.getInstance().init(new UIParser(args));
+		startGUI();
+	}
+
+    private static void logSystemInfo() {
         Logger.getInstance().logInfo("Launcher started!");
         Logger.getInstance().logDebug("OS : " + System.getProperty("os.name"));
         Logger.getInstance().logDebug("OS Arch: " + OSHelper.getInstance().getOSArch());
@@ -67,10 +73,7 @@ class Application {
         Logger.getInstance().logDebug("Total memory (bytes): " +
                 Runtime.getRuntime().totalMemory());
         Logger.getInstance().logInfo("Date: " + new SimpleDateFormat("dd.MM.yy").format(new Date()));
-
-		Facade.getInstance().init(new UIParser(args));
-		startGUI();
-	}
+    }
 
 	private static void startGUI() {
 		Logger.getInstance().logInfo("loading gui!");
