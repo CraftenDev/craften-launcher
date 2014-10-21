@@ -68,6 +68,10 @@ public final class OSHelper {
         }
     }
 
+    /**
+     * Returns true if Java is running in x86 (32 bit) version.
+     * @return
+     */
     public boolean isJava32bit(){
         String archInfo = System.getProperty("os.arch");
 
@@ -81,6 +85,10 @@ public final class OSHelper {
         return false;
     }
 
+    /**
+     * Returns true if Java is running in x64 (64 bit) version.
+     * @return
+     */
     public boolean isJava64bit(){
         String archInfo = System.getProperty("os.arch");
 
@@ -95,7 +103,7 @@ public final class OSHelper {
     }
 
     /**
-     * Returns the OS / JVM processor architecture.
+     * Returns the OS processor architecture.
      * @return 32 or 64
      */
     public String getOSArch(){
@@ -120,6 +128,11 @@ public final class OSHelper {
         return realArch;
     }
 
+    /**
+     * Returns the minecraft path for the current os system and creates the
+     * path if it does not exist.
+     * @return
+     */
 	public String getMinecraftPath() {
 		String path = "";
 		if (operatingSystem.equals("windows")) {
@@ -145,15 +158,29 @@ public final class OSHelper {
 		new File(path).mkdirs();
 		return path;
 	}
-	
+
+    /**
+     * Returns the current operating system.
+     * @return
+     */
 	public String getOS() {
 		return operatingSystem;
 	}
 
+    /**
+     * Returns the operatins system as a String in lower case letters.
+     * @return
+     */
 	public String getOSasString(){
         return operatingSystem.toString().toLowerCase();
     }
 
+    /**
+     * Returns the current java path. The java programm for the current os
+     * is added.
+     * e.g. (path).javaw.exe in windows.
+     * @return
+     */
     public String getJavaPath() {
         String fs = File.separator;
 
