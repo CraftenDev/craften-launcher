@@ -160,14 +160,6 @@ public final class OSHelper {
 	}
 
     /**
-     * Returns the current operating system.
-     * @return
-     */
-	public String getOS() {
-		return operatingSystem;
-	}
-
-    /**
      * Returns the current os as an enum.
      * Can return undefined if the os does not match (Windows, Linux, Mac OSX)
      * @return
