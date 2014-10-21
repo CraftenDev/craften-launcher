@@ -14,11 +14,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Simple os-helper.
- * 
- * @author evidence
- * @author redbeard
  */
 package de.craften.util;
 
@@ -29,6 +24,12 @@ import java.util.Date;
 
 import de.craften.craftenlauncher.logic.Logger;
 
+/**
+ * Simple OS Helper determines the current OS and cpu architecture.
+ *
+ * @author evidence
+ * @author redbeard
+ */
 public final class OSHelper {
 	private static String operatingSystem;
 	private static OSHelper instance;
@@ -36,7 +37,14 @@ public final class OSHelper {
     private static String[] mOsArch32 = {"x86", "i386", "i686"}, //32-bit
             mOsArch64 = {"x64", "ia64", "amd64"};                //64-bit
 
-	private OSHelper() {
+    public synchronized static OSHelper getInstance() {
+        if (instance == null) {
+            instance = new OSHelper();
+        }
+        return instance;
+    }
+
+    private OSHelper() {
 		operatingSystem = System.getProperty("os.name");
 		
 		if (operatingSystem.contains("Win")) {
@@ -47,13 +55,6 @@ public final class OSHelper {
 			operatingSystem = "osx";
 		}
     }
-
-	public synchronized static OSHelper getInstance() {
-		if (instance == null) {
-			instance = new OSHelper();
-		}
-		return instance;
-	}
 
     public static OSHelper TEST_CreateInstance() {
         return new OSHelper();
