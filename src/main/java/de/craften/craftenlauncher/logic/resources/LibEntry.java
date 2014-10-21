@@ -47,11 +47,11 @@ public class LibEntry {
                     splitter = path.split(File.separator);
         String result = splitter[splitter.length - 2] + "-" + splitter[splitter.length - 1];
         if (this.isNativ()) {
-            if (OSHelper.getInstance().getOS().equals(OS.WINDOWS))
+            if (OSHelper.getInstance().getOSasEnum() == OS.WINDOWS)
                 result += "-" + this.mNatives.getWindows();
-            else if (OSHelper.getInstance().getOS().equals(OS.LINUX))
+            else if (OSHelper.getInstance().getOSasEnum() == OS.LINUX)
                 result += "-" + this.mNatives.getLinux();
-            else if (OSHelper.getInstance().getOS().equals(OS.OSX))
+            else if (OSHelper.getInstance().getOSasEnum() == OS.OSX)
                 result += "-" + this.mNatives.getOsx();
         }
         setFilename(result + ".jar");
