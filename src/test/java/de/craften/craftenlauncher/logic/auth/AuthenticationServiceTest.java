@@ -52,7 +52,7 @@ public class AuthenticationServiceTest {
 
     @After
     public void deleteProfiles() {
-        File login = new File(OSHelper.getInstance().getMinecraftPath() + "craftenlauncher_profiles.json");
+        File login = new File(OSHelper.getMinecraftPath() + "craftenlauncher_profiles.json");
 
         login.delete();
     }

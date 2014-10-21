@@ -62,7 +62,7 @@ public class VersionHelper {
                 libSep = ";";
         ArrayList<LibEntry> libEntries = libraries.get();
 
-        if(OSHelper.getInstance().getOSasEnum() == OS.OSX)
+        if(OSHelper.getOSasEnum() == OS.OSX)
             libSep = ":";
 
         for (LibEntry libEntry : libEntries) {

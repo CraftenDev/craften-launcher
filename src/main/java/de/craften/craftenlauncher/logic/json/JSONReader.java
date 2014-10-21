@@ -135,8 +135,8 @@ public class JSONReader {
 
         JsonObject jsonObject;
         if(minecraftDir == null){
-        	Logger.getInstance().logInfo("Reading craftenlauncher_profiles from: " + OSHelper.getInstance().getMinecraftPath());
-            path = OSHelper.getInstance().getMinecraftPath();
+        	Logger.getInstance().logInfo("Reading craftenlauncher_profiles from: " + OSHelper.getMinecraftPath());
+            path = OSHelper.getMinecraftPath();
             jsonObject = readJson(path + filename);
         }
         else{

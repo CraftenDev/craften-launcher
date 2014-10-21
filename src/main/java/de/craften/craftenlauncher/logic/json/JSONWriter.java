@@ -39,9 +39,9 @@ public class JSONWriter {
 
         try{
             if(login.getPath() == null || login.getPath().equals("")){
-                Logger.getInstance().logInfo("Writing craftenlauncher_profiles to " + OSHelper.getInstance().getMinecraftPath());
-                writer = new JsonWriter(new FileWriter(OSHelper.getInstance().getMinecraftPath()+ filename));
-                login.setPath(OSHelper.getInstance().getMinecraftPath());
+                Logger.getInstance().logInfo("Writing craftenlauncher_profiles to " + OSHelper.getMinecraftPath());
+                writer = new JsonWriter(new FileWriter(OSHelper.getMinecraftPath()+ filename));
+                login.setPath(OSHelper.getMinecraftPath());
             }
             else{
                 Logger.getInstance().logInfo("Writing craftenlauncher_profiles to " + login.getPath());

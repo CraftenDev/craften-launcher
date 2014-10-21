@@ -47,11 +47,11 @@ public class LibEntry {
                     splitter = path.split(File.separator);
         String result = splitter[splitter.length - 2] + "-" + splitter[splitter.length - 1];
         if (this.isNativ()) {
-            if (OSHelper.getInstance().getOSasEnum() == OS.WINDOWS)
+            if (OSHelper.getOSasEnum() == OS.WINDOWS)
                 result += "-" + this.mNatives.getWindows();
-            else if (OSHelper.getInstance().getOSasEnum() == OS.LINUX)
+            else if (OSHelper.getOSasEnum() == OS.LINUX)
                 result += "-" + this.mNatives.getLinux();
-            else if (OSHelper.getInstance().getOSasEnum() == OS.OSX)
+            else if (OSHelper.getOSasEnum() == OS.OSX)
                 result += "-" + this.mNatives.getOsx();
         }
         setFilename(result + ".jar");
@@ -144,14 +144,13 @@ public class LibEntry {
         if (mRules == null)
             needed = true;
         else {
-            OSHelper oshelper = OSHelper.getInstance();
             for (Rules mRule : mRules) {
                 if (mRule.getAction().equals("allow")) {
-                    if (mRule.getOs() == null || oshelper.getOSasString().equals(mRule.getOs().getName())) {
+                    if (mRule.getOs() == null || OSHelper.getOSasString().equals(mRule.getOs().getName())) {
                         needed = true;
                     }
                 } else if (mRule.getAction().equals("disallow")) {
-                    if (mRule.getOs() != null && oshelper.getOSasString().equals(mRule.getOs().getName())) {
+                    if (mRule.getOs() != null && OSHelper.getOSasString().equals(mRule.getOs().getName())) {
                         needed = false;
                     }
                 }

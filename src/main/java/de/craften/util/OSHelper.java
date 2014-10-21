@@ -38,12 +38,12 @@ public final class OSHelper {
      * Returns a new OSHelper instance.
      * @return
      */
-    public synchronized static OSHelper getInstance() {
+    /*public synchronized static OSHelper getInstance() {
         if (instance == null) {
             instance = new OSHelper();
         }
         return instance;
-    }
+    }*/
 
     /**
      * Returns a new OSHelper instance for testing purposes.
@@ -70,11 +70,30 @@ public final class OSHelper {
         }
     }
 
+    private static void init() {
+        if(operatingSystem == null) {
+            operatingSystem = System.getProperty("os.name");
+
+            if (operatingSystem.contains("Win")) {
+                operatingSystem = "windows";
+                os = OS.WINDOWS;
+            } else if (operatingSystem.contains("Linux")) {
+                operatingSystem = "linux";
+                os = OS.LINUX;
+            } else if (operatingSystem.contains("Mac")) {
+                operatingSystem = "osx";
+                os = OS.OSX;
+            } else {
+                os = OS.UNDEFINED;
+            }
+        }
+    }
+
     /**
      * Returns true if Java is running in x86 (32 bit) version.
      * @return
      */
-    public boolean isJava32bit(){
+    public static boolean isJava32bit(){
         String archInfo = System.getProperty("os.arch");
 
         if (archInfo != null && !archInfo.equals("")) {
@@ -91,7 +110,7 @@ public final class OSHelper {
      * Returns true if Java is running in x64 (64 bit) version.
      * @return
      */
-    public boolean isJava64bit(){
+    public static boolean isJava64bit(){
         String archInfo = System.getProperty("os.arch");
 
         if (archInfo != null && !archInfo.equals("")) {
@@ -108,7 +127,7 @@ public final class OSHelper {
      * Returns the OS processor architecture.
      * @return 32 or 64
      */
-    public String getOSArch(){
+    public static String getOSArch(){
         String arch = System.getenv("PROCESSOR_ARCHITECTURE");
         String wow64Arch = System.getenv("PROCESSOR_ARCHITEW6432");
 
@@ -135,7 +154,9 @@ public final class OSHelper {
      * path if it does not exist.
      * @return
      */
-	public String getMinecraftPath() {
+	public static String getMinecraftPath() {
+        init();
+
 		String path = "";
 		if (operatingSystem.equals("windows")) {
 			path = System.getenv("APPDATA") + pS + ".minecraft" + pS;
@@ -166,7 +187,8 @@ public final class OSHelper {
      * Can return undefined if the os does not match (Windows, Linux, Mac OSX)
      * @return
      */
-    public OS getOSasEnum() {
+    public static OS getOSasEnum() {
+        init();
         return os;
     }
 
@@ -174,7 +196,8 @@ public final class OSHelper {
      * Returns the operatins system as a String in lower case letters.
      * @return
      */
-	public String getOSasString(){
+	public static String getOSasString() {
+        init();
         return operatingSystem.toLowerCase();
     }
 
@@ -184,7 +207,8 @@ public final class OSHelper {
      * e.g. (path).javaw.exe in windows.
      * @return
      */
-    public String getJavaPath() {
+    public static String getJavaPath() {
+        init();
         String fs = File.separator;
 
         String path = System.getProperty("java.home") + fs + "bin" + fs;

@@ -73,7 +73,7 @@ class Application {
     private static void logSystemInfo() {
         Logger.getInstance().logInfo("Launcher started!");
         Logger.getInstance().logDebug("OS : " + System.getProperty("os.name"));
-        Logger.getInstance().logDebug("OS Arch: " + OSHelper.getInstance().getOSArch());
+        Logger.getInstance().logDebug("OS Arch: " + OSHelper.getOSArch());
         Logger.getInstance().logDebug("OS Java Arch : " + System.getProperty("os.arch"));
         Logger.getInstance().logDebug("OS Version : " + System.getProperty("os.version"));
         Logger.getInstance().logDebug("Username : " + System.getProperty("user.name"));

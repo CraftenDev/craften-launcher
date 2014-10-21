@@ -79,7 +79,7 @@ public class MinecraftProcess {
 	}
 	
 	private Process startProcess() throws IOException {
-		String java = OSHelper.getInstance().getJavaPath();
+		String java = OSHelper.getJavaPath();
 
 		mParams.add(java);
 		addJavaCommand();

@@ -41,7 +41,7 @@ public class ProfilesTest {
 
     @After
     public void deleteProfiles() {
-        File login = new File(OSHelper.getInstance().getMinecraftPath() + "lastLogin.json");
+        File login = new File(OSHelper.getMinecraftPath() + "lastLogin.json");
 
         login.delete();
     }
