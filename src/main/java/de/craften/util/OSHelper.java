@@ -168,6 +168,23 @@ public final class OSHelper {
 	}
 
     /**
+     * Returns the current os as an enum.
+     * Can return undefined if the os does not match (Windows, Linux, Mac OSX)
+     * @return
+     */
+    public OS getOSasEnum() {
+        if (operatingSystem.contains("Win")) {
+            return OS.WINDOWS;
+        } else if (operatingSystem.contains("Linux")) {
+            return OS.LINUX;
+        } else if (operatingSystem.contains("Mac")) {
+            return OS.OSX;
+        } else {
+            return OS.UNDEFINED;
+        }
+    }
+
+    /**
      * Returns the operatins system as a String in lower case letters.
      * @return
      */
