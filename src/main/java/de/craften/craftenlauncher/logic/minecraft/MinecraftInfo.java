@@ -134,7 +134,7 @@ public class MinecraftInfo {
 				amount *= 1024;
 			}
 			
-			if(OSHelper.getInstance().isJava32bit() && OSHelper.getInstance().getOS().equals(OS.WINDOWS) && amount > 1024) {
+			if(OSHelper.getInstance().isJava32bit() && OSHelper.getInstance().getOSasEnum() == OS.WINDOWS && amount > 1024) {
 				Logger.getInstance().logInfo("Trying to set Xmx="+xmx+" changing to 1024m.");
 				return "1024m";
 			}
