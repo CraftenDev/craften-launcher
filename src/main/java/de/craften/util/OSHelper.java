@@ -86,6 +86,10 @@ public final class OSHelper {
         return false;
     }
 
+    /**
+     * Returns the OS / JVM processor architecture.
+     * @return 32 or 64
+     */
     public String getOSArch(){
         String arch = System.getenv("PROCESSOR_ARCHITECTURE");
         String wow64Arch = System.getenv("PROCESSOR_ARCHITEW6432");
@@ -101,7 +105,9 @@ public final class OSHelper {
 		} else {
 			if(wow64Arch != null && wow64Arch.endsWith("64")) {
 				realArch = "64";			
-			}
+			} else {
+                realArch = "32";
+            }
 		}
         return realArch;
     }
