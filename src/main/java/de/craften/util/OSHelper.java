@@ -18,11 +18,6 @@
 package de.craften.util;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import de.craften.craftenlauncher.logic.Logger;
 
 /**
  * Simple OS Helper determines the current OS and cpu architecture.
@@ -33,8 +28,8 @@ import de.craften.craftenlauncher.logic.Logger;
 public final class OSHelper {
 	private static String operatingSystem;
 	private static OSHelper instance;
-	private static String pS = File.separator;
-    private static String[] mOsArch32 = {"x86", "i386", "i686"}, //32-bit
+	private static final String pS = File.separator;
+    private static final String[] mOsArch32 = {"x86", "i386", "i686"}, //32-bit
             mOsArch64 = {"x64", "ia64", "amd64"};                //64-bit
 
     /**
@@ -110,7 +105,7 @@ public final class OSHelper {
         String arch = System.getenv("PROCESSOR_ARCHITECTURE");
         String wow64Arch = System.getenv("PROCESSOR_ARCHITEW6432");
 
-		String realArch = null;
+		String realArch;
 
         if(arch != null) {  	
 			if(arch.endsWith("64") || wow64Arch != null && wow64Arch.endsWith("64")) {
@@ -181,7 +176,7 @@ public final class OSHelper {
      * @return
      */
 	public String getOSasString(){
-        return operatingSystem.toString().toLowerCase();
+        return operatingSystem.toLowerCase();
     }
 
     /**
@@ -195,7 +190,7 @@ public final class OSHelper {
 
         String path = System.getProperty("java.home") + fs + "bin" + fs;
 
-        if (operatingSystem.equals(OS.WINDOWS) &&
+        if (getOSasEnum() == OS.WINDOWS &&
                 (new File(path + "javaw.exe").isFile())) {
             return path + "javaw.exe";
         }
