@@ -37,6 +37,10 @@ public final class OSHelper {
     private static String[] mOsArch32 = {"x86", "i386", "i686"}, //32-bit
             mOsArch64 = {"x64", "ia64", "amd64"};                //64-bit
 
+    /**
+     * Returns a new OSHelper instance.
+     * @return
+     */
     public synchronized static OSHelper getInstance() {
         if (instance == null) {
             instance = new OSHelper();
@@ -44,20 +48,24 @@ public final class OSHelper {
         return instance;
     }
 
-    private OSHelper() {
-		operatingSystem = System.getProperty("os.name");
-		
-		if (operatingSystem.contains("Win")) {
-			operatingSystem = "windows";
-		} else if (operatingSystem.contains("Linux")) {
-			operatingSystem = "linux";
-		} else if (operatingSystem.contains("Mac")) {
-			operatingSystem = "osx";
-		}
-    }
-
+    /**
+     * Returns a new OSHelper instance for testing purposes.
+     * @return
+     */
     public static OSHelper TEST_CreateInstance() {
         return new OSHelper();
+    }
+
+    private OSHelper() {
+        operatingSystem = System.getProperty("os.name");
+
+        if (operatingSystem.contains("Win")) {
+            operatingSystem = "windows";
+        } else if (operatingSystem.contains("Linux")) {
+            operatingSystem = "linux";
+        } else if (operatingSystem.contains("Mac")) {
+            operatingSystem = "osx";
+        }
     }
 
     public boolean isJava32bit(){
