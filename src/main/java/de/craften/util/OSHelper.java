@@ -22,12 +22,14 @@ import java.io.File;
 /**
  * Simple OS Helper determines the current OS and cpu architecture.
  *
- * @author evidence
+ * @author saschb2b
  * @author redbeard
  */
 public final class OSHelper {
-	private static String operatingSystem;
 	private static OSHelper instance;
+
+    private static String operatingSystem;
+    private static OS os;
 	private static final String pS = File.separator;
     private static final String[] mOsArch32 = {"x86", "i386", "i686"}, //32-bit
             mOsArch64 = {"x64", "ia64", "amd64"};                //64-bit
@@ -56,10 +58,15 @@ public final class OSHelper {
 
         if (operatingSystem.contains("Win")) {
             operatingSystem = "windows";
+            os = OS.WINDOWS;
         } else if (operatingSystem.contains("Linux")) {
             operatingSystem = "linux";
+            os = OS.LINUX;
         } else if (operatingSystem.contains("Mac")) {
             operatingSystem = "osx";
+            os = OS.OSX;
+        } else {
+            os = OS.UNDEFINED;
         }
     }
 
@@ -160,15 +167,7 @@ public final class OSHelper {
      * @return
      */
     public OS getOSasEnum() {
-        if (operatingSystem.contains("Win")) {
-            return OS.WINDOWS;
-        } else if (operatingSystem.contains("Linux")) {
-            return OS.LINUX;
-        } else if (operatingSystem.contains("Mac")) {
-            return OS.OSX;
-        } else {
-            return OS.UNDEFINED;
-        }
+        return os;
     }
 
     /**
