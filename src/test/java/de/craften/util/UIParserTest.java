@@ -46,4 +46,12 @@ public class UIParserTest {
     public void testHasArgWithArgWithoutValue() {
         assertTrue(parser.hasKey("key4"));
     }
+
+    /**
+     * Tests if a given key has a value
+     */
+    @Test
+    public void testHasValue() {
+        assertTrue(parser.hasArg("key3"));
+    }
 }
