@@ -17,7 +17,7 @@ public class UIParserTest {
 
     @Before
     public void buildUIParser() {
-        String[] args = {"--key=val","--key2=val2","--key3=val3","--key4"};
+        String[] args = {"--key=val","--key2=val2","--key3=val3","--key4","key5"};
 
         parser = new UIParser(args);
     }
@@ -54,6 +54,14 @@ public class UIParserTest {
     @Test
     public void testHasNoKey() {
         assertFalse(parser.hasKey("testkey"));
+    }
+
+    /**
+     * Tests if wrong key is not known after parsing
+     */
+    @Test
+    public void testHasNotWrongKey() {
+        assertFalse(parser.hasKey("key5"));
     }
 
     /**
