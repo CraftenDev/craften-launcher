@@ -33,7 +33,8 @@ import java.util.Map;
  * @author saschb2b
  */
 public class UIParser {
-    public Map<String, String> mArguments = new HashMap<String, String>();
+
+    private Map<String, String> mArguments = new HashMap<String, String>();
 
     /**
      * Needs the command line arguments and
