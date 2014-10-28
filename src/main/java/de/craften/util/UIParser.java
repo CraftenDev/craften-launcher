@@ -47,21 +47,35 @@ public class UIParser {
         }
     }
 
+    /**
+     * Parses a given arg and checks if this arg is parseble
+     * @param arg
+     */
     private void parseArg(String arg) {
         if (arg.contains("--")) {
             String cleanedArg = arg.substring(2);
 
-            if (cleanedArg.contains("=")) {
-                String[] splitted = cleanedArg.split("=");
+            parseCleanedArg(cleanedArg);
+        } else {
+            Logger.getInstance().logInfo("Not known arg: " + arg);
+        }
+    }
 
-                if (splitted.length == 2) {
-                    mArguments.put(splitted[0], splitted[1]);
-                } else {
-                    Logger.getInstance().logInfo("Unknown argument: " + cleanedArg);
-                }
-            }else{
-                mArguments.put(cleanedArg, null);
+    /**
+     * Parses the cleaned arg and saves it.
+     * @param cleanedArg
+     */
+    private void parseCleanedArg(String cleanedArg) {
+        if (cleanedArg.contains("=")) {
+            String[] splitted = cleanedArg.split("=");
+
+            if (splitted.length == 2) {
+                mArguments.put(splitted[0], splitted[1]);
+            } else {
+                Logger.getInstance().logInfo("Unknown argument: " + cleanedArg);
             }
+        }else{
+            mArguments.put(cleanedArg, null);
         }
     }
 
