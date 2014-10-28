@@ -26,49 +26,11 @@ import java.io.File;
  * @author redbeard
  */
 public final class OSHelper {
-	private static OSHelper instance;
-
     private static String operatingSystem;
     private static OS os;
 	private static final String pS = File.separator;
     private static final String[] mOsArch32 = {"x86", "i386", "i686"}, //32-bit
             mOsArch64 = {"x64", "ia64", "amd64"};                //64-bit
-
-    /**
-     * Returns a new OSHelper instance.
-     * @return
-     */
-    /*public synchronized static OSHelper getInstance() {
-        if (instance == null) {
-            instance = new OSHelper();
-        }
-        return instance;
-    }*/
-
-    /**
-     * Returns a new OSHelper instance for testing purposes.
-     * @return
-     */
-    public static OSHelper TEST_CreateInstance() {
-        return new OSHelper();
-    }
-
-    private OSHelper() {
-        operatingSystem = System.getProperty("os.name");
-
-        if (operatingSystem.contains("Win")) {
-            operatingSystem = "windows";
-            os = OS.WINDOWS;
-        } else if (operatingSystem.contains("Linux")) {
-            operatingSystem = "linux";
-            os = OS.LINUX;
-        } else if (operatingSystem.contains("Mac")) {
-            operatingSystem = "osx";
-            os = OS.OSX;
-        } else {
-            os = OS.UNDEFINED;
-        }
-    }
 
     private static void init() {
         if(operatingSystem == null) {
@@ -183,7 +145,7 @@ public final class OSHelper {
 	}
 
     /**
-     * Returns the current os as an enum.
+     * Returns the current {@see #OS} as an enum.
      * Can return undefined if the os does not match (Windows, Linux, Mac OSX)
      * @return
      */
