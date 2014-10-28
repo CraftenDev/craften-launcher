@@ -34,8 +34,16 @@ import de.craften.craftenlauncher.logic.download.DownloadHelper;
 import de.craften.craftenlauncher.logic.version.MinecraftVersion;
 import de.craften.util.UIParser;
 
+/**
+ * Facade class separates logic and gui components / classes.
+ *
+ * @author redbeard
+ * @author saschb2b
+ */
 public class Facade {
+    // Implements the singleton pattern.
 	private static Facade mInstance = new Facade();
+
 	private LogicController mController;
 	
 	private Facade() {
@@ -43,7 +51,7 @@ public class Facade {
 	}
 	
 	/**
-	 * Liefert eine Instanz der Facade zur�ck.
+	 * Returns an instance of facade.
 	 * @return
 	 */
 	public static Facade getInstance() {
@@ -51,9 +59,12 @@ public class Facade {
 	}
 	
 	/**
-	 * Initialisiert alle ben�tigten Klassen. Muss zwingend als erste
-     * Methode aufgerufen werdne!
-	 * @throws CraftenLogicException 
+     * Initializes the needed logic classes.
+     * Need an {@see #UIParser} for init.
+     * Has to be called first!
+     *
+     * @param parser holds the command line arguments.
+	 * @throws CraftenLogicException when something went wrong.
 	 */
 	public void init(UIParser parser) throws CraftenLogicException {
 		mController.setParser(parser);
@@ -61,25 +72,40 @@ public class Facade {
 	}
 	
 	/**
-	 * F�hrt zu einem forced Download. Das hei�t alle Dateien werden neu heruntergeladen.
+	 * If setForce is set to true, all Minecraft files will be downloaded fresh
+     * and replaces the local files.
+     *
+     * Default is false.
+     *
 	 * @param force
 	 */
 	public void setForce(boolean force) {
 		DownloadHelper.setForce(force);
 	}
+
+    /**
+     * Returns true of force login shall be used.
+     * @return
+     */
+    public boolean isForceLogin(){
+        return mController.isForceLogin();
+    }
 	
 	/**
-	 * Funktion zum setzen eines Benutzers beim Login
+	 * Sets the username and corresponding password.
+     *
 	 * @param username
 	 * @param password
-	 * @throws CraftenLogicException
+	 * @throws CraftenLogicException when username or password are wrong or network failure
 	 */
 	public void setUser(String username, char[] password) throws CraftenLogicException {
 		mController.setUser(username,password);
 	}
 	
 	/**
-	 * Liefert den aktuellen Benutzer zur�ck. Liefert ebenfalls einen gespeicherten Benutzer, oder einen Benutzer aus den Startparametern.
+     * Returns the current user. This user can be either a saved one, given by command line
+     * or set by setUser().
+     *
 	 * @return
 	 */
 	public MinecraftUser getUser() throws CraftenLogicException {
@@ -87,83 +113,82 @@ public class Facade {
 	}
 
     /**
-     * Liefert eine Liste der aktuell gespeicherten Benutzer.
+     * Returns a list of current saved users.
      * @return
      */
-    // TODO AuthenticationService in die Facade reinziehen.
+    // TODO Move AuthenticationSevice into facade class.
     public List<MinecraftUser> getUsers() {
         return mController.getUsers();
     }
 	
 	/**
-	 * Authentifiziert den aktuellen Benutzer.
-	 * @throws CraftenLogicException
+	 * Authenticate the current user.
+	 * @throws CraftenLogicException if authentication failed
 	 */
 	public void authenticateUser() throws CraftenLogicException {
 		mController.authenticateUser();
 	}
 
 	/**
-	 * Setzt den Namens-String der Minecraft-Version welche gestartet werden soll.
-	 * Startet au�erdem den Download-Prozess f�r diese Version um die restlichen Datein zu laden ( Jar und Libraries )
+     * Sets the Minecraft version name and starts the donwload process.
 	 * @param version
-	 * @throws CraftenLogicException Exception wird geworfen falls es diese Version nicht gibt, bzw. diese Version nicht gestartet werden kann
+	 * @throws CraftenLogicException will be thrown if this version is unknown or not startable.
 	 */
 	public void setMinecraftVersion(String version) throws CraftenLogicException {
 		mController.setMinecraftVersion(version);
 	}
 	
 	/**
-	 * Gibt die aktuelle Minecraft Version zur�ck.
-	 * @throws CraftenLogicException Exception wird geworfen falls noch keine Version gesetzt ist.
+     * Returns the current choosen Minecraft version.
+	 * @throws CraftenLogicException if no version was choosen.
 	 */
 	public MinecraftVersion getMinecraftVersion() throws CraftenLogicException {
 		return mController.getMinecraftVersion();
 	}
 	
 	/**
-	 * Gibt eine Liste startbarer Versionen zur�ck. �rsprungliche Liste von minecraft.net, erg�nzt um die bereits lokal vorhandenen Versionen
-	 * sowie einer per Startparameter �bergebenen Version.
-	 * @return Liste m�glicher Versionen
-	 * @throws CraftenLogicException Exception wird geworfen falls es nicht m�glich war die Liste aufzubauen.
+	 * Returns a list of startable Versions.
+     * This list contains all local versions, all minecraft.net versions and the version set through
+     * command line argument.
+	 * @return list of possible versions
+	 * @throws CraftenLogicException if building the list was not possible.
 	 */
 	public ArrayList<String> getMinecraftVersions() throws CraftenLogicException {
 		return mController.getMinecraftVersions();
 	}
 	
 	/**
-	 * Start Minecraft in einem neuen Prozess
-	 * @throws CraftenLogicException Exception wird geworfen falls das Starten nicht m�glich war.
+     * Starts minecraft in a new process.
+	 * @throws CraftenLogicException if start was not possible
 	 */
 	public void startMinecraft() throws CraftenLogicException {
 		mController.startMinecraft();
 	}
 	
 	/**
-	 * Liefert f�r einen bestimmten Minecraft Argument den Wert zur�ck.
-	 * z.B. server = Gibt die Server-Adresse welche zum starten verwendet werden soll.
-	 * weitere folgen
+	 * Returns a Minecraft argument for the specified key.
+     * e.g server = returns the server address which shall be joined on startup.
 	 * @param key
-	 * @throws CraftenLogicException Wird geworfen, falls es den Key nicht gibt.
+	 * @throws CraftenLogicException is thrown if the key does not exist.
 	 */
 	public String getMinecraftArgument(String key) throws CraftenLogicException{
 		return mController.getMinecraftArgument(key);
 	}
 	
 	/**
-	 * Erm�glicht das Setzen von Minecraft Argumenten.
+	 * Sets a new kv pair.
 	 * @param key
 	 * @param value
-	 * @throws CraftenLogicException Wird geworfen falls das Setzen nicht m�glich war.
+	 * @throws CraftenLogicException if it was not possible.
 	 */
 	public void setMinecraftArgument(String key, String value) throws CraftenLogicException {
 		mController.setMinecraftArguments(key, value);
 	}
 	
 	/**
-	 * Liefert alle vorhandenen Minecraft Argumente.
+	 * Returns all current arguments.
 	 * @return
-	 * @throws CraftenLogicException
+	 * @throws CraftenLogicException if something went wrong.
 	 */
 	public HashMap<String,String> getMinecraftArguments() throws CraftenLogicException {
 		return mController.getMinecraftArguments();
@@ -171,7 +196,7 @@ public class Facade {
 	}
 	
 	/**
-	 * Setzt einen Observer auf die GUIAccess-Klasse. Damit kann angezeigt werden was gerade heruntergeladen wird.
+     * Sets a new observer to get information about the download status.
 	 * @param server
 	 */
 	public void setMinecraftDownloadObserver(Observer server) {
@@ -179,8 +204,9 @@ public class Facade {
 	}
 	
 	/**
-	 * Setzt einen Observer um den Skin download zu �berwachen. Startet au�erdem direkt den Skin-Download!
-	 * Darf erst gesetzt werden nachdem der Nutzer authentifiziert wurde!
+     * Sets a new observer to get information about the skin download.
+     * Also starts the skin download. This method can be invoked if the user
+     * is authenticated.
 	 * @param server
 	 */
 	public void setSkinObserver(Observer server) {
@@ -188,8 +214,7 @@ public class Facade {
 	}
 	
 	/**
-	 * Gibt true wenn Minecraft komplett heruntergeladen wurde.
-	 * Darf erst gesetzt werden nachdem der Nutzer authentifiziert wurde!
+     * Returns true if Minecraft was completely downloaded.
 	 * @return
 	 */
 	public boolean isMinecraftDownloaded() {
@@ -197,21 +222,19 @@ public class Facade {
 	}
 	
 	/**
-	 * Loggt den aktuellen Nutzer des Craften Launchers aus.
+     * Logs out the current user.
 	 */
 	public void logout() {
 		mController.logout();
 	}
 
     /**
-     * Gibt true wenn Minecraft direkt gestartet werden soll
+     * Returns true if minecraft should be started directly.
      * @return boolean
      */
     public boolean isQuickPlay(){
         return mController.isQuickPlay();
     }
 
-    public boolean isForceLogin(){
-        return mController.isForceLogin();
-    }
+
 }
