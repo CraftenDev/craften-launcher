@@ -84,8 +84,8 @@ public class LogicController {
      */
 	public void init() {
         Logger.getInstance().logInfo(mParser.toString());
-		if(mParser.hasArg("mcpath")) {
-			mMinecraftPath = new MinecraftPathImpl(mParser.getArg("mcpath"));
+		if(mParser.hasValue("mcpath")) {
+			mMinecraftPath = new MinecraftPathImpl(mParser.getValue("mcpath"));
 		}
 		else {
 			mMinecraftPath = new MinecraftPathImpl();
@@ -93,18 +93,18 @@ public class LogicController {
 
         mProfiles.setPath(mMinecraftPath.getMinecraftDir());
 
-		if(mParser.hasArg("server")) {
-			mMincraftArgs.put("server", mParser.getArg("server"));
+		if(mParser.hasValue("server")) {
+			mMincraftArgs.put("server", mParser.getValue("server"));
 		}
 		
-		if(mParser.hasArg("xmx")) {
-			mMincraftArgs.put("xmx", mParser.getArg("xmx"));
+		if(mParser.hasValue("xmx")) {
+			mMincraftArgs.put("xmx", mParser.getValue("xmx"));
 		}
 		
 		mVersionList = new VersionListHelper(mMinecraftPath);
 		
-		if(mParser.hasArg("version")) {
-			String version = mParser.getArg("version");
+		if(mParser.hasValue("version")) {
+			String version = mParser.getValue("version");
 			
 			try {
 				if(mVersionList.isVersionAvailableOnline(version)) {
@@ -117,7 +117,7 @@ public class LogicController {
                 mMincraftArgs.put("version", "true");
 				mMinecraftPath.setVersionName(version);
 			} catch (Exception e) {
-				Logger.getInstance().logInfo("Version not available: " + mParser.getArg("version"));
+				Logger.getInstance().logInfo("Version not available: " + mParser.getValue("version"));
 			}
 		}
 
@@ -139,8 +139,8 @@ public class LogicController {
 		if(login != null) {
 			Logger.getInstance().logInfo("craftenlauncher_profiles found! Username is: " + login.getSelectedUser().getUsername());
 
-            if(mParser.hasArg("profileid")) {
-                login.changeSelectedUser(mParser.getArg("profileid"));
+            if(mParser.hasValue("profileid")) {
+                login.changeSelectedUser(mParser.getValue("profileid"));
             }
 			
 			//TODO checken was genau die Response ist und was man damit so anfaengt!

@@ -27,13 +27,13 @@ public class UIParserTest {
      */
     @Test
     public void testGetArgForKey() {
-        String val = parser.getArg("key");
+        String val = parser.getValue("key");
 
         assertEquals("val",val);
     }
 
     /**
-     * Tests if hasArg returns true when the key has a value.
+     * Tests if hasValue returns true when the key has a value.
      */
     @Test
     public void testHasKeyWithKeyAndValue() {
@@ -41,7 +41,7 @@ public class UIParserTest {
     }
 
     /**
-     * Tests if hasArg returns true when the key has no value.
+     * Tests if hasValue returns true when the key has no value.
      */
     @Test
     public void testHasKeyWithKeyWithoutValue() {
@@ -69,14 +69,14 @@ public class UIParserTest {
      */
     @Test
     public void testHasValue() {
-        assertTrue(parser.hasArg("key3"));
+        assertTrue(parser.hasValue("key3"));
     }
 
     /**
-     * Tests if the hasArg method returns false if the key has not a value.
+     * Tests if the hasValue method returns false if the key has not a value.
      */
     @Test
     public void testHasNotValue() {
-        assertFalse(parser.hasArg("key4"));
+        assertFalse(parser.hasValue("key4"));
     }
 }

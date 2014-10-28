@@ -25,7 +25,6 @@ import de.craften.craftenlauncher.logic.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Simple UIParser parsing command line arguments.
@@ -85,8 +84,8 @@ public class UIParser {
      * @param key
      * @return the argument or null.
      */
-    public String getArg(String key) {
-        if (hasArg(key)) {
+    public String getValue(String key) {
+        if (hasValue(key)) {
             return mArguments.get(key);
         }
 
@@ -109,7 +108,7 @@ public class UIParser {
      * @param key
      * @return true if it contains an argument, false if it does not.
      */
-    public boolean hasArg(String key) {
+    public boolean hasValue(String key) {
         return mArguments.get(key) != null;
     }
 }
