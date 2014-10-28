@@ -1,6 +1,7 @@
 package de.craften.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +16,7 @@ public class UIParserTest {
 
     @Before
     public void buildUIParser() {
-        String[] args = {"--key=val"};
+        String[] args = {"--key=val","--key2=val2","--key3=val3","--key4"};
 
         parser = new UIParser(args);
     }
@@ -28,5 +29,13 @@ public class UIParserTest {
         String val = parser.getArg("key");
 
         assertEquals("val",val);
+    }
+
+    /**
+     * Tests if hasArg returns true when the key has a value.
+     */
+    @Test
+    public void testHasArgWithArgAndValue() {
+        assertTrue(parser.hasArg("key2"));
     }
 }
