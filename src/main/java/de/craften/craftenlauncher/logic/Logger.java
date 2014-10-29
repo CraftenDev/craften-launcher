@@ -69,7 +69,7 @@ public class Logger {
      * Logs an info Message with a timestamp and a label [INFO]
      * @param message Mesasge to be logged.
      */
-    public void logInfo(String message) {
+    public static void logInfo(String message) {
         if (LOG_LEVEL >= 3) {
             getInstance().appendToLog("[INFO] " + message);
         }
@@ -80,7 +80,7 @@ public class Logger {
 	 * Logs an debug message with a timestamp. Shown in log through the label [DEBUG].
 	 * @param message
 	 */
-	public void logDebug(String message) {	
+	public static void logDebug(String message) {
 		if (LOG_LEVEL >= 2) {
 			getInstance().appendToLog("[DEBUG] " + message);
 		}
@@ -90,7 +90,7 @@ public class Logger {
 	 * Logs an warning message with a timestamp. Shown in log through the label [WARNING].
 	 * @param message
 	 */
-	public void logWarning(String message) {
+	public static void logWarning(String message) {
 		if (LOG_LEVEL >= 1) {
 			getInstance().appendToLog("[WARNING] " + message);
 		}
@@ -100,7 +100,7 @@ public class Logger {
 	 * Logs an error message with a timestamp. Shown in log through the label [ERROR].
 	 * @param message
 	 */
-	public void logError(String message) {
+	public static void logError(String message) {
 		if (LOG_LEVEL > 0) {
             getInstance().appendToLog("[ERROR] " + message);
 		}
