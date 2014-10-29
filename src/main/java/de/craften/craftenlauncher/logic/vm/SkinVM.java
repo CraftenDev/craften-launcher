@@ -34,10 +34,6 @@ import java.util.Observable;
 public class SkinVM extends Observable{
 	
 	private BufferedImage mSkin;
-	
-	public SkinVM() {
-		
-	}
 
     /**
      * Offers information about the download status
@@ -61,7 +57,7 @@ public class SkinVM extends Observable{
 
     /**
      * Returns the downloaded skin image.
-     * 
+     *
      * @return
      */
 	public BufferedImage getSkin() {
