@@ -15,17 +15,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
- * GUIAccess Class:
- * 
- * Access-Wrapper from logic-tier to presentation-tier.
- * 
- * @author redbeard
  */
 package de.craften.craftenlauncher.logic.vm;
 
 import java.util.Observable;
 
-
+/**
+ * DownloadVM Class:
+ *
+ * "ViewModel" class which serves as a connection between
+ * the downloader and the gui.
+ * Serves several information regarding the current download process.
+ *
+ * @author redbeard
+ */
 public class DownloadVM extends Observable{
 	private int mProgress;
 	private String mInfo;
