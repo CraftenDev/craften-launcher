@@ -33,7 +33,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
+/**
+ * Logger Class which supports several log level.
+ *
+ * @author redbeard
+ */
 public class Logger {
     private static final int LOG_LEVEL = 10;
 	private static Logger instance = new Logger();
@@ -51,18 +55,6 @@ public class Logger {
 	public static synchronized Logger getInstance() {
 		return instance;
 	}
-	
-	/**
-	 * Logs an info Message with a timestamp and a label [INFO]
-	 * @param message Mesasge to be logged.
-	 */
-	public void logInfo(String message) {
-		if (LOG_LEVEL >= 3) {
-			  getInstance().appendToLog("[INFO] " + message);
-		}
-		
-	}
-	
 
     private synchronized void appendToLog(String message) {
         mOutput.println(getTime() + message);
@@ -72,6 +64,17 @@ public class Logger {
 		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 		return formatter.format(new Date()) + ": ";
 	}
+
+    /**
+     * Logs an info Message with a timestamp and a label [INFO]
+     * @param message Mesasge to be logged.
+     */
+    public void logInfo(String message) {
+        if (LOG_LEVEL >= 3) {
+            getInstance().appendToLog("[INFO] " + message);
+        }
+
+    }
 	
 	/**
 	 * Logs an debug message with a timestamp. Shown in log through the label [DEBUG].
