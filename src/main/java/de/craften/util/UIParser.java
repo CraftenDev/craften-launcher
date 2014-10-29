@@ -57,7 +57,7 @@ public class UIParser {
 
             parseCleanedArg(cleanedArg);
         } else {
-            Logger.getInstance().logInfo("Not known arg: " + arg);
+            Logger.logInfo("Not known arg: " + arg);
         }
     }
 
@@ -72,7 +72,7 @@ public class UIParser {
             if (splitted.length == 2) {
                 mArguments.put(splitted[0], splitted[1]);
             } else {
-                Logger.getInstance().logInfo("Unknown argument: " + cleanedArg);
+                Logger.logInfo("Unknown argument: " + cleanedArg);
             }
         }else{
             mArguments.put(cleanedArg, null);

@@ -51,15 +51,12 @@ public class Logger {
 			e.printStackTrace(System.err);
 		}
 	}
-	
-	public static synchronized Logger getInstance() {
-		return instance;
-	}
 
+    
     private synchronized void appendToLog(String message) {
         mOutput.println(getTime() + message);
     }
-    
+
 	private String getTime() {
 		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 		return formatter.format(new Date()) + ": ";
@@ -71,7 +68,7 @@ public class Logger {
      */
     public static void logInfo(String message) {
         if (LOG_LEVEL >= 3) {
-            getInstance().appendToLog("[INFO] " + message);
+            instance.appendToLog("[INFO] " + message);
         }
 
     }
@@ -82,7 +79,7 @@ public class Logger {
 	 */
 	public static void logDebug(String message) {
 		if (LOG_LEVEL >= 2) {
-			getInstance().appendToLog("[DEBUG] " + message);
+			instance.appendToLog("[DEBUG] " + message);
 		}
 	}
 	
@@ -92,7 +89,7 @@ public class Logger {
 	 */
 	public static void logWarning(String message) {
 		if (LOG_LEVEL >= 1) {
-			getInstance().appendToLog("[WARNING] " + message);
+			instance.appendToLog("[WARNING] " + message);
 		}
 	}
 	
@@ -102,7 +99,7 @@ public class Logger {
 	 */
 	public static void logError(String message) {
 		if (LOG_LEVEL > 0) {
-            getInstance().appendToLog("[ERROR] " + message);
+            instance.appendToLog("[ERROR] " + message);
 		}
 	}
 }

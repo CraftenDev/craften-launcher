@@ -95,7 +95,7 @@ public class DownloadHelper {
              
              downloader.finished();
     	} catch ( Exception e ) {
-    		Logger.getInstance().logError("Could not download file to: " + downloader.getFilename());
+    		Logger.logError("Could not download file to: " + downloader.getFilename());
             e.printStackTrace();
     	}
     	finally {
@@ -107,7 +107,7 @@ public class DownloadHelper {
                      uCon.disconnect();
                  }
              } catch (IOException e) {
-                 Logger.getInstance().logError("Could not close Download-Stream: " + e.getMessage());
+                 Logger.logError("Could not close Download-Stream: " + e.getMessage());
              }
     	}
     }
@@ -200,18 +200,18 @@ public class DownloadHelper {
                 try {
                 	tryDownloadFile(fileHelper);
                 } catch (Exception e) {
-                	Logger.getInstance().logError("Exception occured while downloading from: " + fAddress + " : " +  e.getMessage());
+                	Logger.logError("Exception occured while downloading from: " + fAddress + " : " +  e.getMessage());
                     throw new CraftenDownloadException("Exception occured while downloading from: " + fAddress + " : " +  e.getMessage());
                 }
 
-                Logger.getInstance().logInfo("File-Download finished: " + fileName);
+                Logger.logInfo("File-Download finished: " + fileName);
             } else {
-                Logger.getInstance().logError("Error with path or file name. Path: " + destinationDir + " File: " + fileName);
+                Logger.logError("Error with path or file name. Path: " + destinationDir + " File: " + fileName);
             }
         } else {
         	//TODO: Bessere Fehlermeldung als should not be downloaded? Alte Fehlermeldung ( From: " + fAddress + " to: " + destinationDir + " )
         	// Vlt. besser den Grund f�r "shoudl not be" angeben?
-        	Logger.getInstance().logInfo(fileName + " should not be downloaded!");
+        	Logger.logInfo(fileName + " should not be downloaded!");
         }
 
         return fileName;
@@ -256,7 +256,7 @@ public class DownloadHelper {
                 if (fileSize == downloader.getContentLength()) {
                     downloadSucceeded = true;
                 } else {
-                	Logger.getInstance().logWarning("File size should be: " + fileSize + " but was: " + downloader.getContentLength());
+                	Logger.logWarning("File size should be: " + fileSize + " but was: " + downloader.getContentLength());
                     downloadSucceeded = false;
                     triesLeft--;
                 }
@@ -266,7 +266,7 @@ public class DownloadHelper {
         }
         
         if (triesLeft == 0) {
-        	Logger.getInstance().logWarning("Needed all three tries and download " + (downloadSucceeded ? "succeeded" : "failed"));
+        	Logger.logWarning("Needed all three tries and download " + (downloadSucceeded ? "succeeded" : "failed"));
         }
     }
 
@@ -309,7 +309,7 @@ public class DownloadHelper {
             }
 
         } catch (Exception e) {
-            Logger.getInstance().logError("Error whiel getting HTTP-Header: " + e.getMessage());
+            Logger.logError("Error whiel getting HTTP-Header: " + e.getMessage());
         } finally {
             if (uCon != null) {
                 uCon.disconnect();
@@ -345,7 +345,7 @@ public class DownloadHelper {
 
         ZipEntry entry;
         while ((entry = zis.getNextEntry()) != null) {
-            Logger.getInstance().logInfo("Extracting: " + entry.getName());
+            Logger.logInfo("Extracting: " + entry.getName());
 
             if (entry.getName().contains("META-INF")) {
                 continue;

@@ -69,10 +69,10 @@ public class AuthenticationService {
     public String getSessionID(MinecraftUser user) {
         if(user.hasAccessToken()){
             if (refresh(user)) {
-                Logger.getInstance().logInfo("Login with craftenlauncher_profiles successful");
+                Logger.logInfo("Login with craftenlauncher_profiles successful");
                 return user.getSession();
             } else {
-                Logger.getInstance().logError("Login failed");
+                Logger.logError("Login failed");
             }
             return null;
         }
@@ -84,9 +84,9 @@ public class AuthenticationService {
                 this.user.setResponse(response);
 
                 sessionID = "token:" + user.getAccessToken() + ":" + user.getProfileId();
-                Logger.getInstance().logInfo("SessionID created");
+                Logger.logInfo("SessionID created");
             } else {
-                Logger.getInstance().logError("Login failed");
+                Logger.logError("Login failed");
             }
             return sessionID;
         }
@@ -255,19 +255,19 @@ public class AuthenticationService {
 
         String path = mcPath.getMinecraftDir() + "craftenlauncher_profiles.json";
 
-        Logger.getInstance().logInfo("Trying to delete craftenlauncher_profiles! (At: " + path + " )");
+        Logger.logInfo("Trying to delete craftenlauncher_profiles! (At: " + path + " )");
 
         File craftenlauncher_profiles = new File(path);
 
         if (craftenlauncher_profiles.exists()) {
             try {
                 if(craftenlauncher_profiles.delete()) {
-                    Logger.getInstance().logInfo("craftenlauncher_profiles at: " + path + " deleted!");
+                    Logger.logInfo("craftenlauncher_profiles at: " + path + " deleted!");
                 } else {
-                    Logger.getInstance().logError("Could not delete craftenlauncher_profiles at: " + path);
+                    Logger.logError("Could not delete craftenlauncher_profiles at: " + path);
                 }
             } catch (Exception e) {
-                Logger.getInstance().logError("Could not delete craftenlauncher_profiles at: " + path);
+                Logger.logError("Could not delete craftenlauncher_profiles at: " + path);
             }
         }
     }

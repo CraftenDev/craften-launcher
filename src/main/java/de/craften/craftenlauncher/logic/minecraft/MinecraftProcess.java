@@ -62,17 +62,17 @@ public class MinecraftProcess {
 		Process minecraft = null;
 		try {
 			minecraft = startProcess();
-			Logger.getInstance().logInfo("Command: " + mParams.toString());
+			Logger.logInfo("Command: " + mParams.toString());
 			mSuccess = true;
-			Logger.getInstance().logInfo("Minecraft started!");
+			Logger.logInfo("Minecraft started!");
 		} catch (Exception e) {
 			mSuccess = false;
-			Logger.getInstance().logError("Could not start Minecraft!");
-			Logger.getInstance().logError(e.getMessage());
+			Logger.logError("Could not start Minecraft!");
+			Logger.logError(e.getMessage());
 		}
 		
 		if(minecraft == null) {
-			Logger.getInstance().logError("Minecraft Process Null");
+			Logger.logError("Minecraft Process Null");
 		}else {
 			// TODO: Problems with Standard-Output are not yet fixed.
 		}

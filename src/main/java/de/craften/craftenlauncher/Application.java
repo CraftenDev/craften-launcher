@@ -71,28 +71,28 @@ class Application {
      * Logs several system information.
      */
     private static void logSystemInfo() {
-        Logger.getInstance().logInfo("Launcher started!");
-        Logger.getInstance().logDebug("OS : " + System.getProperty("os.name"));
-        Logger.getInstance().logDebug("OS Arch: " + OSHelper.getOSArch());
-        Logger.getInstance().logDebug("OS Java Arch : " + System.getProperty("os.arch"));
-        Logger.getInstance().logDebug("OS Version : " + System.getProperty("os.version"));
-        Logger.getInstance().logDebug("Username : " + System.getProperty("user.name"));
-        Logger.getInstance().logDebug("Java Vendor : " + System.getProperty("java.vendor"));
-        Logger.getInstance().logDebug("Java Version : " + System.getProperty("java.version"));
-        Logger.getInstance().logDebug("Java Home : " + System.getProperty("java.home"));
-        Logger.getInstance().logDebug("Java Classpath : " + System.getProperty("java.class.path"));
-        Logger.getInstance().logDebug("Available processors (cores): " +
+        Logger.logInfo("Launcher started!");
+        Logger.logDebug("OS : " + System.getProperty("os.name"));
+        Logger.logDebug("OS Arch: " + OSHelper.getOSArch());
+        Logger.logDebug("OS Java Arch : " + System.getProperty("os.arch"));
+        Logger.logDebug("OS Version : " + System.getProperty("os.version"));
+        Logger.logDebug("Username : " + System.getProperty("user.name"));
+        Logger.logDebug("Java Vendor : " + System.getProperty("java.vendor"));
+        Logger.logDebug("Java Version : " + System.getProperty("java.version"));
+        Logger.logDebug("Java Home : " + System.getProperty("java.home"));
+        Logger.logDebug("Java Classpath : " + System.getProperty("java.class.path"));
+        Logger.logDebug("Available processors (cores): " +
                 Runtime.getRuntime().availableProcessors());
-        Logger.getInstance().logDebug("Total memory (bytes): " +
+        Logger.logDebug("Total memory (bytes): " +
                 Runtime.getRuntime().totalMemory());
-        Logger.getInstance().logInfo("Date: " + new SimpleDateFormat("dd.MM.yy").format(new Date()));
+        Logger.logInfo("Date: " + new SimpleDateFormat("dd.MM.yy").format(new Date()));
     }
 
     /**
      * Starts the gui by invoking the gui manager.
      */
 	private static void startGUI() {
-		Logger.getInstance().logInfo("loading gui!");
+		Logger.logInfo("loading gui!");
 
 		invokeLater(new Runnable() {
 

@@ -56,7 +56,7 @@ public abstract class MinecraftPath {
 			this.mMinecraftDir = minecraftDir;
 		}
 		
-		Logger.getInstance().logInfo("MinecraftPath: " + this.mMinecraftDir);
+		Logger.logInfo("MinecraftPath: " + this.mMinecraftDir);
 	}
 	
 	public String getMinecraftDir() {

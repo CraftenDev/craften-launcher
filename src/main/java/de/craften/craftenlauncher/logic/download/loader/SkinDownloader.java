@@ -43,7 +43,7 @@ public class SkinDownloader implements Downloader {
 	
 	@Override
 	public void download() throws CraftenDownloadException {
-		Logger.getInstance().logInfo("Starting skin-download!");
+		Logger.logInfo("Starting skin-download!");
 		
 		String url = DownloadURLHelper.URL_SKINS;
 		
@@ -51,7 +51,7 @@ public class SkinDownloader implements Downloader {
 		try {
 			skinURL = new URL(url + mUsername + ".png");
 		} catch (MalformedURLException e) {
-			Logger.getInstance().logError("SkinURL-Error: " + e.getMessage());
+			Logger.logError("SkinURL-Error: " + e.getMessage());
 			throw new CraftenDownloadException("SkinURL-Error!");
 		}
 		
@@ -61,9 +61,9 @@ public class SkinDownloader implements Downloader {
 			
 			mSkinVm.setSkinDownloaded(img);
 			
-			Logger.getInstance().logInfo("Finished skin-download!");
+			Logger.logInfo("Finished skin-download!");
 		} catch (IOException e) {
-			Logger.getInstance().logError("Skin Download-Error: " + e.getMessage());
+			Logger.logError("Skin Download-Error: " + e.getMessage());
 			throw new CraftenDownloadException("Skin Download-Error!");
 		}
 	}

@@ -55,7 +55,7 @@ public class LibraryDownloader implements Downloader {
 		for (LibEntry entry : vers.getLibraries().get()) {
 			
 			if(entry.isExternal()) {
-				Logger.getInstance().logInfo("Not downloading library because external: " + entry.getName());
+				Logger.logInfo("Not downloading library because external: " + entry.getName());
 				continue;
 			}
 			
@@ -67,14 +67,14 @@ public class LibraryDownloader implements Downloader {
                     else if(OSHelper.getOSArch().equals("64"))
                         entry.setFilename(entry.getFileName().replace("${arch}", "64"));
                     else
-                        Logger.getInstance().logError("LibraryDownloader-> No OS arch detected!");
+                        Logger.logError("LibraryDownloader-> No OS arch detected!");
                 }
                 
 				String replaced = entry.getPath().replace(File.separator, "/");
 				String adress = DownloadURLHelper.URL_LIBRARIES + replaced + "/" + entry.getFileName();
 				
 				
-				Logger.getInstance().logInfo("File download started: " + entry.getFileName());
+				Logger.logInfo("File download started: " + entry.getFileName());
 				
 				mDownloadVM.updateDownloadFile(entry.getFileName());
 				mDownloadVM.updateProgress(1);
@@ -82,7 +82,7 @@ public class LibraryDownloader implements Downloader {
 				try {
 					DownloadHelper.downloadFileToDiskWithCheck(adress, libDir + entry.getPath(), entry.getFileName());
 				} catch (CraftenDownloadException e) {
-					Logger.getInstance().logError("Could not download: " + entry.getFileName() + " msg: " + e.getMessage());
+					Logger.logError("Could not download: " + entry.getFileName() + " msg: " + e.getMessage());
 					throw new CraftenDownloadException("Download failed: " + entry.getFileName());
 				}
 
@@ -96,7 +96,7 @@ public class LibraryDownloader implements Downloader {
 					try {
 						DownloadHelper.unpackJarFile(file, natives);
 					} catch (IOException e) {
-						Logger.getInstance().logError("Unpacking jar ( " + file + " ) failed: " + e.getMessage());
+						Logger.logError("Unpacking jar ( " + file + " ) failed: " + e.getMessage());
 						throw new CraftenDownloadException("Unpacking jar failed: " + file);
 					}
 				}

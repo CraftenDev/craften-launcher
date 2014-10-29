@@ -60,7 +60,7 @@ public class RessourceDownloader implements Downloader{
 			poolSize *= 2;
 		}
 		
-		Logger.getInstance().logDebug("RessourceDownloader: PoolSize " + poolSize );
+		Logger.logDebug("RessourceDownloader: PoolSize " + poolSize );
 		
 		this.executor = Executors.newFixedThreadPool(poolSize);
 		
@@ -86,7 +86,7 @@ public class RessourceDownloader implements Downloader{
 			mIndex = new Index(mResDir + fs + "indexes" + fs + assets + ".json");
 			mDownloadable = true;
 		} catch (CraftenDownloadException e) {
-			Logger.getInstance().logInfo("Could not download " + assets + ".json.");
+			Logger.logInfo("Could not download " + assets + ".json.");
 		}
         
         DownloadHelper.setForce(force);
@@ -119,7 +119,7 @@ public class RessourceDownloader implements Downloader{
 				
 				files.remove(se);
 			} catch (Exception e) {
-				Logger.getInstance().logError("Error while Handling Future: " + e.getMessage());
+				Logger.logError("Error while Handling Future: " + e.getMessage());
 			}
 		}
 		
@@ -136,13 +136,13 @@ public class RessourceDownloader implements Downloader{
 
             @Override
             public String call() throws Exception {
-                Logger.getInstance().logInfo("File Download started: " + file);
+                Logger.logInfo("File Download started: " + file);
                 mAccess.updateDownloadFile(res.getName());
 
                 try {
                     DownloadHelper.downloadFileToDiskWithoutCheck(mResURL + res.getDownloadPath(), file);
                 } catch (CraftenDownloadException e) {
-                    Logger.getInstance().logError("Could not download " + res.getName());
+                    Logger.logError("Could not download " + res.getName());
                 }
                 mAccess.updateProgress(1);
 
@@ -154,9 +154,9 @@ public class RessourceDownloader implements Downloader{
 
 	private void checkDownloadedFilesNumber(ArrayList<String> files) {
 		if(files.size() == 0) {
-			Logger.getInstance().logInfo("Finished with all Ressource-Downloads");
+			Logger.logInfo("Finished with all Ressource-Downloads");
 		} else {
-			Logger.getInstance().logError("Not all files where removed from files-list");
+			Logger.logError("Not all files where removed from files-list");
 		}
 	}
 	
