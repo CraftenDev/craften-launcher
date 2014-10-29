@@ -14,15 +14,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * Logger Class:
- * 
- * Simple log-class. Logs info, debug, warning and error messages with a timestamp and 
- * a label ( e.g. [INFO] ). Message are written in a simple text file.
- * The log level is determined by an integer. 
- * The higher the integer, the lower the log level.
- * 
- * @author redbeard
+ *
  */
 package de.craften.craftenlauncher.logic;
 
@@ -34,11 +26,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Logger Class which supports several log level.
+ * Logger Class:
  *
+ * Simple log-class. Logs info, debug, warning and error messages with a timestamp and
+ * a label ( e.g. [INFO] ). Message are written in a simple text file.
+ * The log level is determined by an integer.
+ * The higher the integer, the lower the log level.
  * @author redbeard
  */
-public class Logger {
+ public class Logger {
     private static final int LOG_LEVEL = 10;
 	private static Logger instance = new Logger();
 	private PrintStream mOutput;
