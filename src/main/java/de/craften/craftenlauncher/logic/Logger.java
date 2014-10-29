@@ -52,12 +52,21 @@ public class Logger {
 		}
 	}
 
-    
+    /**
+     * Appends the given message with the current timestamp to the log file.
+     *
+     * @param message Mesasge to be logged.
+     */
     private synchronized void appendToLog(String message) {
-        mOutput.println(getTime() + message);
+        mOutput.println(getCurrentTime() + message);
     }
 
-	private String getTime() {
+    /**
+     * Returns the current time formatted.
+     *
+     * @return curent time formated in HH:mm:ss
+     */
+	private String getCurrentTime() {
 		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 		return formatter.format(new Date()) + ": ";
 	}
