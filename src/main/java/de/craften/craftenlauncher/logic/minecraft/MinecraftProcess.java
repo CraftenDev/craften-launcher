@@ -60,6 +60,7 @@ public class MinecraftProcess {
 	 */
 	public void startMinecraft() {
 		Process minecraft = null;
+
 		try {
 			minecraft = startProcess();
 			Logger.logInfo("Command: " + mParams.toString());
@@ -95,6 +96,7 @@ public class MinecraftProcess {
 	private void addJavaCommand() {
 		if(mInfo.hasXMX()) {
 			mParams.add("-Xmx" + mInfo.getXMX());
+            mParams.add("-Xmn128M");
 		}
 		
 		ArrayList<String> args = JVMArgmuments.get();
