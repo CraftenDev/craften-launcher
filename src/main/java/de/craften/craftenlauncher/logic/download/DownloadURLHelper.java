@@ -24,5 +24,5 @@ public class DownloadURLHelper {
 	public static String URL_VERSION = "http://s3.amazonaws.com/Minecraft.Download/versions/";
     public static String URL_INDEXES = "http://s3.amazonaws.com/Minecraft.Download/indexes/";
 	public static String URL_LIBRARIES = "https://libraries.minecraft.net/";
-	public static String URL_SKINS = "http://s3.amazonaws.com/MinecraftSkins/";
+	public static String URL_SKINS = "https://skins.minecraft.net/MinecraftSkins/";
 }
