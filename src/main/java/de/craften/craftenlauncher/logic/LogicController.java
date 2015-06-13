@@ -73,9 +73,9 @@ public class LogicController {
 	    String version = objPackage.getSpecificationVersion();
 	    
 	    if(version != null) {
-	    	Logger.getInstance().logInfo("Launcher version: " + version);
+	    	Logger.logInfo("Launcher version: " + version);
 	    } else {
-	    	Logger.getInstance().logInfo("Launcher version: 0.12.0");
+	    	Logger.logInfo("Launcher version: 0.13.0");
 	    }
 	}
 
@@ -83,9 +83,9 @@ public class LogicController {
      * Inits the logic layer.
      */
 	public void init() {
-        Logger.getInstance().logInfo(mParser.toString());
-		if(mParser.hasArg("mcpath")) {
-			mMinecraftPath = new MinecraftPathImpl(mParser.getArg("mcpath"));
+        Logger.logInfo(mParser.toString());
+		if(mParser.hasValue("mcpath")) {
+			mMinecraftPath = new MinecraftPathImpl(mParser.getValue("mcpath"));
 		}
 		else {
 			mMinecraftPath = new MinecraftPathImpl();
@@ -93,18 +93,18 @@ public class LogicController {
 
         mProfiles.setPath(mMinecraftPath.getMinecraftDir());
 
-		if(mParser.hasArg("server")) {
-			mMincraftArgs.put("server", mParser.getArg("server"));
+		if(mParser.hasValue("server")) {
+			mMincraftArgs.put("server", mParser.getValue("server"));
 		}
 		
-		if(mParser.hasArg("xmx")) {
-			mMincraftArgs.put("xmx", mParser.getArg("xmx"));
+		if(mParser.hasValue("xmx")) {
+			mMincraftArgs.put("xmx", mParser.getValue("xmx"));
 		}
 		
 		mVersionList = new VersionListHelper(mMinecraftPath);
 		
-		if(mParser.hasArg("version")) {
-			String version = mParser.getArg("version");
+		if(mParser.hasValue("version")) {
+			String version = mParser.getValue("version");
 			
 			try {
 				if(mVersionList.isVersionAvailableOnline(version)) {
@@ -117,7 +117,7 @@ public class LogicController {
                 mMincraftArgs.put("version", "true");
 				mMinecraftPath.setVersionName(version);
 			} catch (Exception e) {
-				Logger.getInstance().logInfo("Version not available: " + mParser.getArg("version"));
+				Logger.logInfo("Version not available: " + mParser.getValue("version"));
 			}
 		}
 
@@ -137,10 +137,10 @@ public class LogicController {
 		Profiles login = mAuthService.readProfiles();
 		
 		if(login != null) {
-			Logger.getInstance().logInfo("craftenlauncher_profiles found! Username is: " + login.getSelectedUser().getUsername());
+			Logger.logInfo("craftenlauncher_profiles found! Username is: " + login.getSelectedUser().getUsername());
 
-            if(mParser.hasArg("profileid")) {
-                login.changeSelectedUser(mParser.getArg("profileid"));
+            if(mParser.hasValue("profileid")) {
+                login.changeSelectedUser(mParser.getValue("profileid"));
             }
 			
 			//TODO checken was genau die Response ist und was man damit so anfaengt!
@@ -149,7 +149,7 @@ public class LogicController {
 			mProfiles = login;
 		}
 		else {
-			Logger.getInstance().logInfo("No craftenlauncher_profiles found at Position: " + mMinecraftPath.getMinecraftDir() + "craftenlauncher_profiles.json");
+			Logger.logInfo("No craftenlauncher_profiles found at Position: " + mMinecraftPath.getMinecraftDir() + "craftenlauncher_profiles.json");
 		}
 	}
 	
@@ -158,11 +158,11 @@ public class LogicController {
         String pass = String.valueOf(password);
 
         if(username == null || username.equals(" ") || username.equals("")) {
-        	Logger.getInstance().logError("Username is null!");
+        	Logger.logError("Username is null!");
 			throw new CraftenLogicValueIsNullException("Username is missing!");
 		}
 		if(pass.equals(" ") || pass.equals("")) {
-			Logger.getInstance().logError("Password is null!");
+			Logger.logError("Password is null!");
 			throw new CraftenLogicValueIsNullException("Password is missing!");
 		}
         mProfiles.setSelectedUser(new MinecraftUser(username,pass));
@@ -173,7 +173,7 @@ public class LogicController {
 			return mProfiles.getSelectedUser();
 		}
 		else {
-			Logger.getInstance().logError("No User known!");
+			Logger.logError("No User known!");
 			throw new CraftenUserException("Username / Password not correct!");
 		}
 	}
@@ -187,6 +187,11 @@ public class LogicController {
             session = mAuthService.getSessionID(mProfiles.getSelectedUser());
             if(session != null){
                 mProfiles.getSelectedUser().loggingInSuccess();
+
+                if(mProfiles.getAvailableUser(mProfiles.getSelectedUser().getProfileId()) != null)
+                    mProfiles.removeAvailableUser(mProfiles.getSelectedUser().getProfileId());
+                mProfiles.addAvailableUser(mProfiles.getSelectedUser());
+
                 mProfiles.save();
             }
         }
@@ -222,7 +227,7 @@ public class LogicController {
 		}
 		
 		if(!mProfiles.getSelectedUser().isLoggedIn()) {
-			Logger.getInstance().logError("Trying to start DownloadService although user is not logged in!");
+			Logger.logError("Trying to start DownloadService although user is not logged in!");
 		}
 		
 		mDownService = new DownloadService(mMinecraftPath,mDownloadVM);
@@ -232,7 +237,7 @@ public class LogicController {
 				mDownService.setMinecraftVersion(mCurrentVersion);
 			} catch (Exception e) {
 				//TODO Workaround vllt. klappt es beim zweiten Mal.
-				Logger.getInstance().logInfo("Trying again to download json!");
+				Logger.logInfo("Trying again to download json!");
 				mDownService.setMinecraftVersion(mCurrentVersion);
 			}
 			mDownService.addTask(DownloadTasks.ressources);
@@ -244,10 +249,14 @@ public class LogicController {
 	}
 	
 	public void logout() {
-		Logger.getInstance().logInfo("Trying to logout user: " + mProfiles.getSelectedUser().getUsername());
+		Logger.logInfo("Trying to logout user: " + mProfiles.getSelectedUser().getUsername());
 		
 		String name = mProfiles.getSelectedUser().getUsername();
-		
+
+        mAuthService.invalidate(mProfiles.getSelectedUser());
+        if(mProfiles.getAvailableUser(mProfiles.getSelectedUser().getProfileId()) != null)
+            mProfiles.removeAvailableUser(mProfiles.getSelectedUser().getProfileId());
+
 		mProfiles.clearSelectedUser();
         mProfiles.save();
 		// TODO: Muss das unbedingt null werden?
@@ -257,13 +266,13 @@ public class LogicController {
 		mAuthService = new AuthenticationService();
 		
 		if(mDownService != null) {
-			Logger.getInstance().logInfo("Shutting down DownloadService because of logout");
+			Logger.logInfo("Shutting down DownloadService because of logout");
 			mDownService.setRunning(false);
 				
 			mDownService = null;
 		}
 
-		Logger.getInstance().logInfo("User " + name + " was locked out!");
+		Logger.logInfo("User " + name + " was locked out!");
 	}
 	
 	//TODO vorher besser alten Service ordentlich stoppen oder neu Init?
@@ -306,12 +315,12 @@ public class LogicController {
 	
 	public void startMinecraft() throws CraftenLogicException {
 		if(!isMinecraftDownloaded()) {
-			Logger.getInstance().logError("Minecraft has not been downloaded fully!");
+			Logger.logError("Minecraft has not been downloaded fully!");
 			throw new CraftenLogicException("Minecraft has not been downloaded fully yet!");
 		}
 		
 		if(!mProfiles.getSelectedUser().isLoggedIn()) {
-			Logger.getInstance().logError("Trying to start Minecraft although User is not logged in!");
+			Logger.logError("Trying to start Minecraft although User is not logged in!");
 			throw new CraftenLogicException("Trying to start Minecraft although User is not logged in!");
 		}
 		
@@ -330,7 +339,7 @@ public class LogicController {
 		process.startMinecraft();
 		
 		if(!process.getSuccess()) {
-			Logger.getInstance().logError("Minecraft Process could not be started!");
+			Logger.logError("Minecraft Process could not be started!");
 			throw new CraftenLogicException("Minecraft Process could not be started!");
 		}
 		else {
@@ -340,7 +349,7 @@ public class LogicController {
 	
 	public void setParser(UIParser parser) throws CraftenLogicValueIsNullException {
 		if(parser == null) {
-			Logger.getInstance().logError("UI Parser was null!");
+			Logger.logError("UI Parser was null!");
 			throw new CraftenLogicValueIsNullException("Parser must not be null!");
 		}
 		this.mParser = parser;
@@ -360,7 +369,7 @@ public class LogicController {
 		if(argument != null) {
 			return mMincraftArgs.get(key);
 		} else {
-			Logger.getInstance().logError("Trying to get Argument for key: " + key);
+			Logger.logError("Trying to get Argument for key: " + key);
 			throw new CraftenLogicException("No Argument for key: " + key);
 		}
 	}

@@ -98,14 +98,14 @@ public class Loading extends Basic implements Observer {
                 try {
                     info.setText(context);
                 } catch (Exception e) {
-                    Logger.getInstance().logError("GUIAccess info error..");
+                    Logger.logError("GUIAccess info error..");
                     e.printStackTrace();
                 }
             }
             try {
                 pbar.setValue(((DownloadVM) o).getProgress());
             } catch (Exception e) {
-                Logger.getInstance().logError("GUIAccess Progress error..");
+                Logger.logError("GUIAccess Progress error..");
                 e.printStackTrace();
             }
 

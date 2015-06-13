@@ -47,32 +47,32 @@ public class JSONReader {
 
         if(jsonObject != null){
             version.setId(jsonObject.get("id").getAsString());
-            Logger.getInstance().logDebug("Version ID: " + version.getId());
+            Logger.logDebug("Version ID: " + version.getId());
 
             version.setTime(jsonObject.get("time").getAsString());
-            Logger.getInstance().logDebug("Version Time: " + version.getTime());
+            Logger.logDebug("Version Time: " + version.getTime());
 
             version.setReleaseTime(jsonObject.get("releaseTime").getAsString());
-            Logger.getInstance().logDebug("Version Release Time: " + version.getReleaseTime());
+            Logger.logDebug("Version Release Time: " + version.getReleaseTime());
 
             version.setType(jsonObject.get("type").getAsString());
-            Logger.getInstance().logDebug("Version type: " + version.getType());
+            Logger.logDebug("Version type: " + version.getType());
 
             if(jsonObject.has("assets")){
                 version.setAssets(jsonObject.get("assets").getAsString());
-                Logger.getInstance().logDebug("Version Assets: " + version.getAssets());
+                Logger.logDebug("Version Assets: " + version.getAssets());
             }
 
             version.setMinecraftArguments(jsonObject.get("minecraftArguments").getAsString());
-            Logger.getInstance().logDebug("Version Arguments" + version.getMinecraftArguments());
+            Logger.logDebug("Version Arguments" + version.getMinecraftArguments());
 
             version.setLibs(jsonObject.get("libraries").getAsJsonArray());
 
             version.setMainClass(jsonObject.get("mainClass").getAsString());
-            Logger.getInstance().logDebug("Version Main-Class: " + version.getMainClass());
+            Logger.logDebug("Version Main-Class: " + version.getMainClass());
 
             version.setMinimumLauncherVersion(jsonObject.get("minimumLauncherVersion").getAsInt());
-            Logger.getInstance().logDebug("Minimum Launcher Version: " + version.getMinimumLauncherVersion());
+            Logger.logDebug("Minimum Launcher Version: " + version.getMinimumLauncherVersion());
         }
         return version;
     }
@@ -105,7 +105,7 @@ public class JSONReader {
         JsonObject jsonObject;
 
         try {
-            Logger.getInstance().logInfo("Reading JSON-File: " + path);
+            Logger.logInfo("Reading JSON-File: " + path);
             FileReader reader = new FileReader(path);
             Object obj = parser.parse(reader);
 
@@ -113,13 +113,13 @@ public class JSONReader {
 
             reader.close();
         } catch (FileNotFoundException e) {
-            Logger.getInstance().logError("JReader->Not Found: " + path);
+            Logger.logError("JReader->Not Found: " + path);
             return null;
         } catch (JsonParseException e) {
-            Logger.getInstance().logError("JReader->JsonParseException: " + path);
+            Logger.logError("JReader->JsonParseException: " + path);
             return null;
         }catch (Exception e){
-            Logger.getInstance().logError("JReader->Exception: " + e.getMessage() + " while reading " + path);
+            Logger.logError("JReader->Exception: " + e.getMessage() + " while reading " + path);
             return null;
         }
         return jsonObject;
@@ -135,12 +135,12 @@ public class JSONReader {
 
         JsonObject jsonObject;
         if(minecraftDir == null){
-        	Logger.getInstance().logInfo("Reading craftenlauncher_profiles from: " + OSHelper.getInstance().getMinecraftPath());
-            path = OSHelper.getInstance().getMinecraftPath();
+        	Logger.logInfo("Reading craftenlauncher_profiles from: " + OSHelper.getMinecraftPath());
+            path = OSHelper.getMinecraftPath();
             jsonObject = readJson(path + filename);
         }
         else{
-        	Logger.getInstance().logInfo("Reading craftenlauncher_profiles from: " + minecraftDir);
+        	Logger.logInfo("Reading craftenlauncher_profiles from: " + minecraftDir);
         	
             if(minecraftDir.endsWith(File.separator) ) {
                 path = minecraftDir;

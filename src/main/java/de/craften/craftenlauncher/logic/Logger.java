@@ -14,15 +14,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * Logger Class:
- * 
- * Simple log-class. Logs info, debug, warning and error messages with a timestamp and 
- * a label ( e.g. [INFO] ). Message are written in a simple text file.
- * The log level is determined by an integer. 
- * The higher the integer, the lower the log level.
- * 
- * @author redbeard
+ *
  */
 package de.craften.craftenlauncher.logic;
 
@@ -33,8 +25,16 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
-public class Logger {
+/**
+ * Logger Class:
+ *
+ * Simple log-class. Logs info, debug, warning and error messages with a timestamp and
+ * a label ( e.g. [INFO] ). Message are written in a simple text file.
+ * The log level is determined by an integer.
+ * The higher the integer, the lower the log level.
+ * @author redbeard
+ */
+ public class Logger {
     private static final int LOG_LEVEL = 10;
 	private static Logger instance = new Logger();
 	private PrintStream mOutput;
@@ -47,39 +47,44 @@ public class Logger {
 			e.printStackTrace(System.err);
 		}
 	}
-	
-	public static synchronized Logger getInstance() {
-		return instance;
-	}
-	
-	/**
-	 * Logs an info Message with a timestamp and a label [INFO]
-	 * @param message Mesasge to be logged.
-	 */
-	public void logInfo(String message) {
-		if (LOG_LEVEL >= 3) {
-			  getInstance().appendToLog("[INFO] " + message);
-		}
-		
-	}
-	
 
+    /**
+     * Appends the given message with the current timestamp to the log file.
+     *
+     * @param message Mesasge to be logged.
+     */
     private synchronized void appendToLog(String message) {
-        mOutput.println(getTime() + message);
+        mOutput.println(getCurrentTime() + message);
     }
-    
-	private String getTime() {
+
+    /**
+     * Returns the current time formatted.
+     *
+     * @return curent time formated in HH:mm:ss
+     */
+	private String getCurrentTime() {
 		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 		return formatter.format(new Date()) + ": ";
 	}
+
+    /**
+     * Logs an info Message with a timestamp and a label [INFO]
+     * @param message Mesasge to be logged.
+     */
+    public static void logInfo(String message) {
+        if (LOG_LEVEL >= 3) {
+            instance.appendToLog("[INFO] " + message);
+        }
+
+    }
 	
 	/**
 	 * Logs an debug message with a timestamp. Shown in log through the label [DEBUG].
 	 * @param message
 	 */
-	public void logDebug(String message) {	
+	public static void logDebug(String message) {
 		if (LOG_LEVEL >= 2) {
-			getInstance().appendToLog("[DEBUG] " + message);
+			instance.appendToLog("[DEBUG] " + message);
 		}
 	}
 	
@@ -87,9 +92,9 @@ public class Logger {
 	 * Logs an warning message with a timestamp. Shown in log through the label [WARNING].
 	 * @param message
 	 */
-	public void logWarning(String message) {
+	public static void logWarning(String message) {
 		if (LOG_LEVEL >= 1) {
-			getInstance().appendToLog("[WARNING] " + message);
+			instance.appendToLog("[WARNING] " + message);
 		}
 	}
 	
@@ -97,9 +102,9 @@ public class Logger {
 	 * Logs an error message with a timestamp. Shown in log through the label [ERROR].
 	 * @param message
 	 */
-	public void logError(String message) {
+	public static void logError(String message) {
 		if (LOG_LEVEL > 0) {
-            getInstance().appendToLog("[ERROR] " + message);
+            instance.appendToLog("[ERROR] " + message);
 		}
 	}
 }

@@ -14,52 +14,48 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Simple os-helper.
- * 
- * @author evidence
- * @author redbeard
  */
 package de.craften.util;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import de.craften.craftenlauncher.logic.Logger;
-
+/**
+ * Simple OS Helper determines the current OS and cpu architecture.
+ *
+ * @author saschb2b
+ * @author redbeard
+ */
 public final class OSHelper {
-	private static String operatingSystem;
-	private static OSHelper instance;
-	private static String pS = File.separator;
-    private static String[] mOsArch32 = {"x86", "i386", "i686"}, //32-bit
+    private static String operatingSystem;
+    private static OS os;
+	private static final String pS = File.separator;
+    private static final String[] mOsArch32 = {"x86", "i386", "i686"}, //32-bit
             mOsArch64 = {"x64", "ia64", "amd64"};                //64-bit
 
-	private OSHelper() {
-		operatingSystem = System.getProperty("os.name");
-		
-		if (operatingSystem.contains("Win")) {
-			operatingSystem = "windows";
-		} else if (operatingSystem.contains("Linux")) {
-			operatingSystem = "linux";
-		} else if (operatingSystem.contains("Mac")) {
-			operatingSystem = "osx";
-		}
+    private static void init() {
+        if(operatingSystem == null) {
+            operatingSystem = System.getProperty("os.name");
+
+            if (operatingSystem.contains("Win")) {
+                operatingSystem = "windows";
+                os = OS.WINDOWS;
+            } else if (operatingSystem.contains("Linux")) {
+                operatingSystem = "linux";
+                os = OS.LINUX;
+            } else if (operatingSystem.contains("Mac")) {
+                operatingSystem = "osx";
+                os = OS.OSX;
+            } else {
+                os = OS.UNDEFINED;
+            }
+        }
     }
 
-	public synchronized static OSHelper getInstance() {
-		if (instance == null) {
-			instance = new OSHelper();
-		}
-		return instance;
-	}
-
-    public static OSHelper TEST_CreateInstance() {
-        return new OSHelper();
-    }
-
-    public boolean isJava32bit(){
+    /**
+     * Returns true if Java is running in x86 (32 bit) version.
+     * @return
+     */
+    public static boolean isJava32bit(){
         String archInfo = System.getProperty("os.arch");
 
         if (archInfo != null && !archInfo.equals("")) {
@@ -72,7 +68,11 @@ public final class OSHelper {
         return false;
     }
 
-    public boolean isJava64bit(){
+    /**
+     * Returns true if Java is running in x64 (64 bit) version.
+     * @return
+     */
+    public static boolean isJava64bit(){
         String archInfo = System.getProperty("os.arch");
 
         if (archInfo != null && !archInfo.equals("")) {
@@ -85,17 +85,40 @@ public final class OSHelper {
         return false;
     }
 
-    public String getOSArch(){
+    /**
+     * Returns the OS processor architecture.
+     * @return 32 or 64
+     */
+    public static String getOSArch(){
         String arch = System.getenv("PROCESSOR_ARCHITECTURE");
         String wow64Arch = System.getenv("PROCESSOR_ARCHITEW6432");
 
-        String realArch = arch.endsWith("64")
-                || wow64Arch != null && wow64Arch.endsWith("64")
-                ? "64" : "32";
+		String realArch;
+
+        if(arch != null) {  	
+			if(arch.endsWith("64") || wow64Arch != null && wow64Arch.endsWith("64")) {
+				realArch = "64";
+			} else {
+				realArch = "32";			
+			}
+		} else {
+			if(wow64Arch != null && wow64Arch.endsWith("64")) {
+				realArch = "64";			
+			} else {
+                realArch = "32";
+            }
+		}
         return realArch;
     }
 
-	public String getMinecraftPath() {
+    /**
+     * Returns the minecraft path for the current os system and creates the
+     * path if it does not exist.
+     * @return
+     */
+	public static String getMinecraftPath() {
+        init();
+
 		String path = "";
 		if (operatingSystem.equals("windows")) {
 			path = System.getenv("APPDATA") + pS + ".minecraft" + pS;
@@ -120,8 +143,43 @@ public final class OSHelper {
 		new File(path).mkdirs();
 		return path;
 	}
-	
-	public String getOperatingSystem() {
-		return operatingSystem;
-	}
+
+    /**
+     * Returns the current {@see #OS} as an enum.
+     * Can return undefined if the os does not match (Windows, Linux, Mac OSX)
+     * @return
+     */
+    public static OS getOSasEnum() {
+        init();
+        return os;
+    }
+
+    /**
+     * Returns the operatins system as a String in lower case letters.
+     * @return
+     */
+	public static String getOSasString() {
+        init();
+        return operatingSystem.toLowerCase();
+    }
+
+    /**
+     * Returns the current java path. The java programm for the current os
+     * is added.
+     * e.g. (path).javaw.exe in windows.
+     * @return
+     */
+    public static String getJavaPath() {
+        init();
+        String fs = File.separator;
+
+        String path = System.getProperty("java.home") + fs + "bin" + fs;
+
+        if (getOSasEnum() == OS.WINDOWS &&
+                (new File(path + "javaw.exe").isFile())) {
+            return path + "javaw.exe";
+        }
+
+        return path + "java";
+    }
 }

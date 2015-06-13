@@ -21,46 +21,75 @@
  */
 package de.craften.craftenlauncher.logic.auth;
 
-
 import de.craften.craftenlauncher.logic.json.JSONWriter;
 
 import java.util.ArrayList;
 
 public class Profiles {
-    private MinecraftUser selectedUser;
-    private ArrayList<MinecraftUser> availableUsers;
+    private MinecraftUser mSelectedUser;
+    private ArrayList<MinecraftUser> mAvailableUsers;
     private String mPath;
 
     public Profiles() {
-        availableUsers = new ArrayList<MinecraftUser>();
+        mAvailableUsers = new ArrayList<MinecraftUser>();
     }
 
+    /**
+     *
+     * @param selectedUser set the current selected user
+     */
     public void setSelectedUser(MinecraftUser selectedUser) {
-        this.selectedUser = selectedUser;
+        this.mSelectedUser = selectedUser;
     }
 
+    /**
+     *
+     * @param path set the minecraft path
+     */
     public void setPath(String path) {
         this.mPath = path;
     }
 
+    /**
+     *
+     * @return current minecraft path
+     */
+    public String getPath() {
+        return mPath;
+    }
+
+    /**
+     *
+     * @return current selected user
+     */
     public MinecraftUser getSelectedUser() {
-        return selectedUser;
+        return mSelectedUser;
     }
 
+    /**
+     *
+     * @return all saved users
+     */
     public ArrayList<MinecraftUser> getAvailableUsers() {
-        return availableUsers;
+        return mAvailableUsers;
     }
 
-    public void addAvailableUser(MinecraftUser user) {
-        availableUsers.add(user);
-    }
-
+    /**
+     * Returns a user with a given index
+     * @param i the index we want our user to be
+     * @return a user at index i
+     */
     public MinecraftUser getAvailableUser(int i) {
         return getAvailableUsers().get(i);
     }
 
+    /**
+     * Returns a user with a given id
+     * @param id the id from a user we want
+     * @return a user with given id or null if not found
+     */
     public MinecraftUser getAvailableUser(String id) {
-        for (MinecraftUser minecraftUser : availableUsers) {
+        for (MinecraftUser minecraftUser : mAvailableUsers) {
             if (minecraftUser.getProfileId().equals(id)) {
                 return minecraftUser;
             }
@@ -68,34 +97,67 @@ public class Profiles {
         return null;
     }
 
+    /**
+     * Adds a new user to our saved list
+     * @param user the user we want to save
+     */
+    public void addAvailableUser(MinecraftUser user) {
+        mAvailableUsers.add(user);
+    }
+
+    /**
+     * Ändert den SelectedUser zum dem User mit der übergebenen profileID.
+     * @param profileID Eindeutiger Qualifier des Users
+     */
+    public void changeSelectedUser(String profileID) {
+        for(MinecraftUser user : mAvailableUsers) {
+            if(user.getProfileId().equals(profileID)) {
+                mSelectedUser = user;
+            }
+        }
+    }
+
+    /**
+     * Removes a user with a given index
+     * @param i the id from a user we want to remove
+     */
     public MinecraftUser removeAvailableUser(int i) {
         return getAvailableUsers().remove(i);
     }
 
+    /**
+     * Removes a user with a given id
+     * @param id the id from a user we want to remove
+     */
     public boolean removeAvailableUser(String id) {
-        for (int i = 0; i < availableUsers.size(); i++) {
-            MinecraftUser minecraftUser = availableUsers.get(i);
+        for (int i = 0; i < mAvailableUsers.size(); i++) {
+            MinecraftUser minecraftUser = mAvailableUsers.get(i);
 
             if (minecraftUser.getProfileId().equals(id)) {
-                availableUsers.remove(i);
+                mAvailableUsers.remove(i);
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * Deletes all users in the list
+     */
     public void clearAvailableUsers() {
-        availableUsers.clear();
+        mAvailableUsers.clear();
     }
 
+    /**
+     * Clears the selected user
+     */
     public void clearSelectedUser(){
-        selectedUser = new MinecraftUser("","");
+        mSelectedUser = new MinecraftUser("","");
     }
 
-    public String getPath() {
-        return mPath;
-    }
-
+    /**
+     * Saves the stored users to disk
+     */
     public void save() {
         JSONWriter.saveProfiles(this);
     }
@@ -128,17 +190,5 @@ public class Profiles {
             flag = true;
         }
         return flag;
-    }
-
-    /**
-     * Ändert den SelectedUser zum dem User mit der übergebenen profileID.
-     * @param profileID Eindeutiger Qualifier des Users
-     */
-    public void changeSelectedUser(String profileID) {
-        for(MinecraftUser user : availableUsers) {
-            if(user.getProfileId().equals(profileID)) {
-                selectedUser = user;
-            }
-        }
     }
 }

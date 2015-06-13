@@ -31,14 +31,22 @@ import com.google.gson.JsonObject;
 
 import de.craften.craftenlauncher.logic.json.JSONReader;
 
+/**
+ * Simple Helper for JVM specific Arguments
+ *
+ * @author saschb2b
+ */
 public class JVMArgmuments {
+
+    private final static String path = "jvm.json";
+
     public static ArrayList<String> get(){
         ArrayList<String> arg = new ArrayList<String>();
-        String path = "jvm.json";
 
         JsonObject jsonObject = JSONReader.readJson(path);
+
         if(jsonObject != null && jsonObject.has("JVMArguments")) {
-            String[] dummy = jsonObject.get("JVMArguments").getAsString().split(Pattern.quote(" "));
+            String[] dummy = jsonObject.get("JVMArguments").getAsString().split(Pattern.quote(";"));
             Collections.addAll(arg, dummy);
         }
 

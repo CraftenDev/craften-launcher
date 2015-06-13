@@ -24,7 +24,10 @@ package de.craften.craftenlauncher.logic.resources;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import de.craften.util.OS;
 import de.craften.util.OSHelper;
+
+import java.io.File;
 
 public class LibEntry {
     private String mName, mPath, mFilename, mUrl;
@@ -37,14 +40,18 @@ public class LibEntry {
 
     public void setPath(String path) {
         this.mPath = path;
-        String[] splitter = path.split("\\\\");
+        String[] splitter;
+                if(path.contains("\\"))
+                    splitter = path.split("\\\\");
+                else
+                    splitter = path.split(File.separator);
         String result = splitter[splitter.length - 2] + "-" + splitter[splitter.length - 1];
         if (this.isNativ()) {
-            if (OSHelper.getInstance().getOperatingSystem().equals("windows"))
+            if (OSHelper.getOSasEnum() == OS.WINDOWS)
                 result += "-" + this.mNatives.getWindows();
-            else if (OSHelper.getInstance().getOperatingSystem().equals("linux"))
+            else if (OSHelper.getOSasEnum() == OS.LINUX)
                 result += "-" + this.mNatives.getLinux();
-            else if (OSHelper.getInstance().getOperatingSystem().equals("osx"))
+            else if (OSHelper.getOSasEnum() == OS.OSX)
                 result += "-" + this.mNatives.getOsx();
         }
         setFilename(result + ".jar");
@@ -82,9 +89,9 @@ public class LibEntry {
         this.mName = name;
 
         String[] dummy = name.split(":");
-        String path = dummy[0].replace(".", "\\");
+        String path = dummy[0].replace(".", File.separator);
         for (int i = 1; i < dummy.length; i++) {
-            path += "\\" + dummy[i];
+            path += File.separator + dummy[i];
         }
         setPath(path);
     }
@@ -137,14 +144,13 @@ public class LibEntry {
         if (mRules == null)
             needed = true;
         else {
-            OSHelper oshelper = OSHelper.getInstance();
             for (Rules mRule : mRules) {
                 if (mRule.getAction().equals("allow")) {
-                    if (mRule.getOs() == null || oshelper.getOperatingSystem().equals(mRule.getOs().getName())) {
+                    if (mRule.getOs() == null || OSHelper.getOSasString().equals(mRule.getOs().getName())) {
                         needed = true;
                     }
                 } else if (mRule.getAction().equals("disallow")) {
-                    if (mRule.getOs() != null && oshelper.getOperatingSystem().equals(mRule.getOs().getName())) {
+                    if (mRule.getOs() != null && OSHelper.getOSasString().equals(mRule.getOs().getName())) {
                         needed = false;
                     }
                 }

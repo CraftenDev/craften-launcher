@@ -14,9 +14,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * Main-function of the Craften Launcher.
- * Starts Logic and GUI Layer.
+ *
  * 
  * Commandline input format:
  * --[parameter]=[value]
@@ -32,8 +30,7 @@
  * --profileid  = [54bnb5br_profileid_berb4b3] chooses a saved user
  * --forcelogin = erzwingt das Einloggen eines Users
  * --fullscreen = starts minecraft in fullscreen mode
- * 
- * @author redbeard
+ *
  */
 package de.craften.craftenlauncher;
 
@@ -49,31 +46,53 @@ import de.craften.util.UIParser;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Craften Launcher main class.
+ * Logs several infos about the system and starts / initializes the logic and gui.
+ *
+ * @author redbeard
+ * @author saschb2b
+ */
 class Application {
 
+    /**
+     * Main Method!
+     *
+     * @param args
+     * @throws CraftenLogicException
+     */
 	public static void main(String[] args) throws CraftenLogicException {
-        Logger.getInstance().logInfo("Launcher started!");
-        Logger.getInstance().logDebug("OS : " + System.getProperty("os.name"));
-        Logger.getInstance().logDebug("OS Arch: " + OSHelper.getInstance().getOSArch());
-        Logger.getInstance().logDebug("OS Java Arch : " + System.getProperty("os.arch"));
-        Logger.getInstance().logDebug("OS Version : " + System.getProperty("os.version"));
-        Logger.getInstance().logDebug("Username : " + System.getProperty("user.name"));
-        Logger.getInstance().logDebug("Java Vendor : " + System.getProperty("java.vendor"));
-        Logger.getInstance().logDebug("Java Version : " + System.getProperty("java.version"));
-        Logger.getInstance().logDebug("Java Home : " + System.getProperty("java.home"));
-        Logger.getInstance().logDebug("Java Classpath : " + System.getProperty("java.class.path"));
-        Logger.getInstance().logDebug("Available processors (cores): " +
-                Runtime.getRuntime().availableProcessors());
-        Logger.getInstance().logDebug("Total memory (bytes): " +
-                Runtime.getRuntime().totalMemory());
-        Logger.getInstance().logInfo("Date: " + new SimpleDateFormat("dd.MM.yy").format(new Date()));
-
+        logSystemInfo();
 		Facade.getInstance().init(new UIParser(args));
 		startGUI();
 	}
 
+    /**
+     * Logs several system information.
+     */
+    private static void logSystemInfo() {
+        Logger.logInfo("Launcher started!");
+        Logger.logDebug("OS : " + System.getProperty("os.name"));
+        Logger.logDebug("OS Arch: " + OSHelper.getOSArch());
+        Logger.logDebug("OS Java Arch : " + System.getProperty("os.arch"));
+        Logger.logDebug("OS Version : " + System.getProperty("os.version"));
+        Logger.logDebug("Username : " + System.getProperty("user.name"));
+        Logger.logDebug("Java Vendor : " + System.getProperty("java.vendor"));
+        Logger.logDebug("Java Version : " + System.getProperty("java.version"));
+        Logger.logDebug("Java Home : " + System.getProperty("java.home"));
+        Logger.logDebug("Java Classpath : " + System.getProperty("java.class.path"));
+        Logger.logDebug("Available processors (cores): " +
+                Runtime.getRuntime().availableProcessors());
+        Logger.logDebug("Total memory (bytes): " +
+                Runtime.getRuntime().totalMemory());
+        Logger.logInfo("Date: " + new SimpleDateFormat("dd.MM.yy").format(new Date()));
+    }
+
+    /**
+     * Starts the gui by invoking the gui manager.
+     */
 	private static void startGUI() {
-		Logger.getInstance().logInfo("loading gui!");
+		Logger.logInfo("loading gui!");
 
 		invokeLater(new Runnable() {
 

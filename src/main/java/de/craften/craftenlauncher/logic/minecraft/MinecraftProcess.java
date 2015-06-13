@@ -34,6 +34,7 @@ import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.resources.Version;
 import de.craften.craftenlauncher.logic.resources.version.VersionHelper;
 import de.craften.util.JVMArgmuments;
+import de.craften.util.OSHelper;
 
 public class MinecraftProcess {
 	private MinecraftInfo mInfo;
@@ -59,27 +60,28 @@ public class MinecraftProcess {
 	 */
 	public void startMinecraft() {
 		Process minecraft = null;
+
 		try {
 			minecraft = startProcess();
-			Logger.getInstance().logInfo("Command: " + mParams.toString());
+			Logger.logInfo("Command: " + mParams.toString());
 			mSuccess = true;
-			Logger.getInstance().logInfo("Minecraft started!");
+			Logger.logInfo("Minecraft started!");
 		} catch (Exception e) {
 			mSuccess = false;
-			Logger.getInstance().logError("Could not start Minecraft!");
-			Logger.getInstance().logError(e.getMessage());
+			Logger.logError("Could not start Minecraft!");
+			Logger.logError(e.getMessage());
 		}
 		
 		if(minecraft == null) {
-			Logger.getInstance().logError("Minecraft Process Null");
+			Logger.logError("Minecraft Process Null");
 		}else {
 			// TODO: Problems with Standard-Output are not yet fixed.
 		}
 	}
 	
 	private Process startProcess() throws IOException {
-		String java = "\"" + System.getProperty("java.home") + "\\bin\\" + "javaw.exe\"";
-		
+		String java = OSHelper.getJavaPath();
+
 		mParams.add(java);
 		addJavaCommand();
 		addMinecraftPaths();
@@ -87,13 +89,14 @@ public class MinecraftProcess {
 		
 		ProcessBuilder pb = new ProcessBuilder(mParams);
         pb.directory(new File(mInfo.getMinecraftPath().getMinecraftDir()));
-		
-		return pb.start();
+
+        return pb.start();
 	}
 	
 	private void addJavaCommand() {
 		if(mInfo.hasXMX()) {
 			mParams.add("-Xmx" + mInfo.getXMX());
+            mParams.add("-Xmn128M");
 		}
 		
 		ArrayList<String> args = JVMArgmuments.get();
@@ -107,9 +110,9 @@ public class MinecraftProcess {
 		String libraries = VersionHelper.getLibFilessAsArgmument(mInfo.getMinecraftPath(), mVersion.getLibraries()) + "";
 		String jar = mInfo.getMinecraftPath().getMinecraftJarPath() + mInfo.getMinecraftVersion() + ".jar";
 
-		mParams.add("-Djava.library.path="+natives);
+		mParams.add("-Djava.library.path=" + natives);
 		mParams.add("-cp");
-		mParams.add(libraries + ";" + jar);
+		mParams.add(libraries + jar);
 		mParams.add(mVersion.getMainClass());	
 	}
 	

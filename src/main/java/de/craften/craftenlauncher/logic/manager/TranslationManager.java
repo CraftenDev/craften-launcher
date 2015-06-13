@@ -35,7 +35,7 @@ public class TranslationManager {
             ResourceBundle bundle = ResourceBundle.getBundle(baseName);
             return bundle.getString(phrase);
         } catch (MissingResourceException e) {
-        	Logger.getInstance().logError("TranslationManger Error: " + e.getMessage());
+        	Logger.logError("TranslationManger Error: " + e.getMessage());
             return "#########";
         }
     }

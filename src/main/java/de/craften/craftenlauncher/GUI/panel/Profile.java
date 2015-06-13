@@ -91,7 +91,7 @@ public class Profile extends Basic {
         try {
             username = Facade.getInstance().getUser().getUsername();
         } catch (CraftenLogicException e) {
-            Logger.getInstance().logError("Grab username error");
+            Logger.logError("Grab username error");
             e.printStackTrace();
         }
 

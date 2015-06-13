@@ -35,8 +35,7 @@ public abstract class MinecraftPath {
 	 * set MincraftDir to the os-specific value
 	 */
 	public MinecraftPath() {
-		OSHelper help = OSHelper.getInstance();
-		this.mMinecraftDir = help.getMinecraftPath();
+		this.mMinecraftDir = OSHelper.getMinecraftPath();
 	}
 	
 	/**
@@ -47,8 +46,7 @@ public abstract class MinecraftPath {
 		this();
 		
 		if(minecraftDir == null) {
-			OSHelper help = OSHelper.getInstance();
-			this.mMinecraftDir = help.getMinecraftPath();
+			this.mMinecraftDir = OSHelper.getMinecraftPath();
 		}
 		else if(!minecraftDir.equals("")) {
 			if(!minecraftDir.endsWith("\\")) {
@@ -58,7 +56,7 @@ public abstract class MinecraftPath {
 			this.mMinecraftDir = minecraftDir;
 		}
 		
-		Logger.getInstance().logInfo("MinecraftPath: " + this.mMinecraftDir);
+		Logger.logInfo("MinecraftPath: " + this.mMinecraftDir);
 	}
 	
 	public String getMinecraftDir() {
