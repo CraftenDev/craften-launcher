@@ -75,7 +75,7 @@ public class LogicController {
 	    if(version != null) {
 	    	Logger.logInfo("Launcher version: " + version);
 	    } else {
-	    	Logger.logInfo("Launcher version: 0.12.0");
+	    	Logger.logInfo("Launcher version: 0.13.0");
 	    }
 	}
 
