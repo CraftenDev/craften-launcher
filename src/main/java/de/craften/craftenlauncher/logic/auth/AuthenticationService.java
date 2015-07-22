@@ -77,6 +77,11 @@ public class AuthenticationService {
             return null;
         }
         else {
+            if(checkParamsNull(user.getEmail(),user.getPassword())) {
+                Logger.logError("Params are null: " + user.getEmail() + user.getPassword());
+                return null;
+            }
+
             String response = getSSID(user.getEmail(), user.getPassword());
             String sessionID = null;
             if (response != null && !response.equals("")) {
@@ -90,6 +95,10 @@ public class AuthenticationService {
             }
             return sessionID;
         }
+    }
+
+    private boolean checkParamsNull(String email, String password) {
+        return (email == null || email.equals("")) || (password == null || password.equals(""));
     }
 
     /**
