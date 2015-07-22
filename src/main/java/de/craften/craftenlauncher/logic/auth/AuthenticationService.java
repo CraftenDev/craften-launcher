@@ -162,7 +162,7 @@ public class AuthenticationService {
      * @return a response string with needed data if successful.
      */
     private String getSSID(String username, String password) {
-        if(username != null &&username != "" && password != null && password != "") {
+        if(username != null && !username.equals("") && password != null && !password.equals("")) {
 
             Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
@@ -207,7 +207,7 @@ public class AuthenticationService {
      * @return true if new achieved Accesstoken is valid or false if something went wrong
      */
     private boolean refresh(MinecraftUser user) {
-        if(user.getAccessToken() != null && user.getAccessToken() != "" && user.getClientToken() != null && user.getClientToken() != "") {
+        if(user.getAccessToken() != null && !user.getAccessToken().equals("") && user.getClientToken() != null && !user.getClientToken().equals("")) {
 
             Gson gson = new GsonBuilder().disableHtmlEscaping().create();
             JsonObject jsonPayload = new JsonObject();
