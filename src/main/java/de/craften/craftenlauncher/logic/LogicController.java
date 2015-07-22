@@ -209,14 +209,11 @@ public class LogicController {
                 mProfiles.save();
             }
 		}
-
 		
 		if(session == null) {
-			System.out.println("Error!");
+            Logger.logError("Error while Authenticating! Session object null (LC).");
 			throw new CraftenAuthenticationFailure("Error while authenticating!");
 		}
-
-
 
 		startDownloadService();
 	}
