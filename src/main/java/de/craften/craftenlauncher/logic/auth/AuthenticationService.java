@@ -77,6 +77,11 @@ public class AuthenticationService {
             return null;
         }
         else {
+            if(checkParamsNull(user.getEmail(),user.getPassword())) {
+                Logger.logError("Params are null: " + user.getEmail() + user.getPassword());
+                return null;
+            }
+
             String response = getSSID(user.getEmail(), user.getPassword());
             String sessionID = null;
             if (response != null && !response.equals("")) {
@@ -90,6 +95,10 @@ public class AuthenticationService {
             }
             return sessionID;
         }
+    }
+
+    private boolean checkParamsNull(String email, String password) {
+        return (email == null || email.equals("")) || (password == null || password.equals(""));
     }
 
     /**
@@ -153,17 +162,22 @@ public class AuthenticationService {
      * @return a response string with needed data if successful.
      */
     private String getSSID(String username, String password) {
-        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+        if(username != null && !username.equals("") && password != null && !password.equals("")) {
 
-        JsonObject jsonResult = new JsonObject(), jsonNameVersion = new JsonObject();
+            Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
-        jsonNameVersion.addProperty("name", "Minecraft");
-        jsonNameVersion.addProperty("version", 1);
-        jsonResult.add("agent", jsonNameVersion);
-        jsonResult.addProperty("username", username);
-        jsonResult.addProperty("password", password);
+            JsonObject jsonResult = new JsonObject(), jsonNameVersion = new JsonObject();
 
-        return JSONConnector.executePost("https://authserver.mojang.com/authenticate", gson.toJson(jsonResult));
+            jsonNameVersion.addProperty("name", "Minecraft");
+            jsonNameVersion.addProperty("version", 1);
+            jsonResult.add("agent", jsonNameVersion);
+            jsonResult.addProperty("username", username);
+            jsonResult.addProperty("password", password);
+
+            return JSONConnector.executePost("https://authserver.mojang.com/authenticate", gson.toJson(jsonResult));
+        }else{
+            return null;
+        }
     }
 
     /**
@@ -193,20 +207,25 @@ public class AuthenticationService {
      * @return true if new achieved Accesstoken is valid or false if something went wrong
      */
     private boolean refresh(MinecraftUser user) {
-        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
-        JsonObject jsonPayload = new JsonObject();
+        if(user.getAccessToken() != null && !user.getAccessToken().equals("") && user.getClientToken() != null && !user.getClientToken().equals("")) {
 
-        jsonPayload.addProperty("accessToken", user.getAccessToken());
-        jsonPayload.addProperty("clientToken", user.getClientToken());
+            Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+            JsonObject jsonPayload = new JsonObject();
 
-        String response = JSONConnector.executePost("https://authserver.mojang.com/refresh", gson.toJson(jsonPayload));
+            jsonPayload.addProperty("accessToken", user.getAccessToken());
+            jsonPayload.addProperty("clientToken", user.getClientToken());
 
-        if(response == null || response.equals(""))
+            String response = JSONConnector.executePost("https://authserver.mojang.com/refresh", gson.toJson(jsonPayload));
+
+            if (response == null || response.equals(""))
+                return false;
+
+            user.setAccessToken(getAccessTokenFromResponse(response));
+
+            return true;
+        }else{
             return false;
-
-        user.setAccessToken(getAccessTokenFromResponse(response));
-
-        return true;
+        }
     }
 
     /**
@@ -221,7 +240,7 @@ public class AuthenticationService {
         jsonPayload.addProperty("accessToken", user.getAccessToken());
         jsonPayload.addProperty("clientToken", user.getClientToken());
 
-        JSONConnector.executePost("https://authserver.mojang.com/invalidate", gson.toJson(jsonPayload));
+        String response = JSONConnector.executePost("https://authserver.mojang.com/invalidate", gson.toJson(jsonPayload));
     }
 
     /**

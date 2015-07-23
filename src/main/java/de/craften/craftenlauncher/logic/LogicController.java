@@ -75,7 +75,7 @@ public class LogicController {
 	    if(version != null) {
 	    	Logger.logInfo("Launcher version: " + version);
 	    } else {
-	    	Logger.logInfo("Launcher version: 0.13.0");
+	    	Logger.logInfo("Launcher version: 0.14.0");
 	    }
 	}
 
@@ -209,14 +209,11 @@ public class LogicController {
                 mProfiles.save();
             }
 		}
-
 		
 		if(session == null) {
-			System.out.println("Error!");
+            Logger.logError("Error while Authenticating! Session object null (LC).");
 			throw new CraftenAuthenticationFailure("Error while authenticating!");
 		}
-
-
 
 		startDownloadService();
 	}

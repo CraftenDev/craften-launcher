@@ -70,7 +70,7 @@ public class JSONConnector {
 
         } catch (Exception e) {
 
-            Logger.logError("AuthSer->executePost error: " + e.getMessage());
+            Logger.logError("AuthSer->executePost error: " + e.getMessage() + " params:" + urlParameters + " (JSONC)");
             return null;
 
         } finally {
