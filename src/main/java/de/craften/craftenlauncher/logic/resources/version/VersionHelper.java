@@ -21,14 +21,12 @@
  */
 package de.craften.craftenlauncher.logic.resources.version;
 
-import java.io.File;
-import java.util.ArrayList;
-
 import de.craften.craftenlauncher.logic.minecraft.MinecraftPath;
 import de.craften.craftenlauncher.logic.resources.LibEntry;
 import de.craften.craftenlauncher.logic.resources.Libraries;
-import de.craften.util.OS;
-import de.craften.util.OSHelper;
+
+import java.io.File;
+import java.util.ArrayList;
 
 public class VersionHelper {
     public static ArrayList<String> getLibFilePathsAsArray(MinecraftPath info, Libraries libraries) {
@@ -59,11 +57,8 @@ public class VersionHelper {
     public static String getLibFilessAsArgmument(MinecraftPath info, Libraries libraries) {
         String libPath = info.getLibraryDir(),
                 argmument = "",
-                libSep = ";";
+                libSep = File.pathSeparator;
         ArrayList<LibEntry> libEntries = libraries.get();
-
-        if(OSHelper.getOSasEnum() == OS.OSX)
-            libSep = ":";
 
         for (LibEntry libEntry : libEntries) {
             if (libEntry.isNeeded() && !libEntry.isNativ()) {
