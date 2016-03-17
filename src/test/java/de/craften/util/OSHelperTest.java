@@ -6,12 +6,12 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class OSHelperTest{
+public class OSHelperTest {
 
     @Before
     public void setUp() throws Exception {
-        System.setProperty("os.name","Mac-SuperDuper-Machine");
-        System.setProperty("os.arch","x64");
+        System.setProperty("os.name", "Mac-SuperDuper-Machine");
+        System.setProperty("os.arch", "x64");
     }
 
     @Test
@@ -27,8 +27,16 @@ public class OSHelperTest{
     @Test
     @Ignore("Test does not wook properly on different test machines!")
     public void testGetOperatingSystem() throws Exception {
-        assertNotEquals("windows",OSHelper.getOSasString());
-        assertNotEquals("linux",OSHelper.getOSasString());
-        assertEquals("osx",OSHelper.getOSasString());
+        assertNotEquals(OS.WINDOWS, OSHelper.getOSasEnum());
+        assertNotEquals(OS.LINUX, OSHelper.getOSasEnum());
+        assertEquals(OS.OSX, OSHelper.getOSasEnum());
+    }
+
+    @Test
+    @Ignore("Test does not wook properly on different test machines!")
+    public void testGetOperatingSystemString() throws Exception {
+        assertNotEquals("windows", OSHelper.getOSasString());
+        assertNotEquals("linux", OSHelper.getOSasString());
+        assertEquals("osx", OSHelper.getOSasString());
     }
 }
