@@ -36,7 +36,7 @@ import de.craften.craftenlauncher.logic.json.JSONReader;
  *
  * @author saschb2b
  */
-public class JVMArgmuments {
+public class JVMArguments {
 
     private final static String path = "jvm.json";
 

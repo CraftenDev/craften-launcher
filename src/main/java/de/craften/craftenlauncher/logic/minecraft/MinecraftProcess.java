@@ -33,7 +33,7 @@ import java.util.Arrays;
 import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.resources.Version;
 import de.craften.craftenlauncher.logic.resources.version.VersionHelper;
-import de.craften.util.JVMArgmuments;
+import de.craften.util.JVMArguments;
 import de.craften.util.OSHelper;
 
 public class MinecraftProcess {
@@ -99,7 +99,7 @@ public class MinecraftProcess {
             mParams.add("-Xmn128M");
 		}
 		
-		ArrayList<String> args = JVMArgmuments.get();
+		ArrayList<String> args = JVMArguments.get();
  		if(args != null) {
 			mParams.addAll(args);
 		}
