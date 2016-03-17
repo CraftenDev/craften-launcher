@@ -131,7 +131,7 @@ public final class OSHelper {
 			if (new File(path).exists()) {
 				return path;
 			}
-		} else if (operatingSystem.equals("mac")) {
+		} else if (operatingSystem.equals("mac") || operatingSystem.equals("osx")) {
 			path = System.getProperty("user.home") + pS + "Library" + pS
 					+ "Application Support" + pS + "minecraft" + pS;
 			if (new File(path).exists()) {
@@ -139,7 +139,7 @@ public final class OSHelper {
 
 			}
 		}
-		
+
 		new File(path).mkdirs();
 		return path;
 	}
