@@ -39,7 +39,7 @@ import javax.swing.*;
 @SuppressWarnings("serial")
 public class Profile extends Basic {
     private JLabel _playerName, _version, _serverIP, _ram, _logout;
-    private JComboBox _cbVersions;
+    private JComboBox<String> _cbVersions;
     private MinecraftSkin _skin;
     private CL_CloseButton _cbutton;
 
@@ -66,7 +66,7 @@ public class Profile extends Basic {
         addAvatar();
         addProfileInformation();
 
-        if(Facade.getInstance().isQuickPlay())
+        if (Facade.getInstance().isQuickPlay())
             sliderAction();
     }
 
@@ -104,7 +104,7 @@ public class Profile extends Basic {
         _playerName.setForeground(Color.WHITE);
         add(_playerName);
 
-        _skin = new MinecraftSkin(new Dimension(300,300));
+        _skin = new MinecraftSkin(new Dimension(300, 300));
         _skin.setLocation(_pAvatar);
         add(_skin);
 
@@ -134,7 +134,7 @@ public class Profile extends Basic {
         add(_logout);
 
         //Minecraft Version
-        _cbVersions = new JComboBox();
+        _cbVersions = new JComboBox<>();
         try {
             _cbVersions.removeAll();
             for (String v : Facade.getInstance().getMinecraftVersions()) {
@@ -153,7 +153,7 @@ public class Profile extends Basic {
             e.printStackTrace();
         }
         _cbVersions.setSize(100, 20);
-        _cbVersions.setLocation(this.getWidth() / 4 , this.getHeight() / 3);
+        _cbVersions.setLocation(this.getWidth() / 4, this.getHeight() / 3);
         _cbVersions.setUI(CL_FlatComboBoxUI.createUI(_cbVersions));
         _cbVersions.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
