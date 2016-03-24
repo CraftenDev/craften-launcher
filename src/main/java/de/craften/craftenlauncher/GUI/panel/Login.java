@@ -75,7 +75,7 @@ public class Login extends Basic {
         if (!Facade.getInstance().isForceLogin()) {
             try {
                 if (Facade.getInstance().getUser() != null) {
-                    if(Facade.getInstance().getUser().getEmail() != null && !Facade.getInstance().getUser().getEmail().equals("")){
+                    if (Facade.getInstance().getUser().getEmail() != null && !Facade.getInstance().getUser().getEmail().equals("")) {
                         _Username.setText(Facade.getInstance().getUser().getEmail());
                         _Password.grabFocus();
                     }
@@ -174,6 +174,7 @@ public class Login extends Basic {
         _Password = new JPasswordField();
         _Password.setBorder(null);
         _Password.setBounds(_pPassword.x, _pPassword.y, _dTextField.width, _dTextField.height);
+        _Password.enableInputMethods(true);
         _Password.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
 

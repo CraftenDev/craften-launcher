@@ -1,20 +1,20 @@
 /**
  * CraftenLauncher is an alternative Launcher for Minecraft developed by Mojang.
  * Copyright (C) 2013  Johannes "redbeard" Busch, Sascha "saschb2b" Becker
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * <p>
  * Represents a JSONReader class
  * Currently only used for a minecraft version json file
  *
@@ -22,9 +22,7 @@
  */
 package de.craften.craftenlauncher.logic.json;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 
 import com.google.gson.JsonArray;
@@ -45,7 +43,7 @@ public class JSONReader {
 
         JsonObject jsonObject = readJson(path);
 
-        if(jsonObject != null){
+        if (jsonObject != null) {
             version.setId(jsonObject.get("id").getAsString());
             Logger.logDebug("Version ID: " + version.getId());
 
@@ -58,7 +56,7 @@ public class JSONReader {
             version.setType(jsonObject.get("type").getAsString());
             Logger.logDebug("Version type: " + version.getType());
 
-            if(jsonObject.has("assets")){
+            if (jsonObject.has("assets")) {
                 version.setAssets(jsonObject.get("assets").getAsString());
                 Logger.logDebug("Version Assets: " + version.getAssets());
             }
@@ -77,82 +75,70 @@ public class JSONReader {
         return version;
     }
 
-    public static ArrayList<String> readVersions(String url){
+    public static ArrayList<String> readVersions(String url) {
         ArrayList<String> versions = new ArrayList<String>();
 
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = new JsonObject();
-        if(!url.isEmpty()){
+        if (!url.isEmpty()) {
             String versionsJSON = DownloadHelper.downloadFileToString(url);
             Object obj = parser.parse(versionsJSON);
 
             jsonObject = (JsonObject) obj;
         }
-        if(jsonObject != null){
-            if(jsonObject.has("versions")){
+        if (jsonObject != null) {
+            if (jsonObject.has("versions")) {
                 JsonArray jsonVersions = jsonObject.get("versions").getAsJsonArray();
-                for (int i = 0; i < jsonVersions.size(); i++){
+                for (int i = 0; i < jsonVersions.size(); i++) {
                     versions.add(jsonVersions.get(i).getAsJsonObject().get("id").getAsString());
                 }
             }
         }
         return versions;
     }
-    
+
     //TODO Fehlerbehandlung auf Exceptions umbauen
-    public static JsonObject readJson(String path){
-        JsonParser parser = new JsonParser();
-        JsonObject jsonObject;
-
-        try {
-            Logger.logInfo("Reading JSON-File: " + path);
-            FileReader reader = new FileReader(path);
-            Object obj = parser.parse(reader);
-
-            jsonObject = (JsonObject) obj;
-
-            reader.close();
-        } catch (FileNotFoundException e) {
-            Logger.logError("JReader->Not Found: " + path);
-            return null;
+    public static JsonObject readJson(String path) {
+        Logger.logInfo("Reading JSON-File: " + path);
+        try (FileReader reader = new FileReader(path)) {
+            return readJson(reader);
         } catch (JsonParseException e) {
             Logger.logError("JReader->JsonParseException: " + path);
             return null;
-        }catch (Exception e){
-            Logger.logError("JReader->Exception: " + e.getMessage() + " while reading " + path);
+        } catch (Exception e) {
+            Logger.logError("JReader->Exception: " + path);
             return null;
         }
-        return jsonObject;
     }
-    
 
+    public static JsonObject readJson(Reader inputStream) throws JsonParseException {
+        JsonParser parser = new JsonParser();
+        return parser.parse(inputStream).getAsJsonObject();
+    }
 
-
-    public static Profiles readProfiles(String minecraftDir){
+    public static Profiles readProfiles(String minecraftDir) {
         String filename = "craftenlauncher_profiles.json";
         Profiles profiles = null;
         String path;
 
         JsonObject jsonObject;
-        if(minecraftDir == null){
-        	Logger.logInfo("Reading craftenlauncher_profiles from: " + OSHelper.getMinecraftPath());
+        if (minecraftDir == null) {
+            Logger.logInfo("Reading craftenlauncher_profiles from: " + OSHelper.getMinecraftPath());
             path = OSHelper.getMinecraftPath();
             jsonObject = readJson(path + filename);
-        }
-        else{
-        	Logger.logInfo("Reading craftenlauncher_profiles from: " + minecraftDir);
-        	
-            if(minecraftDir.endsWith(File.separator) ) {
+        } else {
+            Logger.logInfo("Reading craftenlauncher_profiles from: " + minecraftDir);
+
+            if (minecraftDir.endsWith(File.separator)) {
                 path = minecraftDir;
                 jsonObject = readJson(path + filename);
-            }
-            else {
+            } else {
                 path = minecraftDir + File.separator;
                 jsonObject = readJson(path + filename);
             }
         }
 
-        if(jsonObject != null){
+        if (jsonObject != null) {
             profiles = new Profiles();
             profiles.setPath(path);
 
@@ -174,7 +160,7 @@ public class JSONReader {
                 profiles.clearAvailableUsers();
 
                 JsonArray jsonArray_availableUsers = jsonObject.get("availableUsers").getAsJsonArray();
-                for (int i = 0; i < jsonArray_availableUsers.size(); i++){
+                for (int i = 0; i < jsonArray_availableUsers.size(); i++) {
                     JsonObject json_availableUsers = jsonArray_availableUsers.get(i).getAsJsonObject();
 
                     MinecraftUser user = new MinecraftUser();
