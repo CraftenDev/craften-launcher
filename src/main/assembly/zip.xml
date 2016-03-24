@@ -19,8 +19,7 @@
             <directory>${project.basedir}</directory>
             <outputDirectory>/</outputDirectory>
             <includes>
-                <include>LICENSE*</include>
-                <include>jvm.json</include>
+                <include>LICENSE</include>
             </includes>
         </fileSet>
     </fileSets>
