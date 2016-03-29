@@ -36,7 +36,7 @@ package de.craften.craftenlauncher;
 
 import static javax.swing.SwingUtilities.invokeLater;
 
-import de.craften.craftenlauncher.GUI.Manager;
+import de.craften.craftenlauncher.gui.Manager;
 import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.logic.Facade;
 import de.craften.craftenlauncher.logic.Logger;

@@ -1,29 +1,29 @@
 /**
  * CraftenLauncher is an alternative Launcher for Minecraft developed by Mojang.
  * Copyright (C) 2014  Johannes "redbeard" Busch, Sascha "saschb2b" Becker
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * <p>
  * MinecraftSkin Class:
- *
+ * <p>
  * Displays a Jpanel with a minecraft skin inside
  *
  * @author saschb2b
  * @author leMaik
  */
 
-package de.craften.craftenlauncher.GUI.panel;
+package de.craften.craftenlauncher.gui.panel;
 
 import de.craften.craftenlauncher.logic.Facade;
 import de.craften.craftenlauncher.logic.vm.SkinVM;
@@ -41,7 +41,7 @@ import java.util.Observer;
 import static java.awt.EventQueue.invokeLater;
 
 @SuppressWarnings("serial")
-public class MinecraftSkin extends JPanel implements Observer {
+public class MinecraftSkin extends JPanel {
     private static final Rectangle
             SKIN_HEAD = new Rectangle(8, 8, 8, 8),
             SKIN_HELMET = new Rectangle(40, 8, 8, 8),
@@ -69,48 +69,46 @@ public class MinecraftSkin extends JPanel implements Observer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        Facade.getInstance().setSkinObserver(this);
     }
 
-    private BufferedImage getSkinPart(Rectangle rect) {
+    private static BufferedImage getSkinPart(BufferedImage skin, Rectangle rect) {
         return skin.getSubimage(rect.x, rect.y, rect.width, rect.height);
     }
 
-    private BufferedImage getFlippedSkinPart(Rectangle rect) {
-        BufferedImage src = getSkinPart(rect);
+    private static BufferedImage getFlippedSkinPart(BufferedImage skin, Rectangle rect) {
+        BufferedImage src = getSkinPart(skin, rect);
         AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
         tx.translate(-src.getWidth(null), 0);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
         return op.filter(src, null);
     }
 
-    private Image getBodySkin(BufferedImage skin) {
-        BufferedImage body = new BufferedImage(20, 41, BufferedImage.TYPE_INT_ARGB);
+    public static BufferedImage getBodySkin(BufferedImage skin) {
+        BufferedImage body = new BufferedImage(16, 32, BufferedImage.TYPE_INT_ARGB);
         Graphics g = body.createGraphics();
-        g.drawImage(getSkinPart(SKIN_HEAD), 4, 1, null);
-        g.drawImage(getSkinPart(SKIN_BODY), 4, 9, null);
-        g.drawImage(getSkinPart(SKIN_RIGHT_ARM), 0, 9, null);
-        g.drawImage(getSkinPart(SKIN_RIGHT_LEG), 4, 21, null);
+        g.drawImage(getSkinPart(skin, SKIN_HEAD), 4, 1, null);
+        g.drawImage(getSkinPart(skin, SKIN_BODY), 4, 9, null);
+        g.drawImage(getSkinPart(skin, SKIN_RIGHT_ARM), 0, 9, null);
+        g.drawImage(getSkinPart(skin, SKIN_RIGHT_LEG), 4, 21, null);
 
         if (skin.getHeight() == 64) { //1.8 skin
-            g.drawImage(getSkinPart(SKIN_LEFT_ARM), 12, 9, null);
-            g.drawImage(getSkinPart(SKIN_LEFT_LEG), 8, 21, null);
+            g.drawImage(getSkinPart(skin, SKIN_LEFT_ARM), 12, 9, null);
+            g.drawImage(getSkinPart(skin, SKIN_LEFT_LEG), 8, 21, null);
 
             //overlays
-            g.drawImage(getSkinPart(SKIN_BODY_OVERLAY), 4, 9, null);
-            g.drawImage(getSkinPart(SKIN_LEFT_ARM_OVERLAY), 12, 9, null);
-            g.drawImage(getSkinPart(SKIN_RIGHT_ARM_OVERLAY), 0, 9, null);
-            g.drawImage(getSkinPart(SKIN_LEFT_LEG_OVERLAY), 8, 21, null);
-            g.drawImage(getSkinPart(SKIN_RIGHT_LEG_OVERLAY), 4, 21, null);
+            g.drawImage(getSkinPart(skin, SKIN_BODY_OVERLAY), 4, 9, null);
+            g.drawImage(getSkinPart(skin, SKIN_LEFT_ARM_OVERLAY), 12, 9, null);
+            g.drawImage(getSkinPart(skin, SKIN_RIGHT_ARM_OVERLAY), 0, 9, null);
+            g.drawImage(getSkinPart(skin, SKIN_LEFT_LEG_OVERLAY), 8, 21, null);
+            g.drawImage(getSkinPart(skin, SKIN_RIGHT_LEG_OVERLAY), 4, 21, null);
         } else {
             //draw flipped arm and leg
-            g.drawImage(getFlippedSkinPart(SKIN_RIGHT_ARM), 12, 9, null);
-            g.drawImage(getFlippedSkinPart(SKIN_RIGHT_LEG), 8, 21, null);
+            g.drawImage(getFlippedSkinPart(skin, SKIN_RIGHT_ARM), 12, 9, null);
+            g.drawImage(getFlippedSkinPart(skin, SKIN_RIGHT_LEG), 8, 21, null);
         }
 
         //helmet last (so that it isn't under the body overlay)
-        g.drawImage(getSkinPart(SKIN_HELMET), 3, 0, 10, 10, null);
+        g.drawImage(getSkinPart(skin, SKIN_HELMET), 3, 0, 10, 10, null);
 
         return body;
     }
@@ -118,21 +116,5 @@ public class MinecraftSkin extends JPanel implements Observer {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(getBodySkin(skin), 0, 0, g.getClipBounds().height / 2, g.getClipBounds().height, null);
-    }
-
-    @Override
-    public void update(final Observable o, Object arg) {
-        invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                if (o instanceof SkinVM) {
-                    if (((SkinVM) o).wasSkinDownloaded()) {
-                        skin = ((SkinVM) o).getSkin();
-                        repaint();
-                    }
-                }
-            }
-        });
     }
 }

@@ -1,34 +1,35 @@
 /**
  * CraftenLauncher is an alternative Launcher for Minecraft developed by Mojang.
  * Copyright (C) 2014  Johannes "redbeard" Busch, Sascha "saschb2b" Becker
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * <p>
  * Login Class:
- *
+ * <p>
  * Showing the Loading screen to display some useful information about the current download
  *
  * @author saschb2b
  */
 
-package de.craften.craftenlauncher.GUI.panel;
+package de.craften.craftenlauncher.gui.panel;
 
-import de.craften.craftenlauncher.GUI.element.CL_CloseButton;
-import de.craften.craftenlauncher.GUI.Manager;
-import de.craften.craftenlauncher.GUI.element.CL_LabelError;
+import de.craften.craftenlauncher.gui.Manager;
 import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.logic.Facade;
+import de.craften.ui.swingmaterial.MaterialButton;
+import de.craften.ui.swingmaterial.MaterialColor;
+import de.craften.ui.swingmaterial.MaterialShadow;
 
 import javax.swing.*;
 
@@ -39,52 +40,37 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @SuppressWarnings("serial")
-public class Login extends Basic {
-    private CL_CloseButton _cbutton;
-    private String _defaultUsername = "example@email.com";
+public class Login extends JPanel {
+    private static final String DEFAULT_USERNAME = "example@email.com";
 
-    private Font _fontPlain = new Font(Font.SANS_SERIF, Font.PLAIN, 10),
-            _fontItalic = new Font(Font.SANS_SERIF, Font.ITALIC, 10),
-            _fontHeader = new Font(Font.SANS_SERIF, Font.BOLD, 30);
+    private JTextField usernameField;
+    private JPasswordField passwordField;
+    private JLabel errorLabel;
 
-    private JTextField _Username;
-    private JPasswordField _Password;
-    private JLabel _login, _withYourMinecraftAccount;
-    private CL_LabelError _error;
-
-    private Point _pUsername = new Point(25, 108), _pPassword = new Point(210, 108), _mousePointer = new Point(0, 0);
-
-    private Dimension _dTextField = new Dimension(120, 35);
-
-    private float _alpha = 1f;
-
-    public Login(Dimension d) {
-        super(d);
-        setBackground("/images/LoginBackground.png");
-        setSlider("/images/LoginSlider.png");
-        setSliderClickable(true);
+    public Login() {
+        setBackground(Color.WHITE);
+        setLayout(null);
     }
 
     public void init() {
         removeAll();
 
-        addHeader();
         buildUI();
-        addHelpLabels();
+        //addHelpLabels();
 
         if (!Facade.getInstance().isForceLogin()) {
             try {
                 if (Facade.getInstance().getUser() != null) {
                     if (Facade.getInstance().getUser().getEmail() != null && !Facade.getInstance().getUser().getEmail().equals("")) {
-                        _Username.setText(Facade.getInstance().getUser().getEmail());
-                        _Password.grabFocus();
+                        usernameField.setText(Facade.getInstance().getUser().getEmail());
+                        passwordField.grabFocus();
                     }
                     Facade.getInstance().authenticateUser();
 
                     Manager.getInstance().showProfile();
                 }
             } catch (CraftenLogicException e) {
-                _error.setErrortext(e.getMessage());
+                errorLabel.setText(e.getMessage());
             }
         }
         repaint();
@@ -96,63 +82,40 @@ public class Login extends Basic {
 
     private void doLogin() {
         String username = null;
-        if (!_Username.getText().equals(_defaultUsername)) {
-            username = _Username.getText();
+        if (!usernameField.getText().equals(DEFAULT_USERNAME)) {
+            username = usernameField.getText();
         }
         try {
-            _error.setText("");
-            Facade.getInstance().setUser(username, _Password.getPassword());
+            errorLabel.setText("");
+            Facade.getInstance().setUser(username, passwordField.getPassword());
             Facade.getInstance().authenticateUser();
 
             Manager.getInstance().showProfile();
         } catch (CraftenLogicException e) {
-            _error.setErrortext(e.getMessage());
+            errorLabel.setText(e.getMessage());
         }
     }
 
-    private void addHeader() {
-        _login = new JLabel("Login");
-        _login.setVerticalTextPosition(SwingConstants.CENTER);
-        _login.setFont(_fontHeader);
-        _login.setSize(this.getWidth(), 60);
-        _login.setLocation(18, 0);
-        _login.setForeground(Color.WHITE);
-        add(_login);
-
-        _withYourMinecraftAccount = new JLabel("with your Premium Minecraft Account");
-        _withYourMinecraftAccount.setVerticalTextPosition(SwingConstants.CENTER);
-        _withYourMinecraftAccount.setFont(_fontPlain);
-        _withYourMinecraftAccount.setSize(this.getWidth(), 60);
-        _withYourMinecraftAccount.setLocation(100, 8);
-        _withYourMinecraftAccount.setForeground(Color.WHITE);
-        add(_withYourMinecraftAccount);
-    }
-
     private void buildUI() {
-        _cbutton = new CL_CloseButton();
-        _cbutton.setLocation(this.getWidth() - sliderWidth - _cbutton.getWidth() - 5, 5);
-        add(_cbutton);
-
-        _Username = new JTextField();
-        _Username.setFont(_fontPlain);
-        _Username.setText(_defaultUsername);
-        _Username.addFocusListener(new FocusListener() {
+        usernameField = new JTextField();
+        usernameField.setText(DEFAULT_USERNAME);
+        usernameField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (_Username.getText().equals(_defaultUsername)) {
-                    _Username.setText("");
+                if (usernameField.getText().equals(DEFAULT_USERNAME)) {
+                    usernameField.setText("");
                 }
             }
 
             @Override
             public void focusLost(FocusEvent e) {
                 // TODO Auto-generated method stub
-                if (_Username.getText().equals("")) {
-                    _Username.setText(_defaultUsername);
+                if (usernameField.getText().equals("")) {
+                    usernameField.setText(DEFAULT_USERNAME);
                 }
             }
         });
-        _Username.addKeyListener(new KeyAdapter() {
+        usernameField.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
 
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -160,30 +123,47 @@ public class Login extends Basic {
                 }
             }
         });
+        usernameField.setBorder(null);
+        usernameField.setBackground(MaterialColor.CYAN_100);
+        usernameField.setBounds(0, 0, 238, 36);
+        usernameField.setLocation(69, 0);
+        add(usernameField);
 
-        _Username.setBorder(null);
-        _Username.setBounds(_pUsername.x, _pUsername.y, _dTextField.width, _dTextField.height);
-        add(_Username);
+        errorLabel = new JLabel();
+        errorLabel.setForeground(new Color(255, 103, 73));
+        add(errorLabel);
 
-        _error = new CL_LabelError();
-        _error.setFont(_fontPlain);
-        _error.setForeground(new Color(255, 103, 73));
-        _error.setBounds(_Username.getX() - 8, this.getHeight() / 2 - (int) (_dTextField.height * 1.5), this.getWidth(), _dTextField.height);
-        add(_error);
-
-        _Password = new JPasswordField();
-        _Password.setBorder(null);
-        _Password.setBounds(_pPassword.x, _pPassword.y, _dTextField.width, _dTextField.height);
-        _Password.enableInputMethods(true);
-        _Password.addKeyListener(new KeyAdapter() {
+        passwordField = new JPasswordField();
+        passwordField.enableInputMethods(true);
+        passwordField.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
-
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     doLogin();
                 }
             }
         });
-        add(_Password);
+        passwordField.setBorder(null);
+        passwordField.setBackground(MaterialColor.CYAN_100);
+        passwordField.setBounds(0, 0, 238, 36);
+        passwordField.setLocation(69, 47);
+        add(passwordField);
+
+        JButton loginButton = new MaterialButton();
+        loginButton.setBackground(MaterialColor.CYAN_500);
+        loginButton.setForeground(Color.WHITE);
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                doLogin();
+            }
+        });
+        loginButton.setText("Login");
+        loginButton.setBounds(0, 0, 238 + MaterialShadow.OFFSET_LEFT + MaterialShadow.OFFSET_RIGHT,
+                36 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM);
+        loginButton.setLocation(69 - MaterialShadow.OFFSET_LEFT, 94 - MaterialShadow.OFFSET_TOP);
+        add(loginButton);
+
+        setComponentZOrder(passwordField, 2);
     }
 
     private void addHelpLabels() {
@@ -198,7 +178,7 @@ public class Login extends Basic {
                 }
             }
         });
-        _linkUsernameorEmail.setLocation(_Username.getX() - 8, _Username.getY() + _Username.getHeight() + 2);
+        _linkUsernameorEmail.setLocation(usernameField.getX() - 8, usernameField.getY() + usernameField.getHeight() + 2);
         markJLabelLink(_linkUsernameorEmail);
         add(_linkUsernameorEmail);
 
@@ -213,7 +193,7 @@ public class Login extends Basic {
                 }
             }
         });
-        _linkForgotPassword.setLocation(_Password.getX() - 8, _Password.getY() + _Password.getHeight() + 2);
+        _linkForgotPassword.setLocation(passwordField.getX() - 8, passwordField.getY() + passwordField.getHeight() + 2);
         markJLabelLink(_linkForgotPassword);
         add(_linkForgotPassword);
 
@@ -235,7 +215,6 @@ public class Login extends Basic {
     }
 
     private void markJLabelLink(JLabel label) {
-        label.setFont(_fontPlain);
         label.setSize(new Dimension(100, 20));
         label.setForeground(Color.WHITE);
         label.setCursor(new Cursor(Cursor.HAND_CURSOR));

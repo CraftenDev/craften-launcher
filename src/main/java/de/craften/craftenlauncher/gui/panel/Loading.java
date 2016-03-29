@@ -1,33 +1,36 @@
 /**
  * CraftenLauncher is an alternative Launcher for Minecraft developed by Mojang.
  * Copyright (C) 2014  Johannes "redbeard" Busch, Sascha "saschb2b" Becker
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * <p>
  * Loading Class:
- *
+ * <p>
  * Showing the Loading screen to display some useful information about the current download
  *
  * @author saschb2b
  */
 
-package de.craften.craftenlauncher.GUI.panel;
+package de.craften.craftenlauncher.gui.panel;
 
 import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.logic.Facade;
 import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.vm.DownloadVM;
+import de.craften.ui.swingmaterial.MaterialColor;
+import de.craften.ui.swingmaterial.MaterialProgressSpinner;
+import de.craften.ui.swingmaterial.Roboto;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,49 +38,49 @@ import java.util.Observable;
 import java.util.Observer;
 
 @SuppressWarnings("serial")
-public class Loading extends Basic implements Observer {
-    JProgressBar pbar = new JProgressBar();
+public class Loading extends JPanel implements Observer {
+    MaterialProgressSpinner pbar = new MaterialProgressSpinner();
     JLabel info = new JLabel(), traffic = new JLabel();
     boolean wantToStart, isMinecraftDownloaded;
 
-    public Loading(Dimension d) {
-        super(d);
-        setBackground("/images/LoadingBackground.png");
-        setSlider("/images/LoadingSlider.png");
-
+    public Loading() {
+        setBackground(Color.WHITE);
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         addProgressBar();
         addInfo();
+        add(Box.createVerticalGlue());
+        add(Box.createVerticalGlue());
     }
 
     public void init() {
         wantToStart = true;
 
-        if (isMinecraftDownloaded)
+        if (isMinecraftDownloaded) {
             startMc();
+        }
     }
 
     private void addProgressBar() {
-        pbar.setBorderPainted(false);
-        pbar.setMaximum(1100);
-        pbar.setValue(0);
-        pbar.setSize(this.getWidth() - sliderWidth - 30, 30);
-        pbar.setLocation(15, this.getHeight() / 2 - pbar.getHeight() / 2);
-        pbar.setForeground(new Color(73, 159, 53));
-        pbar.setBackground(new Color(57, 57, 57));
-        pbar.setDoubleBuffered(true);
-        add(pbar);
-
-        traffic.setLocation(pbar.getLocation().x + 5, pbar.getLocation().y + 30);
-        traffic.setSize(pbar.getSize());
-        traffic.setForeground(Color.white);
-        add(traffic);
+        pbar.setPreferredSize(new Dimension(50, 50));
+        pbar.setForeground(MaterialColor.CYAN_500);
+        JPanel pbarWrapper = new JPanel();
+        pbarWrapper.setPreferredSize(new Dimension(50, 50));
+        pbarWrapper.setBackground(Color.WHITE);
+        pbarWrapper.add(pbar);
+        pbarWrapper.setAlignmentX(CENTER_ALIGNMENT);
+        add(pbarWrapper);
     }
 
     private void addInfo() {
-        info.setSize(pbar.getSize());
-        info.setForeground(Color.WHITE);
-        info.setLocation(new Point(pbar.getX(), pbar.getY() - info.getHeight() - 5));
+        info.setForeground(Color.BLACK);
+        info.setFont(Roboto.REGULAR.deriveFont(12f));
+        info.setAlignmentX(CENTER_ALIGNMENT);
         add(info);
+
+        traffic.setForeground(Color.BLACK);
+        traffic.setFont(Roboto.REGULAR.deriveFont(12f));
+        traffic.setAlignmentX(CENTER_ALIGNMENT);
+        add(traffic);
     }
 
     private void startMc() {
@@ -92,7 +95,7 @@ public class Loading extends Basic implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof DownloadVM) {
             String context = ((DownloadVM) o).getInfo();
-            traffic.setText(((DownloadVM) o).getDownloadedKByte() + " KByte");
+            traffic.setText(((DownloadVM) o).getDownloadedKByte() + " KB/s");
             if (context != null && !context.equals("")) {
                 System.out.println(context);
                 try {
@@ -101,12 +104,6 @@ public class Loading extends Basic implements Observer {
                     Logger.logError("GUIAccess info error..");
                     e.printStackTrace();
                 }
-            }
-            try {
-                pbar.setValue(((DownloadVM) o).getProgress());
-            } catch (Exception e) {
-                Logger.logError("GUIAccess Progress error..");
-                e.printStackTrace();
             }
 
             isMinecraftDownloaded = ((DownloadVM) o).isMinecraftDownloaded();
