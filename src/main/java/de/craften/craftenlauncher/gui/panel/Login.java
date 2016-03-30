@@ -126,11 +126,12 @@ public class Login extends JPanel {
         usernameField.setBorder(null);
         usernameField.setBackground(MaterialColor.CYAN_100);
         usernameField.setBounds(0, 0, 238, 36);
-        usernameField.setLocation(69, 0);
+        usernameField.setLocation(69, 20);
         add(usernameField);
 
         errorLabel = new JLabel();
-        errorLabel.setForeground(new Color(255, 103, 73));
+        errorLabel.setForeground(MaterialColor.RED_500);
+        //TODO set location
         add(errorLabel);
 
         passwordField = new JPasswordField();
@@ -145,7 +146,7 @@ public class Login extends JPanel {
         passwordField.setBorder(null);
         passwordField.setBackground(MaterialColor.CYAN_100);
         passwordField.setBounds(0, 0, 238, 36);
-        passwordField.setLocation(69, 47);
+        passwordField.setLocation(69, 67);
         add(passwordField);
 
         JButton loginButton = new MaterialButton();
@@ -160,7 +161,7 @@ public class Login extends JPanel {
         loginButton.setText("Login");
         loginButton.setBounds(0, 0, 238 + MaterialShadow.OFFSET_LEFT + MaterialShadow.OFFSET_RIGHT,
                 36 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM);
-        loginButton.setLocation(69 - MaterialShadow.OFFSET_LEFT, 94 - MaterialShadow.OFFSET_TOP);
+        loginButton.setLocation(69 - MaterialShadow.OFFSET_LEFT, 114 - MaterialShadow.OFFSET_TOP);
         add(loginButton);
 
         setComponentZOrder(passwordField, 2);

@@ -158,7 +158,7 @@ public class Profile extends JPanel {
         playButton.setBackground(MaterialColor.CYAN_500);
         playButton.setForeground(Color.WHITE);
         playButton.setSize(238 + MaterialShadow.OFFSET_LEFT + MaterialShadow.OFFSET_RIGHT, 40 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM);
-        playButton.setLocation(69 - MaterialShadow.OFFSET_LEFT, 100 - MaterialShadow.OFFSET_TOP);
+        playButton.setLocation(69 - MaterialShadow.OFFSET_LEFT, 114 - MaterialShadow.OFFSET_TOP);
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
