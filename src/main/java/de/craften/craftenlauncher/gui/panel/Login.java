@@ -27,9 +27,7 @@ package de.craften.craftenlauncher.gui.panel;
 import de.craften.craftenlauncher.gui.Manager;
 import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.logic.Facade;
-import de.craften.ui.swingmaterial.MaterialButton;
-import de.craften.ui.swingmaterial.MaterialColor;
-import de.craften.ui.swingmaterial.MaterialShadow;
+import de.craften.ui.swingmaterial.*;
 
 import javax.swing.*;
 
@@ -41,10 +39,8 @@ import java.net.URISyntaxException;
 
 @SuppressWarnings("serial")
 public class Login extends JPanel {
-    private static final String DEFAULT_USERNAME = "example@email.com";
-
-    private JTextField usernameField;
-    private JPasswordField passwordField;
+    private MaterialTextField usernameField;
+    private MaterialPasswordField passwordField;
     private JLabel errorLabel;
 
     public Login() {
@@ -81,10 +77,7 @@ public class Login extends JPanel {
     }
 
     private void doLogin() {
-        String username = null;
-        if (!usernameField.getText().equals(DEFAULT_USERNAME)) {
-            username = usernameField.getText();
-        }
+        String username = usernameField.getText();
         try {
             errorLabel.setText("");
             Facade.getInstance().setUser(username, passwordField.getPassword());
@@ -97,36 +90,18 @@ public class Login extends JPanel {
     }
 
     private void buildUI() {
-        usernameField = new JTextField();
-        usernameField.setText(DEFAULT_USERNAME);
-        usernameField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (usernameField.getText().equals(DEFAULT_USERNAME)) {
-                    usernameField.setText("");
-                }
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                // TODO Auto-generated method stub
-                if (usernameField.getText().equals("")) {
-                    usernameField.setText(DEFAULT_USERNAME);
-                }
-            }
-        });
+        usernameField = new MaterialTextField();
+        usernameField.setLabel("E-mail");
+        usernameField.setHint("user@example.com");
         usernameField.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
-
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     doLogin();
                 }
             }
         });
-        usernameField.setBorder(null);
-        usernameField.setBackground(MaterialColor.CYAN_100);
-        usernameField.setBounds(0, 0, 238, 36);
-        usernameField.setLocation(69, 20);
+        usernameField.setBounds(0, 0, 238, 72);
+        usernameField.setLocation(69, -10);
         add(usernameField);
 
         errorLabel = new JLabel();
@@ -134,7 +109,8 @@ public class Login extends JPanel {
         //TODO set location
         add(errorLabel);
 
-        passwordField = new JPasswordField();
+        passwordField = new MaterialPasswordField();
+        passwordField.setLabel("Password");
         passwordField.enableInputMethods(true);
         passwordField.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
@@ -143,10 +119,8 @@ public class Login extends JPanel {
                 }
             }
         });
-        passwordField.setBorder(null);
-        passwordField.setBackground(MaterialColor.CYAN_100);
-        passwordField.setBounds(0, 0, 238, 36);
-        passwordField.setLocation(69, 67);
+        passwordField.setBounds(0, 0, 238, 72);
+        passwordField.setLocation(69, 57);
         add(passwordField);
 
         JButton loginButton = new MaterialButton();
@@ -161,10 +135,8 @@ public class Login extends JPanel {
         loginButton.setText("Login");
         loginButton.setBounds(0, 0, 238 + MaterialShadow.OFFSET_LEFT + MaterialShadow.OFFSET_RIGHT,
                 36 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM);
-        loginButton.setLocation(69 - MaterialShadow.OFFSET_LEFT, 114 - MaterialShadow.OFFSET_TOP);
+        loginButton.setLocation(69 - MaterialShadow.OFFSET_LEFT, 147 - MaterialShadow.OFFSET_TOP);
         add(loginButton);
-
-        setComponentZOrder(passwordField, 2);
     }
 
     private void addHelpLabels() {
@@ -174,8 +146,7 @@ public class Login extends JPanel {
             public void mouseClicked(MouseEvent env) {
                 try {
                     java.awt.Desktop.getDesktop().browse(new URI("https://help.mojang.com/customer/portal/articles/1233873"));
-                } catch (IOException e) {
-                } catch (URISyntaxException e) {
+                } catch (IOException | URISyntaxException e) {
                 }
             }
         });

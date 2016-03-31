@@ -3,6 +3,7 @@ package de.craften.craftenlauncher.gui.panel;
 import de.craften.craftenlauncher.logic.Facade;
 import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.vm.SkinVM;
+import de.craften.ui.swingmaterial.MaterialShadow;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -47,8 +48,8 @@ public class Header extends JPanel implements Observer {
 
     private void addAvatar() {
         avatar = new RoundAvatar();
-        avatar.setSize(new Dimension(130, 130));
-        avatar.setLocation(122, 58);
+        avatar.setSize(new Dimension(130 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM, 130 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM));
+        avatar.setLocation((getWidth() - avatar.getWidth()) / 2, 58 - MaterialShadow.OFFSET_TOP);
         add(avatar);
         setComponentZOrder(avatar, 0);
     }

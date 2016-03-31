@@ -34,16 +34,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.RoundRectangle2D;
 import java.util.concurrent.atomic.AtomicReference;
 
 @SuppressWarnings("serial")
 public class Manager extends JFrame {
     private static final long serialVersionUID = 1L;
     private static Manager instance = null;
-    private int _width = 375;
-    private int _height = 400;
-
     private Header header;
     private Login login;
     private Profile profile;
@@ -62,14 +58,15 @@ public class Manager extends JFrame {
             e.printStackTrace();
         }
 
-        setSize(_width, _height);
+        setSize(375, 445);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         centerWindow(this);
-        setUndecorated(true);
-        setShape(new RoundRectangle2D.Double(0, 0, _width, _height, 3, 3));
+        //setUndecorated(true);
+        //setShape(new RoundRectangle2D.Double(0, 0, _width, _height, 3, 3));
         setVisible(true);
         setLayout(new BorderLayout(0, 0));
+        setTitle("Craften Launcher");
 
         addHeader();
         addLayers();
@@ -147,8 +144,8 @@ public class Manager extends JFrame {
 
     private void centerWindow(Manager frame) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (int) ((screenSize.getWidth() - _width) / 2);
-        int y = (int) ((screenSize.getHeight() - _height) / 2);
+        int x = (int) ((screenSize.getWidth() - getWidth()) / 2);
+        int y = (int) ((screenSize.getHeight() - getHeight()) / 2);
         frame.setLocation(x, y);
     }
 }
