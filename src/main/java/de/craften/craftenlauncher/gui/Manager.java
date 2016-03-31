@@ -67,6 +67,7 @@ public class Manager extends JFrame {
         setVisible(true);
         setLayout(new BorderLayout(0, 0));
         setTitle("Craften Launcher");
+        setResizable(false);
 
         addHeader();
         addLayers();
