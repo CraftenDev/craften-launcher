@@ -24,8 +24,8 @@
 
 package de.craften.craftenlauncher.gui.panel;
 
-import de.craften.craftenlauncher.gui.Manager;
 import de.craften.craftenlauncher.exception.CraftenLogicException;
+import de.craften.craftenlauncher.gui.MainController;
 import de.craften.craftenlauncher.logic.Facade;
 import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.auth.MinecraftUser;
@@ -34,15 +34,19 @@ import de.craften.ui.swingmaterial.MaterialColor;
 import de.craften.ui.swingmaterial.MaterialShadow;
 import de.craften.ui.swingmaterial.Roboto;
 
-import java.awt.*;
-import java.awt.event.*;
-
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
 public class Profile extends JPanel {
-    private JLabel _version, _serverIP, _ram, _logout;
-    private JComboBox<String> _cbVersions;
+    private JLabel _version;
+    private JLabel _serverIP;
+    private JLabel _ram;
+    //private JComboBox<String> _cbVersions;
 
     private Font _fontPlain = new Font(Font.SANS_SERIF, Font.PLAIN, 16),
             _fontPlainSmall = new Font(Font.SANS_SERIF, Font.PLAIN, 10);
@@ -55,15 +59,14 @@ public class Profile extends JPanel {
     public void init() {
         removeAll();
         addProfileInformation();
+        repaint();
 
         if (Facade.getInstance().isQuickPlay()) {
-            Manager.getInstance().showLoadingScreen();
+            MainController.getInstance().play();
         }
     }
 
     private void addProfileInformation() {
-        int spacerow = 10;
-
         MinecraftUser user = null;
         try {
             user = Facade.getInstance().getUser();
@@ -91,7 +94,9 @@ public class Profile extends JPanel {
             playerMail.setForeground(MaterialColor.MIN_BLACK);
             add(playerMail);
         }
-        _logout = new JLabel("Logout");
+
+        //TODO logout button
+        JLabel _logout = new JLabel("Logout");
         _logout.setFont(_fontPlainSmall);
         _logout.setSize(new Dimension(40, 20));
         //_logout.setLocation(playerName.getX(), playerName.getY() + playerName.getHeight() - 20);
@@ -99,8 +104,7 @@ public class Profile extends JPanel {
         _logout.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent env) {
-                Facade.getInstance().logout();
-                Manager.getInstance().reset();
+                MainController.getInstance().logout();
             }
 
             @Override
@@ -116,17 +120,6 @@ public class Profile extends JPanel {
         _logout.setCursor(new Cursor(Cursor.HAND_CURSOR));
         add(_logout);
 
-        //Minecraft Version
-        _cbVersions = new JComboBox<>();
-        try {
-            _cbVersions.removeAll();
-            for (String v : Facade.getInstance().getMinecraftVersions()) {
-                _cbVersions.addItem(v);
-            }
-        } catch (CraftenLogicException e) {
-            e.printStackTrace();
-        }
-
         //TODO this logic should not be here
         try {
             if (Facade.getInstance().getMinecraftArguments().containsKey("version")) {
@@ -138,6 +131,7 @@ public class Profile extends JPanel {
             e.printStackTrace();
         }
 
+        //TODO display IP where it is visible
         //Auto-Connect IP
         try {
             if (Facade.getInstance().getMinecraftArguments().containsKey("server"))
@@ -149,7 +143,7 @@ public class Profile extends JPanel {
         }
         _serverIP.setFont(_fontPlain);
         _serverIP.setSize(this.getWidth(), 15);
-        _serverIP.setLocation(_cbVersions.getX(), _cbVersions.getY() + _cbVersions.getHeight() + spacerow);
+        _serverIP.setLocation(1000, 1000);
         _serverIP.setForeground(Color.WHITE);
         add(_serverIP);
 
@@ -162,7 +156,7 @@ public class Profile extends JPanel {
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                Manager.getInstance().showLoadingScreen();
+                MainController.getInstance().play();
             }
         });
         add(playButton);

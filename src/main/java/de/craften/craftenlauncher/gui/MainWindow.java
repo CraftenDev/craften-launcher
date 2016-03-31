@@ -14,10 +14,6 @@
  * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * <p>
- * Manager Class:
- * <p>
- * Manages the displayed panels
  *
  * @author saschb2b
  */
@@ -32,26 +28,18 @@ import de.craften.craftenlauncher.logic.Facade;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.concurrent.atomic.AtomicReference;
 
 @SuppressWarnings("serial")
-public class Manager extends JFrame {
+public class MainWindow extends JFrame {
     private static final long serialVersionUID = 1L;
-    private static Manager instance = null;
     private Header header;
+    private final JPanel body;
+    private CardLayout bodyLayout;
     private Login login;
     private Profile profile;
     private Loading loading;
 
-    public static synchronized Manager getInstance() {
-        if (instance == null)
-            instance = new Manager();
-        return instance;
-    }
-
-    private Manager() {
+    public MainWindow() {
         try {
             setIconImage(new ImageIcon(getClass().getResource("/images/icon.png")).getImage());
         } catch (NullPointerException e) {
@@ -65,68 +53,43 @@ public class Manager extends JFrame {
         //setUndecorated(true);
         //setShape(new RoundRectangle2D.Double(0, 0, _width, _height, 3, 3));
         setVisible(true);
-        setLayout(new BorderLayout(0, 0));
+        setLayout(new BorderLayout());
+
+        bodyLayout = new CardLayout(0, 0);
+        body = new JPanel();
+        body.setLayout(bodyLayout);
+        header = new Header();
+        add(header, BorderLayout.PAGE_START);
+        add(body, BorderLayout.CENTER);
+
         setTitle("Craften Launcher");
         setResizable(false);
 
-        addHeader();
         addLayers();
-
-        final AtomicReference<Point> mousePointer = new AtomicReference<>();
-        addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                Point point = mousePointer.get();
-                Manager.getInstance().setLocation(e.getXOnScreen() - point.x, e.getYOnScreen() - point.y);
-            }
-        });
-
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                mousePointer.set(e.getPoint());
-            }
-        });
     }
 
     public void reset() {
-        remove(header);
-        remove(profile);
-        remove(login);
-        remove(loading);
-
-        addHeader();
+        body.removeAll();
         addLayers();
-
-        repaint();
-        init();
-    }
-
-    private void addHeader() {
-        header = new Header();
-        add(header, BorderLayout.PAGE_START);
     }
 
     private void addLayers() {
         login = new Login();
-        add(login, BorderLayout.CENTER);
-        login.setVisible(true);
+        body.add(login, "login");
 
         profile = new Profile();
+        body.add(profile, "profile");
+
         loading = new Loading();
-
+        body.add(loading, "loading");
         Facade.getInstance().setMinecraftDownloadObserver(loading);
-    }
 
-    public void init() {
-        login.init();
+        bodyLayout.show(body, "login");
     }
 
     public void showProfile() {
-        remove(login);
-        remove(loading);
-        add(profile, BorderLayout.CENTER);
         profile.init();
+        bodyLayout.show(body, "profile");
 
         try {
             setIconImage(new ImageIcon(getClass().getResource("/images/icon2.png")).getImage());
@@ -136,17 +99,18 @@ public class Manager extends JFrame {
     }
 
     public void showLoadingScreen() {
-        remove(login);
-        remove(profile);
-        loading.setVisible(true);
         loading.init();
-        add(loading, BorderLayout.CENTER);
+        bodyLayout.show(body, "loading");
     }
 
-    private void centerWindow(Manager frame) {
+    private void centerWindow(MainWindow frame) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (int) ((screenSize.getWidth() - getWidth()) / 2);
         int y = (int) ((screenSize.getHeight() - getHeight()) / 2);
         frame.setLocation(x, y);
+    }
+
+    public void init() {
+        login.init();
     }
 }

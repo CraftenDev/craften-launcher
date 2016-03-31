@@ -1,24 +1,24 @@
 /**
  * CraftenLauncher is an alternative Launcher for Minecraft developed by Mojang.
  * Copyright (C) 2013  Johannes "redbeard" Busch, Sascha "saschb2b" Becker
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * 
+ * <p>
+ * <p>
  * Commandline input format:
  * --[parameter]=[value]
- * 
+ * <p>
  * Used parameters:
  * --version    = [14w11b, 1.7.5, ...]defines the Minecraft-Version
  * --user       = Minecraft-Username (not implemented)
@@ -30,14 +30,11 @@
  * --profileid  = [54bnb5br_profileid_berb4b3] chooses a saved user
  * --forcelogin = erzwingt das Einloggen eines Users
  * --fullscreen = starts minecraft in fullscreen mode
- *
  */
 package de.craften.craftenlauncher;
 
-import static javax.swing.SwingUtilities.invokeLater;
-
-import de.craften.craftenlauncher.gui.Manager;
 import de.craften.craftenlauncher.exception.CraftenLogicException;
+import de.craften.craftenlauncher.gui.MainController;
 import de.craften.craftenlauncher.logic.Facade;
 import de.craften.craftenlauncher.logic.Logger;
 import de.craften.util.OSHelper;
@@ -45,6 +42,8 @@ import de.craften.util.UIParser;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static javax.swing.SwingUtilities.invokeLater;
 
 /**
  * Craften Launcher main class.
@@ -61,11 +60,11 @@ class Application {
      * @param args
      * @throws CraftenLogicException
      */
-	public static void main(String[] args) throws CraftenLogicException {
+    public static void main(String[] args) throws CraftenLogicException {
         logSystemInfo();
-		Facade.getInstance().init(new UIParser(args));
-		startGUI();
-	}
+        Facade.getInstance().init(new UIParser(args));
+        startGUI();
+    }
 
     /**
      * Logs several system information.
@@ -91,16 +90,15 @@ class Application {
     /**
      * Starts the gui by invoking the gui manager.
      */
-	private static void startGUI() {
-		Logger.logInfo("loading gui!");
+    private static void startGUI() {
+        Logger.logInfo("loading gui!");
 
-		invokeLater(new Runnable() {
-
+        invokeLater(new Runnable() {
             @Override
             public void run() {
-                Manager.getInstance().init();
+                MainController.getInstance().openMainWindow();
             }
         });
-	}
+    }
 
 }

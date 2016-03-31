@@ -24,13 +24,12 @@
 
 package de.craften.craftenlauncher.gui.panel;
 
-import de.craften.craftenlauncher.gui.Manager;
 import de.craften.craftenlauncher.exception.CraftenLogicException;
+import de.craften.craftenlauncher.gui.MainController;
 import de.craften.craftenlauncher.logic.Facade;
 import de.craften.ui.swingmaterial.*;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -52,7 +51,7 @@ public class Login extends JPanel {
         removeAll();
 
         buildUI();
-        //addHelpLabels();
+        //addHelpLabels(); //TODO add help links
 
         if (!Facade.getInstance().isForceLogin()) {
             try {
@@ -61,9 +60,8 @@ public class Login extends JPanel {
                         usernameField.setText(Facade.getInstance().getUser().getEmail());
                         passwordField.grabFocus();
                     }
-                    Facade.getInstance().authenticateUser();
 
-                    Manager.getInstance().showProfile();
+                    MainController.getInstance().performLogin(usernameField.getText(), null);
                 }
             } catch (CraftenLogicException e) {
                 errorLabel.setText(e.getMessage());
@@ -72,18 +70,10 @@ public class Login extends JPanel {
         repaint();
     }
 
-    public void sliderAction() {
-        doLogin();
-    }
-
     private void doLogin() {
-        String username = usernameField.getText();
         try {
             errorLabel.setText("");
-            Facade.getInstance().setUser(username, passwordField.getPassword());
-            Facade.getInstance().authenticateUser();
-
-            Manager.getInstance().showProfile();
+            MainController.getInstance().performLogin(usernameField.getText(), passwordField.getPassword());
         } catch (CraftenLogicException e) {
             errorLabel.setText(e.getMessage());
         }
@@ -145,8 +135,8 @@ public class Login extends JPanel {
             @Override
             public void mouseClicked(MouseEvent env) {
                 try {
-                    java.awt.Desktop.getDesktop().browse(new URI("https://help.mojang.com/customer/portal/articles/1233873"));
-                } catch (IOException | URISyntaxException e) {
+                    Desktop.getDesktop().browse(new URI("https://help.mojang.com/customer/portal/articles/1233873"));
+                } catch (IOException | URISyntaxException ignored) {
                 }
             }
         });
@@ -159,9 +149,8 @@ public class Login extends JPanel {
             @Override
             public void mouseClicked(MouseEvent env) {
                 try {
-                    java.awt.Desktop.getDesktop().browse(new URI("https://help.mojang.com/customer/portal/articles/329524-change-or-forgot-password"));
-                } catch (IOException e) {
-                } catch (URISyntaxException e) {
+                    Desktop.getDesktop().browse(new URI("https://help.mojang.com/customer/portal/articles/329524-change-or-forgot-password"));
+                } catch (IOException | URISyntaxException e) {
                 }
             }
         });
@@ -175,9 +164,8 @@ public class Login extends JPanel {
             @Override
             public void mouseClicked(MouseEvent env) {
                 try {
-                    java.awt.Desktop.getDesktop().browse(new URI("https://account.mojang.com/register?agent=minecraft"));
-                } catch (IOException e) {
-                } catch (URISyntaxException e) {
+                    Desktop.getDesktop().browse(new URI("https://account.mojang.com/register?agent=minecraft"));
+                } catch (IOException | URISyntaxException e) {
                 }
             }
         });

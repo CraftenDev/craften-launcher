@@ -24,8 +24,7 @@
 
 package de.craften.craftenlauncher.gui.panel;
 
-import de.craften.craftenlauncher.exception.CraftenLogicException;
-import de.craften.craftenlauncher.logic.Facade;
+import de.craften.craftenlauncher.gui.MainController;
 import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.vm.DownloadVM;
 import de.craften.ui.swingmaterial.MaterialColor;
@@ -39,9 +38,9 @@ import java.util.Observer;
 
 @SuppressWarnings("serial")
 public class Loading extends JPanel implements Observer {
-    MaterialProgressSpinner pbar = new MaterialProgressSpinner();
-    JLabel info = new JLabel(), traffic = new JLabel();
-    boolean wantToStart, isMinecraftDownloaded;
+    private MaterialProgressSpinner pbar = new MaterialProgressSpinner();
+    private JLabel info = new JLabel(), traffic = new JLabel();
+    private boolean wantToStart, isMinecraftDownloaded;
 
     public Loading() {
         setBackground(Color.WHITE);
@@ -56,7 +55,7 @@ public class Loading extends JPanel implements Observer {
         wantToStart = true;
 
         if (isMinecraftDownloaded) {
-            startMc();
+            MainController.getInstance().startMinecraft();
         }
     }
 
@@ -83,19 +82,11 @@ public class Loading extends JPanel implements Observer {
         add(traffic);
     }
 
-    private void startMc() {
-        try {
-            Facade.getInstance().startMinecraft();
-        } catch (CraftenLogicException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof DownloadVM) {
             String context = ((DownloadVM) o).getInfo();
-            traffic.setText(((DownloadVM) o).getDownloadedKByte() + " KB/s");
+            traffic.setText(((DownloadVM) o).getDownloadedKByte() + " KB");
             if (context != null && !context.equals("")) {
                 System.out.println(context);
                 try {
@@ -108,7 +99,7 @@ public class Loading extends JPanel implements Observer {
 
             isMinecraftDownloaded = ((DownloadVM) o).isMinecraftDownloaded();
             if (wantToStart && isMinecraftDownloaded) {
-                startMc();
+                MainController.getInstance().startMinecraft();
             }
         }
     }
