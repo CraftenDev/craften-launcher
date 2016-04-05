@@ -1,6 +1,5 @@
 package de.craften.craftenlauncher.gui.panel;
 
-import com.sun.xml.internal.bind.v2.model.impl.ModelBuilder;
 import de.craften.craftenlauncher.logic.Logger;
 import de.craften.ui.swingmaterial.ElevationEffect;
 import de.craften.ui.swingmaterial.MaterialShadow;
@@ -8,7 +7,6 @@ import de.craften.ui.swingmaterial.RippleEffect;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
