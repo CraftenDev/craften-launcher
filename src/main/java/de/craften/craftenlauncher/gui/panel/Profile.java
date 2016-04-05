@@ -163,23 +163,32 @@ public class Profile extends JPanel {
 
         //RAM
         try {
+            String ram;
             if (Facade.getInstance().getMinecraftArguments().containsKey("xmx")) {
-                JLabel ram = new JLabel("RAM: " + Facade.getInstance().getMinecraftArgument("xmx").toUpperCase());
-                ram.setFont(Roboto.REGULAR.deriveFont(12f));
-                ram.setSize(this.getWidth(), 30);
-                ram.setLocation(0, 140);
-                ram.setForeground(MaterialColor.MIN_BLACK);
-                ram.setHorizontalAlignment(JLabel.RIGHT);
-                add(ram);
+                ram = Facade.getInstance().getMinecraftArgument("xmx").toUpperCase();
             } else {
-                JLabel ram = new JLabel("RAM: ~" + Runtime.getRuntime().maxMemory() / 1024 / 1024 + "M");
-                ram.setFont(Roboto.REGULAR.deriveFont(12f));
-                ram.setSize(238, 30);
-                ram.setLocation(69, 140);
-                ram.setForeground(MaterialColor.MIN_BLACK);
-                ram.setHorizontalAlignment(JLabel.RIGHT);
-                add(ram);
+                ram = "~" + Runtime.getRuntime().maxMemory() / 1024 / 1024 + "M";
             }
+            JLabel ramLabel = new JLabel("RAM: " + ram);
+            ramLabel.setFont(Roboto.REGULAR.deriveFont(12f));
+            ramLabel.setSize(238, 30);
+            ramLabel.setLocation(69, playButton.getY() + playButton.getHeight() - 10);
+            ramLabel.setForeground(MaterialColor.MIN_BLACK);
+            ramLabel.setHorizontalAlignment(JLabel.RIGHT);
+            add(ramLabel);
+        } catch (CraftenLogicException e) {
+            e.printStackTrace();
+        }
+
+        //Version
+        try {
+            JLabel ramLabel = new JLabel("Version: " + Facade.getInstance().getMinecraftVersion().getVersion());
+            ramLabel.setFont(Roboto.REGULAR.deriveFont(12f));
+            ramLabel.setSize(238, 30);
+            ramLabel.setLocation(69, playButton.getY() + playButton.getHeight() - 10);
+            ramLabel.setForeground(MaterialColor.MIN_BLACK);
+            ramLabel.setHorizontalAlignment(JLabel.LEFT);
+            add(ramLabel);
         } catch (CraftenLogicException e) {
             e.printStackTrace();
         }

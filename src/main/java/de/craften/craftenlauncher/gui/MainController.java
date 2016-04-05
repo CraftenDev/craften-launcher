@@ -22,7 +22,6 @@ public class MainController {
     public void openMainWindow() {
         mainWindow = new MainWindow();
         mainWindow.setVisible(true);
-        mainWindow.init();
     }
 
     public void performLogin(String username, char[] password) throws CraftenLogicException {

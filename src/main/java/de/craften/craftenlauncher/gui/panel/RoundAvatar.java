@@ -18,22 +18,28 @@ import java.io.IOException;
  * A round avatar with a (almost) white border.
  */
 public class RoundAvatar extends JPanel {
+    private static final BufferedImage STEVE;
     private ElevationEffect elevationEffect;
     private RippleEffect rippleEffect;
     private BufferedImage skin;
 
-    public RoundAvatar() {
-        elevationEffect = ElevationEffect.applyCirularTo(this, 1);
-        rippleEffect = RippleEffect.applyTo(this);
-        setForeground(Color.WHITE);
-        setBackground(Color.decode("#f44336"));
-        setOpaque(false);
-
+    static {
+        BufferedImage steve = null;
         try {
-            skin = ImageIO.read(getClass().getResource("/images/steve.png"));
+            steve = ImageIO.read(RoundAvatar.class.getResource("/images/steve.png"));
         } catch (IOException e) {
             Logger.logWarning("Could not load steve skin");
         }
+        STEVE = steve;
+    }
+
+    public RoundAvatar() {
+        elevationEffect = ElevationEffect.applyCirularTo(this, 1);
+        rippleEffect = RippleEffect.applyTo(this);
+        skin = STEVE;
+        setForeground(Color.WHITE);
+        setBackground(Color.decode("#f44336"));
+        setOpaque(false);
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -88,5 +94,9 @@ public class RoundAvatar extends JPanel {
 
     public BufferedImage getSkin() {
         return skin;
+    }
+
+    public void resetSkin() {
+        setSkin(STEVE);
     }
 }

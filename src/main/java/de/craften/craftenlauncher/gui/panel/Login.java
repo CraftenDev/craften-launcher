@@ -45,10 +45,6 @@ public class Login extends JPanel {
     public Login() {
         setBackground(Color.WHITE);
         setLayout(null);
-    }
-
-    public void init() {
-        removeAll();
 
         buildUI();
         //addHelpLabels(); //TODO add help links

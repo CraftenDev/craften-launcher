@@ -75,8 +75,11 @@ public class MainWindow extends JFrame {
     }
 
     public void reset() {
+        header.resetSkin();
+        header.setLogoutEnabled(false);
         body.removeAll();
         addLayers();
+        bodyLayout.show(body, "login");
     }
 
     private void addLayers() {
@@ -94,6 +97,7 @@ public class MainWindow extends JFrame {
     }
 
     public void showProfile() {
+        header.setLogoutEnabled(true);
         profile.init();
         bodyLayout.show(body, "profile");
 
@@ -105,6 +109,7 @@ public class MainWindow extends JFrame {
     }
 
     public void showLoadingScreen() {
+        header.setLogoutEnabled(false);
         loading.init();
         bodyLayout.show(body, "loading");
     }
@@ -114,9 +119,5 @@ public class MainWindow extends JFrame {
         int x = (int) ((screenSize.getWidth() - getWidth()) / 2);
         int y = (int) ((screenSize.getHeight() - getHeight()) / 2);
         frame.setLocation(x, y);
-    }
-
-    public void init() {
-        login.init();
     }
 }

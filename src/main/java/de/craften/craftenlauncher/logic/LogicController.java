@@ -19,18 +19,13 @@
  */
 package de.craften.craftenlauncher.logic;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Observer;
-
 import de.craften.craftenlauncher.exception.CraftenAuthenticationFailure;
 import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.exception.CraftenLogicValueIsNullException;
 import de.craften.craftenlauncher.exception.CraftenUserException;
 import de.craften.craftenlauncher.logic.auth.AuthenticationService;
-import de.craften.craftenlauncher.logic.auth.Profiles;
 import de.craften.craftenlauncher.logic.auth.MinecraftUser;
+import de.craften.craftenlauncher.logic.auth.Profiles;
 import de.craften.craftenlauncher.logic.download.DownloadService;
 import de.craften.craftenlauncher.logic.download.DownloadTasks;
 import de.craften.craftenlauncher.logic.minecraft.MinecraftInfo;
@@ -41,6 +36,11 @@ import de.craften.craftenlauncher.logic.version.VersionListHelper;
 import de.craften.craftenlauncher.logic.vm.DownloadVM;
 import de.craften.craftenlauncher.logic.vm.SkinVM;
 import de.craften.util.UIParser;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Observer;
 
 public class LogicController {
     private MinecraftUser mUser;
@@ -267,7 +267,7 @@ public class LogicController {
             mDownService = null;
         }
 
-        Logger.logInfo("User " + name + " was locked out!");
+        Logger.logInfo("User " + name + " has logged out");
     }
 
     //TODO vorher besser alten Service ordentlich stoppen oder neu Init?
