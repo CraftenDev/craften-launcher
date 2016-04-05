@@ -28,9 +28,6 @@ import de.craften.craftenlauncher.logic.Facade;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame {
@@ -41,7 +38,6 @@ public class MainWindow extends JFrame {
     private Login login;
     private Profile profile;
     private Loading loading;
-    private Point mousePointer;
 
     public MainWindow() {
         try {
@@ -54,7 +50,7 @@ public class MainWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         centerWindow(this);
-        setUndecorated(true);
+        //setUndecorated(true);
         //setShape(new RoundRectangle2D.Double(0, 0, _width, _height, 3, 3));
         setVisible(true);
         setLayout(new BorderLayout());
@@ -71,7 +67,6 @@ public class MainWindow extends JFrame {
         setResizable(false);
 
         addLayers();
-        addListeners();
     }
 
     public void reset() {
@@ -91,43 +86,6 @@ public class MainWindow extends JFrame {
         Facade.getInstance().setMinecraftDownloadObserver(loading);
 
         bodyLayout.show(body, "login");
-    }
-
-    private void addListeners(){
-        addMouseMotionListener(new MouseMotionListener() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                setLocation(e.getXOnScreen() - mousePointer.x, e.getYOnScreen() - mousePointer.y);
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-            }
-        });
-
-        addMouseListener(new MouseListener() {
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                mousePointer = e.getPoint();
-            }
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-        });
     }
 
     public void showProfile() {
