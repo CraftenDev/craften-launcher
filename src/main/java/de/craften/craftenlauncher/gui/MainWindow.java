@@ -52,21 +52,26 @@ public class MainWindow extends JFrame {
         centerWindow(this);
         //setUndecorated(true);
         //setShape(new RoundRectangle2D.Double(0, 0, _width, _height, 3, 3));
-        setVisible(true);
-        setLayout(new BorderLayout());
+
+        JPanel content = new JPanel();
+        content.setLayout(new BorderLayout());
+        content.setSize(375, 445);
+        content.setBackground(Color.WHITE);
+        add(content);
 
         bodyLayout = new CardLayout(0, 0);
         body = new JPanel();
         body.setLayout(bodyLayout);
 
         header = new Header();
-        add(header, BorderLayout.PAGE_START);
-        add(body, BorderLayout.CENTER);
+        content.add(header, BorderLayout.NORTH);
+        content.add(body, BorderLayout.CENTER);
 
         setTitle("Craften Launcher");
         setResizable(false);
 
         addLayers();
+        setVisible(true);
     }
 
     public void reset() {
