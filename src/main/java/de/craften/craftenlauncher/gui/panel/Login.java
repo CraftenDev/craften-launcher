@@ -28,6 +28,8 @@ import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.gui.MainController;
 import de.craften.craftenlauncher.logic.Facade;
 import de.craften.ui.swingmaterial.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,8 +40,10 @@ import java.net.URISyntaxException;
 
 @SuppressWarnings("serial")
 public class Login extends JPanel {
+    private static final Logger LOGGER = LogManager.getLogger(Login.class);
     private MaterialTextField usernameField;
     private MaterialPasswordField passwordField;
+    private MaterialButton loginButton;
     private JLabel errorLabel;
 
     public Login() {
@@ -47,7 +51,7 @@ public class Login extends JPanel {
         setLayout(null);
 
         buildUI();
-        //addHelpLabels(); //TODO add help links
+        addHelpLabels();
 
         try {
             if (Facade.getInstance().getUser() != null && Facade.getInstance().getUser().getEmail() != null) {
@@ -102,7 +106,7 @@ public class Login extends JPanel {
         passwordField.setLocation(69, 57);
         add(passwordField);
 
-        JButton loginButton = new MaterialButton();
+        loginButton = new MaterialButton();
         loginButton.setBackground(MaterialColor.CYAN_500);
         loginButton.setForeground(Color.WHITE);
         loginButton.addActionListener(new ActionListener() {
@@ -119,53 +123,59 @@ public class Login extends JPanel {
     }
 
     private void addHelpLabels() {
-        JLabel _linkUsernameorEmail = new JLabel("Username or E-mail?");
-        _linkUsernameorEmail.addMouseListener(new MouseAdapter() {
+        JLabel usernameOrEmailLink = new JLabel("Username or E-mail?");
+        usernameOrEmailLink.setFont(Roboto.REGULAR.deriveFont(11f));
+        usernameOrEmailLink.setForeground(MaterialColor.MIN_BLACK);
+        usernameOrEmailLink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        usernameOrEmailLink.setHorizontalAlignment(JLabel.RIGHT);
+        usernameOrEmailLink.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent env) {
-                try {
-                    Desktop.getDesktop().browse(new URI("https://help.mojang.com/customer/portal/articles/1233873"));
-                } catch (IOException | URISyntaxException ignored) {
-                }
+                openLink("https://help.mojang.com/customer/portal/articles/1233873");
             }
         });
-        _linkUsernameorEmail.setLocation(usernameField.getX() - 8, usernameField.getY() + usernameField.getHeight() + 2);
-        markJLabelLink(_linkUsernameorEmail);
-        add(_linkUsernameorEmail);
+        usernameOrEmailLink.setLocation(usernameField.getX() - 8, usernameField.getY() + usernameField.getHeight() + 2);
+        usernameOrEmailLink.setLocation(69, loginButton.getY() + loginButton.getHeight() - 5);
+        usernameOrEmailLink.setSize(238, 30);
+        add(usernameOrEmailLink);
 
-        JLabel _linkForgotPassword = new JLabel("Forgot password?");
-        _linkForgotPassword.addMouseListener(new MouseAdapter() {
+        JLabel forgotPasswordLink = new JLabel("Forgot password?");
+        forgotPasswordLink.setFont(Roboto.REGULAR.deriveFont(11f));
+        forgotPasswordLink.setForeground(MaterialColor.MIN_BLACK);
+        forgotPasswordLink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        forgotPasswordLink.setHorizontalAlignment(JLabel.RIGHT);
+        forgotPasswordLink.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent env) {
-                try {
-                    Desktop.getDesktop().browse(new URI("https://help.mojang.com/customer/portal/articles/329524-change-or-forgot-password"));
-                } catch (IOException | URISyntaxException e) {
-                }
+                openLink("https://help.mojang.com/customer/portal/articles/329524-change-or-forgot-password");
             }
         });
-        _linkForgotPassword.setLocation(passwordField.getX() - 8, passwordField.getY() + passwordField.getHeight() + 2);
-        markJLabelLink(_linkForgotPassword);
-        add(_linkForgotPassword);
+        forgotPasswordLink.setLocation(69, loginButton.getY() + loginButton.getHeight() - 20);
+        forgotPasswordLink.setSize(238, 30);
+        add(forgotPasswordLink);
+        setComponentZOrder(forgotPasswordLink, 0);
 
-
-        JLabel _linkRegisterAccount = new JLabel("Register Account");
-        _linkRegisterAccount.addMouseListener(new MouseAdapter() {
+        JLabel registerAccountLink = new JLabel("Register account");
+        registerAccountLink.setFont(Roboto.REGULAR.deriveFont(11f));
+        registerAccountLink.setForeground(MaterialColor.MIN_BLACK);
+        registerAccountLink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        registerAccountLink.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent env) {
-                try {
-                    Desktop.getDesktop().browse(new URI("https://account.mojang.com/register?agent=minecraft"));
-                } catch (IOException | URISyntaxException e) {
-                }
+                openLink("https://account.mojang.com/register?agent=minecraft");
             }
         });
-        _linkRegisterAccount.setLocation(_linkUsernameorEmail.getX(), this.getHeight() - _linkRegisterAccount.getHeight() - 25);
-        markJLabelLink(_linkRegisterAccount);
-        add(_linkRegisterAccount);
+        registerAccountLink.setLocation(69, loginButton.getY() + loginButton.getHeight() - 20);
+        registerAccountLink.setSize(238, 30);
+        add(registerAccountLink);
+        setComponentZOrder(registerAccountLink, 0);
     }
 
-    private void markJLabelLink(JLabel label) {
-        label.setSize(new Dimension(100, 20));
-        label.setForeground(Color.WHITE);
-        label.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    private static void openLink(String url) {
+        try {
+            Desktop.getDesktop().browse(new URI(url));
+        } catch (IOException | URISyntaxException e) {
+            LOGGER.warn("Could not open link", e);
+        }
     }
 }

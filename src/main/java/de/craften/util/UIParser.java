@@ -35,7 +35,7 @@ import java.util.Map;
  */
 public class UIParser {
     private static final Logger LOGGER = LogManager.getLogger(UIParser.class);
-    private Map<String, String> mArguments = new HashMap<String, String>();
+    private Map<String, String> mArguments = new HashMap<>();
 
     /**
      * Needs the command line arguments and
