@@ -138,6 +138,7 @@ public class Login extends JPanel {
         usernameOrEmailLink.setLocation(69, loginButton.getY() + loginButton.getHeight() - 5);
         usernameOrEmailLink.setSize(238, 30);
         add(usernameOrEmailLink);
+        setComponentZOrder(usernameOrEmailLink, 0);
 
         JLabel forgotPasswordLink = new JLabel("Forgot password?");
         forgotPasswordLink.setFont(Roboto.REGULAR.deriveFont(11f));
