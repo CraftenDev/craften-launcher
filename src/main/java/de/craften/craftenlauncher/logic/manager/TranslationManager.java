@@ -23,9 +23,12 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import de.craften.craftenlauncher.logic.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class TranslationManager {
+    private static final Logger LOGGER = LogManager.getLogger(TranslationManager.class);
+
     public static String getString(String phrase) {
         Locale.setDefault(new Locale("en", "GB"));
         String baseName = "de.craften.craftlauncher.conf.CraftenLauncher";
@@ -33,7 +36,7 @@ public class TranslationManager {
             ResourceBundle bundle = ResourceBundle.getBundle(baseName);
             return bundle.getString(phrase);
         } catch (MissingResourceException e) {
-            Logger.logError("TranslationManger Error: " + e.getMessage());
+            LOGGER.warn("Missing translation", e);
             return "#########";
         }
     }

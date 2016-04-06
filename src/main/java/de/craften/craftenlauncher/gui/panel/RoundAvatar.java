@@ -1,9 +1,10 @@
 package de.craften.craftenlauncher.gui.panel;
 
-import de.craften.craftenlauncher.logic.Logger;
 import de.craften.ui.swingmaterial.ElevationEffect;
 import de.craften.ui.swingmaterial.MaterialShadow;
 import de.craften.ui.swingmaterial.RippleEffect;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdesktop.core.animation.timing.Animator;
 import org.jdesktop.core.animation.timing.PropertySetter;
 import org.jdesktop.core.animation.timing.TimingSource;
@@ -25,6 +26,7 @@ import java.util.concurrent.TimeUnit;
  * A round avatar with a (almost) white border.
  */
 public class RoundAvatar extends JPanel {
+    private static final Logger LOGGER = LogManager.getLogger(RoundAvatar.class);
     private static final BufferedImage STEVE;
     private ElevationEffect elevationEffect;
     private RippleEffect rippleEffect;
@@ -37,7 +39,7 @@ public class RoundAvatar extends JPanel {
         try {
             steve = ImageIO.read(RoundAvatar.class.getResource("/images/steve.png"));
         } catch (IOException e) {
-            Logger.logWarning("Could not load steve skin");
+            LOGGER.error("Could not load Steve skin", e);
         }
         STEVE = steve;
     }

@@ -25,11 +25,12 @@
 package de.craften.craftenlauncher.gui.panel;
 
 import de.craften.craftenlauncher.gui.MainController;
-import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.vm.DownloadVM;
 import de.craften.ui.swingmaterial.MaterialColor;
 import de.craften.ui.swingmaterial.MaterialProgressSpinner;
 import de.craften.ui.swingmaterial.Roboto;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,6 +39,7 @@ import java.util.Observer;
 
 @SuppressWarnings("serial")
 public class Loading extends JPanel implements Observer {
+    private static final Logger LOGGER = LogManager.getLogger(Loading.class);
     private MaterialProgressSpinner pbar = new MaterialProgressSpinner();
     private JLabel info = new JLabel(), traffic = new JLabel();
     private boolean wantToStart, isMinecraftDownloaded;
@@ -88,12 +90,11 @@ public class Loading extends JPanel implements Observer {
             String context = ((DownloadVM) o).getInfo();
             traffic.setText(((DownloadVM) o).getDownloadedKByte() + " KB");
             if (context != null && !context.equals("")) {
-                System.out.println(context);
+                LOGGER.debug(context);
                 try {
                     info.setText(context);
                 } catch (Exception e) {
-                    Logger.logError("GUIAccess info error..");
-                    e.printStackTrace();
+                    LOGGER.error("Error while accessing GUI", e);
                 }
             }
 

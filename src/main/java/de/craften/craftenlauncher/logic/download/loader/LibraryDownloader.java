@@ -1,20 +1,20 @@
 /**
  * CraftenLauncher is an alternative Launcher for Minecraft developed by Mojang.
  * Copyright (C) 2013  Johannes "redbeard" Busch, Sascha "saschb2b" Becker
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * @author redbeard
  */
 package de.craften.craftenlauncher.logic.download.loader;
@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.IOException;
 
 import de.craften.craftenlauncher.exception.CraftenDownloadException;
-import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.download.DownloadHelper;
 import de.craften.craftenlauncher.logic.download.DownloadURLHelper;
 import de.craften.craftenlauncher.logic.json.JSONReader;
@@ -33,75 +32,77 @@ import de.craften.craftenlauncher.logic.resources.Version;
 import de.craften.craftenlauncher.logic.version.MinecraftVersion;
 import de.craften.craftenlauncher.logic.vm.DownloadVM;
 import de.craften.util.OSHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class LibraryDownloader implements Downloader {
-	
-	private MinecraftPath mMinecraftPath;
-	private MinecraftVersion mCurrentVersion;
-	private DownloadVM mDownloadVM;
-	
-	public LibraryDownloader(MinecraftVersion version, MinecraftPath path, DownloadVM downloadVM) {
-		this.mCurrentVersion = version;
-		this.mMinecraftPath = path;
-		this.mDownloadVM = downloadVM;
-	}
+    private static final Logger LOGGER = LogManager.getLogger(LibraryDownloader.class);
+    private MinecraftPath mMinecraftPath;
+    private MinecraftVersion mCurrentVersion;
+    private DownloadVM mDownloadVM;
 
-	@Override
-	public void download() throws CraftenDownloadException {
-		Version vers = JSONReader.readJsonFileFromSelectedVersion(mMinecraftPath.getMinecraftJarPath() + mCurrentVersion.getVersion() + ".json");
-		
-		String libDir = mMinecraftPath.getLibraryDir();
+    public LibraryDownloader(MinecraftVersion version, MinecraftPath path, DownloadVM downloadVM) {
+        this.mCurrentVersion = version;
+        this.mMinecraftPath = path;
+        this.mDownloadVM = downloadVM;
+    }
 
-		for (LibEntry entry : vers.getLibraries().get()) {
-			
-			if(entry.isExternal()) {
-				Logger.logInfo("Not downloading library because external: " + entry.getName());
-				continue;
-			}
-			
-			if (entry.isNeeded()) {
-				
-                if(entry.getFileName().contains("$")) {
-                    if(OSHelper.getOSArch().equals("32"))
+    @Override
+    public void download() throws CraftenDownloadException {
+        Version vers = JSONReader.readJsonFileFromSelectedVersion(mMinecraftPath.getMinecraftJarPath() + mCurrentVersion.getVersion() + ".json");
+
+        String libDir = mMinecraftPath.getLibraryDir();
+
+        for (LibEntry entry : vers.getLibraries().get()) {
+
+            if (entry.isExternal()) {
+                LOGGER.info("Not downloading library because external: " + entry.getName());
+                continue;
+            }
+
+            if (entry.isNeeded()) {
+
+                if (entry.getFileName().contains("$")) {
+                    if (OSHelper.getOSArch().equals("32")) {
                         entry.setFilename(entry.getFileName().replace("${arch}", "32"));
-                    else if(OSHelper.getOSArch().equals("64"))
+                    } else if (OSHelper.getOSArch().equals("64")) {
                         entry.setFilename(entry.getFileName().replace("${arch}", "64"));
-                    else
-                        Logger.logError("LibraryDownloader-> No OS arch detected!");
+                    } else {
+                        LOGGER.error("LibraryDownloader-> No OS arch detected!");
+                    }
                 }
-                
-				String replaced = entry.getPath().replace(File.separator, "/");
-				String adress = DownloadURLHelper.URL_LIBRARIES + replaced + "/" + entry.getFileName();
-				
-				
-				Logger.logInfo("File download started: " + entry.getFileName());
-				
-				mDownloadVM.updateDownloadFile(entry.getFileName());
-				mDownloadVM.updateProgress(1);
-				
-				try {
-					DownloadHelper.downloadFileToDiskWithCheck(adress, libDir + entry.getPath(), entry.getFileName());
-				} catch (CraftenDownloadException e) {
-					Logger.logError("Could not download: " + entry.getFileName() + " msg: " + e.getMessage());
-					throw new CraftenDownloadException("Download failed: " + entry.getFileName());
-				}
 
-				if (entry.isExtractable()) {
-					
-					String file = libDir + entry.getPath() + File.separator + entry.getFileName();
-					String natives = mMinecraftPath.getMinecraftJarPath() + this.mCurrentVersion.getVersion() + "-natives-131231";
-					
-					new File(natives).mkdirs();
-					
-					try {
-						DownloadHelper.unpackJarFile(file, natives);
-					} catch (IOException e) {
-						Logger.logError("Unpacking jar ( " + file + " ) failed: " + e.getMessage());
-						throw new CraftenDownloadException("Unpacking jar failed: " + file);
-					}
-				}
-			}
-		}
-	}
+                String replaced = entry.getPath().replace(File.separator, "/");
+                String adress = DownloadURLHelper.URL_LIBRARIES + replaced + "/" + entry.getFileName();
+
+                LOGGER.info("File download started: " + entry.getFileName());
+
+                mDownloadVM.updateDownloadFile(entry.getFileName());
+                mDownloadVM.updateProgress(1);
+
+                try {
+                    DownloadHelper.downloadFileToDiskWithCheck(adress, libDir + entry.getPath(), entry.getFileName());
+                } catch (CraftenDownloadException e) {
+                    LOGGER.error("Could not download: " + entry.getFileName(), e);
+                    throw new CraftenDownloadException("Download failed: " + entry.getFileName());
+                }
+
+                if (entry.isExtractable()) {
+
+                    String file = libDir + entry.getPath() + File.separator + entry.getFileName();
+                    String natives = mMinecraftPath.getMinecraftJarPath() + this.mCurrentVersion.getVersion() + "-natives-131231";
+
+                    new File(natives).mkdirs();
+
+                    try {
+                        DownloadHelper.unpackJarFile(file, natives);
+                    } catch (IOException e) {
+                        LOGGER.error("Unpacking jar ( " + file + " ) failed", e);
+                        throw new CraftenDownloadException("Unpacking jar failed: " + file);
+                    }
+                }
+            }
+        }
+    }
 
 }

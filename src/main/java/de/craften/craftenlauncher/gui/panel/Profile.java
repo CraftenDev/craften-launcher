@@ -27,12 +27,13 @@ package de.craften.craftenlauncher.gui.panel;
 import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.gui.MainController;
 import de.craften.craftenlauncher.logic.Facade;
-import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.auth.MinecraftUser;
 import de.craften.ui.swingmaterial.MaterialButton;
 import de.craften.ui.swingmaterial.MaterialColor;
 import de.craften.ui.swingmaterial.MaterialShadow;
 import de.craften.ui.swingmaterial.Roboto;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,6 +44,7 @@ import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
 public class Profile extends JPanel {
+    private static final Logger LOGGER = LogManager.getLogger(Profile.class);
     private JLabel _version;
     private JLabel _serverIP;
     private JLabel _ram;
@@ -71,9 +73,9 @@ public class Profile extends JPanel {
         try {
             user = Facade.getInstance().getUser();
         } catch (CraftenLogicException e) {
-            Logger.logError("Grab username error");
-            e.printStackTrace();
+            LOGGER.error("Grab username error", e);
         }
+
         if (user != null) {
             //PlayerName
             JLabel playerName = new JLabel(user.getUsername());
@@ -128,18 +130,19 @@ public class Profile extends JPanel {
                 Facade.getInstance().setMinecraftVersion(Facade.getInstance().getMinecraftVersions().get(0));
             }
         } catch (CraftenLogicException e) {
-            e.printStackTrace();
+            LOGGER.error(e);
         }
 
         //TODO display IP where it is visible
         //Auto-Connect IP
         try {
-            if (Facade.getInstance().getMinecraftArguments().containsKey("server"))
+            if (Facade.getInstance().getMinecraftArguments().containsKey("server")) {
                 _serverIP = new JLabel("Will join to: " + Facade.getInstance().getMinecraftArgument("server"));
-            else
+            } else {
                 _serverIP = new JLabel("");
+            }
         } catch (CraftenLogicException e) {
-            e.printStackTrace();
+            LOGGER.error("Could not get server argument", e);
         }
         _serverIP.setFont(_fontPlain);
         _serverIP.setSize(this.getWidth(), 15);

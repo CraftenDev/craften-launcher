@@ -36,9 +36,10 @@ package de.craften.craftenlauncher;
 import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.gui.MainController;
 import de.craften.craftenlauncher.logic.Facade;
-import de.craften.craftenlauncher.logic.Logger;
 import de.craften.util.OSHelper;
 import de.craften.util.UIParser;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -53,6 +54,7 @@ import static javax.swing.SwingUtilities.invokeLater;
  * @author saschb2b
  */
 class Application {
+    private static final Logger LOGGER = LogManager.getLogger(Application.class);
 
     /**
      * Main Method!
@@ -70,28 +72,26 @@ class Application {
      * Logs several system information.
      */
     private static void logSystemInfo() {
-        Logger.logInfo("Launcher started!");
-        Logger.logDebug("OS : " + System.getProperty("os.name"));
-        Logger.logDebug("OS Arch: " + OSHelper.getOSArch());
-        Logger.logDebug("OS Java Arch : " + System.getProperty("os.arch"));
-        Logger.logDebug("OS Version : " + System.getProperty("os.version"));
-        Logger.logDebug("Username : " + System.getProperty("user.name"));
-        Logger.logDebug("Java Vendor : " + System.getProperty("java.vendor"));
-        Logger.logDebug("Java Version : " + System.getProperty("java.version"));
-        Logger.logDebug("Java Home : " + System.getProperty("java.home"));
-        Logger.logDebug("Java Classpath : " + System.getProperty("java.class.path"));
-        Logger.logDebug("Available processors (cores): " +
-                Runtime.getRuntime().availableProcessors());
-        Logger.logDebug("Total memory (bytes): " +
-                Runtime.getRuntime().totalMemory());
-        Logger.logInfo("Date: " + new SimpleDateFormat("dd.MM.yy").format(new Date()));
+        LOGGER.info("Launcher started!");
+        LOGGER.debug("OS : " + System.getProperty("os.name"));
+        LOGGER.debug("OS Arch: " + OSHelper.getOSArch());
+        LOGGER.debug("OS Java Arch : " + System.getProperty("os.arch"));
+        LOGGER.debug("OS Version : " + System.getProperty("os.version"));
+        LOGGER.debug("Username : " + System.getProperty("user.name"));
+        LOGGER.debug("Java Vendor : " + System.getProperty("java.vendor"));
+        LOGGER.debug("Java Version : " + System.getProperty("java.version"));
+        LOGGER.debug("Java Home : " + System.getProperty("java.home"));
+        LOGGER.debug("Java Classpath : " + System.getProperty("java.class.path"));
+        LOGGER.debug("Available processors (cores): " + Runtime.getRuntime().availableProcessors());
+        LOGGER.debug("Total memory (bytes): " + Runtime.getRuntime().totalMemory());
+        LOGGER.info("Date: " + new SimpleDateFormat("dd.MM.yy").format(new Date()));
     }
 
     /**
      * Starts the gui by invoking the gui manager.
      */
     private static void startGUI() {
-        Logger.logInfo("loading gui!");
+        LOGGER.debug("Starting GUI");
 
         invokeLater(new Runnable() {
             @Override
@@ -100,5 +100,4 @@ class Application {
             }
         });
     }
-
 }

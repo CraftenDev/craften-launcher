@@ -24,13 +24,15 @@
  */
 package de.craften.craftenlauncher.logic.minecraft;
 
-import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.auth.MinecraftUser;
 import de.craften.craftenlauncher.logic.version.MinecraftVersion;
 import de.craften.util.OS;
 import de.craften.util.OSHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class MinecraftInfo {
+	private static final Logger LOGGER = LogManager.getLogger(MinecraftInfo.class);
 	private String mVersion;
 	private String mUsername;
 	private String mSessionID, mClientToken, mAccessToken, mProfileID;
@@ -135,7 +137,7 @@ public class MinecraftInfo {
 			}
 			
 			if(OSHelper.isJava32bit() && OSHelper.getOSasEnum() == OS.WINDOWS && amount > 1024) {
-				Logger.logInfo("Trying to set Xmx="+xmx+" changing to 1024m.");
+				LOGGER.info("Trying to set Xmx="+xmx+" changing to 1024m.");
 				return "1024m";
 			}
 		}

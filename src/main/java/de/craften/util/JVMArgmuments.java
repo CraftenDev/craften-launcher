@@ -31,9 +31,9 @@ import java.util.regex.Pattern;
 
 import com.google.gson.JsonObject;
 
-import com.google.gson.JsonParser;
-import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.json.JSONReader;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Simple Helper for JVM specific Arguments
@@ -41,6 +41,7 @@ import de.craften.craftenlauncher.logic.json.JSONReader;
  * @author saschb2b
  */
 public class JVMArgmuments {
+    private static final Logger LOGGER = LogManager.getLogger(JVMArgmuments.class);
     private final static String PATH = "jvm.json";
 
     public static ArrayList<String> get() {
@@ -55,7 +56,7 @@ public class JVMArgmuments {
             try (InputStreamReader reader = new InputStreamReader(JVMArgmuments.class.getClassLoader().getResourceAsStream("jvm.json"))) {
                 jsonObject = JSONReader.readJson(reader);
             } catch (Exception e) {
-                Logger.logError("Could not read included JVM config");
+                LOGGER.error("Could not read included JVM config", e);
             }
         }
 

@@ -2,10 +2,11 @@ package de.craften.craftenlauncher.gui.panel;
 
 import de.craften.craftenlauncher.gui.MainController;
 import de.craften.craftenlauncher.logic.Facade;
-import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.vm.SkinVM;
 import de.craften.ui.swingmaterial.MaterialIconButton;
 import de.craften.ui.swingmaterial.MaterialShadow;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -23,6 +24,7 @@ import static java.awt.EventQueue.invokeLater;
  * The header panel.
  */
 public class Header extends JPanel implements Observer {
+    private static final Logger LOGGER = LogManager.getLogger(Header.class);
     private RoundAvatar avatar;
     private MaterialIconButton logoutButton;
 
@@ -45,7 +47,7 @@ public class Header extends JPanel implements Observer {
         try {
             bg = ImageIO.read(getClass().getResource("/images/header.png"));
         } catch (IOException e) {
-            Logger.logError("Could not load header background image");
+            LOGGER.error("Could not load header background image", e);
         }
         JPanel background = new ImagePanel(bg);
         background.setSize(new Dimension(375, 134));
@@ -70,7 +72,7 @@ public class Header extends JPanel implements Observer {
         try {
             logoutButton.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/images/logout.png"))));
         } catch (IOException e) {
-            Logger.logError("Could not load logout icon");
+            LOGGER.error("Could not load logout icon", e);
         }
         logoutButton.addActionListener(new ActionListener() {
             @Override

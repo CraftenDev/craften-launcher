@@ -2,14 +2,14 @@ package de.craften.craftenlauncher.gui;
 
 import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.logic.Facade;
-import de.craften.craftenlauncher.logic.Logger;
-
-import javax.swing.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * The controller of the launcher.
  */
 public class MainController {
+    private static final Logger LOGGER = LogManager.getLogger(MainController.class);
     private static MainController instance;
     private MainWindow mainWindow;
 
@@ -31,7 +31,7 @@ public class MainController {
                     MainController.getInstance().performLogin(Facade.getInstance().getUser().getEmail(), null);
                 }
             } catch (CraftenLogicException e) {
-                Logger.logInfo("Automatic login failed");
+                LOGGER.info("Automatic login failed", e);
             }
         }
     }
@@ -58,7 +58,7 @@ public class MainController {
         try {
             Facade.getInstance().startMinecraft();
         } catch (CraftenLogicException e) {
-            e.printStackTrace();
+            LOGGER.error("Could not start Minecraft", e);
         }
     }
 }
