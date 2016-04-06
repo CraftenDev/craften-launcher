@@ -43,8 +43,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
-public class Profile extends JPanel {
-    private static final Logger LOGGER = LogManager.getLogger(Profile.class);
+public class ProfilePanel extends JPanel {
+    private static final Logger LOGGER = LogManager.getLogger(ProfilePanel.class);
     private JLabel _version;
     private JLabel _serverIP;
     private JLabel _ram;
@@ -53,7 +53,7 @@ public class Profile extends JPanel {
     private Font _fontPlain = new Font(Font.SANS_SERIF, Font.PLAIN, 16),
             _fontPlainSmall = new Font(Font.SANS_SERIF, Font.PLAIN, 10);
 
-    public Profile() {
+    public ProfilePanel() {
         setBackground(Color.WHITE);
         setLayout(null);
     }

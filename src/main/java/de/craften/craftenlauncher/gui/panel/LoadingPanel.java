@@ -38,13 +38,13 @@ import java.util.Observable;
 import java.util.Observer;
 
 @SuppressWarnings("serial")
-public class Loading extends JPanel implements Observer {
-    private static final Logger LOGGER = LogManager.getLogger(Loading.class);
+public class LoadingPanel extends JPanel implements Observer {
+    private static final Logger LOGGER = LogManager.getLogger(LoadingPanel.class);
     private MaterialProgressSpinner pbar = new MaterialProgressSpinner();
     private JLabel info = new JLabel(), traffic = new JLabel();
     private boolean wantToStart, isMinecraftDownloaded;
 
-    public Loading() {
+    public LoadingPanel() {
         setBackground(Color.WHITE);
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         addProgressBar();

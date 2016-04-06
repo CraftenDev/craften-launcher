@@ -1,5 +1,6 @@
 package de.craften.craftenlauncher.gui.panel;
 
+import de.craften.craftenlauncher.gui.util.MinecraftSkin;
 import de.craften.ui.swingmaterial.ElevationEffect;
 import de.craften.ui.swingmaterial.MaterialShadow;
 import de.craften.ui.swingmaterial.RippleEffect;
@@ -25,8 +26,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * A round avatar with a (almost) white border.
  */
-public class RoundAvatar extends JPanel {
-    private static final Logger LOGGER = LogManager.getLogger(RoundAvatar.class);
+public class RoundAvatarPanel extends JPanel {
+    private static final Logger LOGGER = LogManager.getLogger(RoundAvatarPanel.class);
     private static final BufferedImage STEVE;
     private ElevationEffect elevationEffect;
     private RippleEffect rippleEffect;
@@ -37,14 +38,14 @@ public class RoundAvatar extends JPanel {
     static {
         BufferedImage steve = null;
         try {
-            steve = ImageIO.read(RoundAvatar.class.getResource("/images/steve.png"));
+            steve = ImageIO.read(RoundAvatarPanel.class.getResource("/images/steve.png"));
         } catch (IOException e) {
             LOGGER.error("Could not load Steve skin", e);
         }
         STEVE = steve;
     }
 
-    public RoundAvatar() {
+    public RoundAvatarPanel() {
         elevationEffect = ElevationEffect.applyCirularTo(this, 1);
         rippleEffect = RippleEffect.applyTo(this);
         skin = MinecraftSkin.getBodySkin(STEVE);
@@ -128,7 +129,7 @@ public class RoundAvatar extends JPanel {
                     TimingSource timer = new SwingTimerTimingSource();
                     timer.init();
                     Animator skinAnimator = new Animator.Builder(timer)
-                            .addTarget(PropertySetter.getTarget(RoundAvatar.this, "avatarDiameter", 0, getWidth() - MaterialShadow.OFFSET_LEFT - MaterialShadow.OFFSET_RIGHT - 10))
+                            .addTarget(PropertySetter.getTarget(RoundAvatarPanel.this, "avatarDiameter", 0, getWidth() - MaterialShadow.OFFSET_LEFT - MaterialShadow.OFFSET_RIGHT - 10))
                             .addTarget(new TimingTargetAdapter() {
                                 @Override
                                 public void end(Animator source) {

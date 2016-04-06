@@ -20,10 +20,10 @@
 
 package de.craften.craftenlauncher.gui;
 
-import de.craften.craftenlauncher.gui.panel.Header;
-import de.craften.craftenlauncher.gui.panel.Loading;
-import de.craften.craftenlauncher.gui.panel.Login;
-import de.craften.craftenlauncher.gui.panel.Profile;
+import de.craften.craftenlauncher.gui.panel.HeaderPanel;
+import de.craften.craftenlauncher.gui.panel.LoadingPanel;
+import de.craften.craftenlauncher.gui.panel.LoginPanel;
+import de.craften.craftenlauncher.gui.panel.ProfilePanel;
 import de.craften.craftenlauncher.logic.Facade;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,12 +35,12 @@ import java.awt.*;
 public class MainWindow extends JFrame {
     private static final Logger LOGGER = LogManager.getLogger(MainWindow.class);
     private static final long serialVersionUID = 1L;
-    private Header header;
+    private HeaderPanel header;
     private final JPanel body;
     private CardLayout bodyLayout;
-    private Login login;
-    private Profile profile;
-    private Loading loading;
+    private LoginPanel login;
+    private ProfilePanel profile;
+    private LoadingPanel loading;
 
     public MainWindow() {
         try {
@@ -64,7 +64,7 @@ public class MainWindow extends JFrame {
         body = new JPanel();
         body.setLayout(bodyLayout);
 
-        header = new Header();
+        header = new HeaderPanel();
         content.add(header, BorderLayout.NORTH);
         content.add(body, BorderLayout.CENTER);
 
@@ -84,13 +84,13 @@ public class MainWindow extends JFrame {
     }
 
     private void addLayers() {
-        login = new Login();
+        login = new LoginPanel();
         body.add(login, "login");
 
-        profile = new Profile();
+        profile = new ProfilePanel();
         body.add(profile, "profile");
 
-        loading = new Loading();
+        loading = new LoadingPanel();
         body.add(loading, "loading");
         Facade.getInstance().setMinecraftDownloadObserver(loading);
 

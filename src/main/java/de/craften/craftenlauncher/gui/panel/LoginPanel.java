@@ -39,14 +39,14 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @SuppressWarnings("serial")
-public class Login extends JPanel {
-    private static final Logger LOGGER = LogManager.getLogger(Login.class);
+public class LoginPanel extends JPanel {
+    private static final Logger LOGGER = LogManager.getLogger(LoginPanel.class);
     private MaterialTextField usernameField;
     private MaterialPasswordField passwordField;
     private MaterialButton loginButton;
     private JLabel errorLabel;
 
-    public Login() {
+    public LoginPanel() {
         setBackground(Color.WHITE);
         setLayout(null);
 

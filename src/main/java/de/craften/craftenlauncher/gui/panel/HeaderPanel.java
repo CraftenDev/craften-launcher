@@ -23,12 +23,12 @@ import static java.awt.EventQueue.invokeLater;
 /**
  * The header panel.
  */
-public class Header extends JPanel implements Observer {
-    private static final Logger LOGGER = LogManager.getLogger(Header.class);
-    private RoundAvatar avatar;
+public class HeaderPanel extends JPanel implements Observer {
+    private static final Logger LOGGER = LogManager.getLogger(HeaderPanel.class);
+    private RoundAvatarPanel avatar;
     private MaterialIconButton logoutButton;
 
-    public Header() {
+    public HeaderPanel() {
         setPreferredSize(new Dimension(375, 188));
         setLayout(null);
         setBounds(0, 0, 375, 188);
@@ -56,7 +56,7 @@ public class Header extends JPanel implements Observer {
     }
 
     private void addAvatar() {
-        avatar = new RoundAvatar();
+        avatar = new RoundAvatarPanel();
         avatar.setSize(new Dimension(130 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM, 130 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM));
         avatar.setLocation((getWidth() - avatar.getWidth()) / 2, 58 - MaterialShadow.OFFSET_TOP);
         add(avatar);

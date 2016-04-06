@@ -23,25 +23,14 @@
  * @author leMaik
  */
 
-package de.craften.craftenlauncher.gui.panel;
+package de.craften.craftenlauncher.gui.util;
 
-import de.craften.craftenlauncher.logic.Facade;
-import de.craften.craftenlauncher.logic.vm.SkinVM;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.Observable;
-import java.util.Observer;
 
-import static java.awt.EventQueue.invokeLater;
-
-@SuppressWarnings("serial")
-public class MinecraftSkin extends JPanel {
+public class MinecraftSkin {
     private static final Rectangle
             SKIN_HEAD = new Rectangle(8, 8, 8, 8),
             SKIN_HELMET = new Rectangle(40, 8, 8, 8),
@@ -56,19 +45,7 @@ public class MinecraftSkin extends JPanel {
             SKIN_RIGHT_ARM_OVERLAY = new Rectangle(44, 36, 4, 12),
             SKIN_LEFT_ARM_OVERLAY = new Rectangle(52, 52, 4, 12);
 
-    private BufferedImage skin;
-
-    public MinecraftSkin(Dimension d) {
-        setPreferredSize(d);
-        setLayout(null);
-        setBounds(0, 0, getPreferredSize().width, getPreferredSize().height);
-        setOpaque(false);
-
-        try {
-            skin = ImageIO.read(getClass().getResource("/images/steve.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private MinecraftSkin() {
     }
 
     private static BufferedImage getSkinPart(BufferedImage skin, Rectangle rect) {
@@ -111,10 +88,5 @@ public class MinecraftSkin extends JPanel {
         g.drawImage(getSkinPart(skin, SKIN_HELMET), 3, 0, 10, 10, null);
 
         return body;
-    }
-
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(getBodySkin(skin), 0, 0, g.getClipBounds().height / 2, g.getClipBounds().height, null);
     }
 }
