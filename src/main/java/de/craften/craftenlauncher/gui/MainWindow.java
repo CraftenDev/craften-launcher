@@ -25,12 +25,15 @@ import de.craften.craftenlauncher.gui.panel.Loading;
 import de.craften.craftenlauncher.gui.panel.Login;
 import de.craften.craftenlauncher.gui.panel.Profile;
 import de.craften.craftenlauncher.logic.Facade;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
 
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame {
+    private static final Logger LOGGER = LogManager.getLogger(MainWindow.class);
     private static final long serialVersionUID = 1L;
     private Header header;
     private final JPanel body;
@@ -43,15 +46,13 @@ public class MainWindow extends JFrame {
         try {
             setIconImage(new ImageIcon(getClass().getResource("/images/icon.png")).getImage());
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            LOGGER.error("Could not load icon", e);
         }
 
         setSize(375, 445);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         centerWindow(this);
-        //setUndecorated(true);
-        //setShape(new RoundRectangle2D.Double(0, 0, _width, _height, 3, 3));
 
         JPanel content = new JPanel();
         content.setLayout(new BorderLayout());
@@ -100,12 +101,6 @@ public class MainWindow extends JFrame {
         header.setLogoutEnabled(true);
         profile.init();
         bodyLayout.show(body, "profile");
-
-        try {
-            setIconImage(new ImageIcon(getClass().getResource("/images/icon2.png")).getImage());
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
     }
 
     public void showLoadingScreen() {
