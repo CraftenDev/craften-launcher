@@ -2,6 +2,7 @@ package de.craften.craftenlauncher.gui;
 
 import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.logic.Facade;
+import de.craften.craftenlauncher.logic.Logger;
 
 import javax.swing.*;
 
@@ -22,6 +23,17 @@ public class MainController {
     public void openMainWindow() {
         mainWindow = new MainWindow();
         mainWindow.setVisible(true);
+
+        if (!Facade.getInstance().isForceLogin()) {
+            try {
+                if (Facade.getInstance().getUser() != null && Facade.getInstance().getUser().getEmail() != null &&
+                        !Facade.getInstance().getUser().getEmail().isEmpty()) {
+                    MainController.getInstance().performLogin(Facade.getInstance().getUser().getEmail(), null);
+                }
+            } catch (CraftenLogicException e) {
+                Logger.logInfo("Automatic login failed");
+            }
+        }
     }
 
     public void performLogin(String username, char[] password) throws CraftenLogicException {

@@ -49,21 +49,14 @@ public class Login extends JPanel {
         buildUI();
         //addHelpLabels(); //TODO add help links
 
-        if (!Facade.getInstance().isForceLogin()) {
-            try {
-                if (Facade.getInstance().getUser() != null) {
-                    if (Facade.getInstance().getUser().getEmail() != null && !Facade.getInstance().getUser().getEmail().equals("")) {
-                        usernameField.setText(Facade.getInstance().getUser().getEmail());
-                        passwordField.grabFocus();
-                    }
-
-                    MainController.getInstance().performLogin(usernameField.getText(), null);
-                }
-            } catch (CraftenLogicException e) {
-                errorLabel.setText(e.getMessage());
+        try {
+            if (Facade.getInstance().getUser() != null && Facade.getInstance().getUser().getEmail() != null) {
+                usernameField.setText(Facade.getInstance().getUser().getEmail());
+                passwordField.grabFocus();
             }
+        } catch (CraftenLogicException e) {
+            errorLabel.setText(e.getMessage());
         }
-        repaint();
     }
 
     private void doLogin() {
