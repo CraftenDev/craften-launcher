@@ -200,6 +200,19 @@ public class ProfilePanel extends JPanel {
         });
         add(logoutButton);
 
+        //Version
+        try {
+            JLabel versionLabel = new JLabel("Version: " + Facade.getInstance().getMinecraftVersion().getVersion());
+            versionLabel.setFont(Roboto.REGULAR.deriveFont(12f));
+            versionLabel.setSize(238, 30);
+            versionLabel.setLocation(69, logoutButton.getY() + logoutButton.getHeight() - 10);
+            versionLabel.setForeground(MaterialColor.MIN_BLACK);
+            versionLabel.setHorizontalAlignment(JLabel.LEFT);
+            add(versionLabel);
+        } catch (CraftenLogicException e) {
+            e.printStackTrace();
+        }
+
         //RAM
         try {
             String ram;
@@ -214,19 +227,6 @@ public class ProfilePanel extends JPanel {
             ramLabel.setLocation(69, logoutButton.getY() + logoutButton.getHeight() - 10);
             ramLabel.setForeground(MaterialColor.MIN_BLACK);
             ramLabel.setHorizontalAlignment(JLabel.RIGHT);
-            add(ramLabel);
-        } catch (CraftenLogicException e) {
-            e.printStackTrace();
-        }
-
-        //Version
-        try {
-            JLabel ramLabel = new JLabel("Version: " + Facade.getInstance().getMinecraftVersion().getVersion());
-            ramLabel.setFont(Roboto.REGULAR.deriveFont(12f));
-            ramLabel.setSize(238, 30);
-            ramLabel.setLocation(69, logoutButton.getY() + logoutButton.getHeight() - 10);
-            ramLabel.setForeground(MaterialColor.MIN_BLACK);
-            ramLabel.setHorizontalAlignment(JLabel.LEFT);
             add(ramLabel);
         } catch (CraftenLogicException e) {
             e.printStackTrace();
