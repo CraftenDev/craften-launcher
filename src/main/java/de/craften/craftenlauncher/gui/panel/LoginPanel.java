@@ -115,6 +115,17 @@ public class LoginPanel extends JPanel {
                 doLogin();
             }
         });
+        loginButton.addMouseListener (new MouseAdapter () {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
         loginButton.setText("Login");
         loginButton.setBounds(0, 0, 238 + MaterialShadow.OFFSET_LEFT + MaterialShadow.OFFSET_RIGHT,
                 36 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM);

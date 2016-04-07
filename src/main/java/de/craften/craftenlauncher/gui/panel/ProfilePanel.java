@@ -162,6 +162,17 @@ public class ProfilePanel extends JPanel {
                 MainController.getInstance().play();
             }
         });
+        playButton.addMouseListener (new MouseAdapter () {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
         add(playButton);
 
         //RAM
