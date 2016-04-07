@@ -105,9 +105,9 @@ public class RoundAvatarPanel extends JPanel {
 
         if (skin != null) {
             Ellipse2D circle = new Ellipse2D.Double(MaterialShadow.OFFSET_LEFT + (width - avatarDiameter) / 2, MaterialShadow.OFFSET_TOP + (width - avatarDiameter) / 2, avatarDiameter, avatarDiameter);
-            g2.setClip(circle);
             g2.setColor(getBackground());
             g2.fill(circle);
+            g2.setClip(circle);
 
             int skinWidth = width - 20;
             int skinHeight = (int) (1.0 * skin.getHeight() / skin.getWidth() * skinWidth);
