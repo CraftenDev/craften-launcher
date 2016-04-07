@@ -34,10 +34,10 @@ public class HeaderPanel extends JPanel implements Observer {
         setBounds(0, 0, 375, 188);
         addBackground();
         addAvatar();
-        addLogoutButton();
+        //addLogoutButton();
         setBackground(Color.WHITE);
         setComponentZOrder(avatar, 0);
-        setComponentZOrder(logoutButton, 1);
+        //setComponentZOrder(logoutButton, 1);
 
         Facade.getInstance().setSkinObserver(this);
     }
@@ -84,7 +84,7 @@ public class HeaderPanel extends JPanel implements Observer {
     }
 
     public void setLogoutEnabled(boolean logoutEnabled) {
-        logoutButton.setEnabled(logoutEnabled);
+        //logoutButton.setEnabled(logoutEnabled);
     }
 
     @Override

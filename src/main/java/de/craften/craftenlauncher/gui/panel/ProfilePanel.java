@@ -154,8 +154,8 @@ public class ProfilePanel extends JPanel {
         playButton.setText("Play");
         playButton.setBackground(MaterialColor.CYAN_500);
         playButton.setForeground(Color.WHITE);
-        playButton.setSize(238 + MaterialShadow.OFFSET_LEFT + MaterialShadow.OFFSET_RIGHT, 40 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM);
-        playButton.setLocation(69 - MaterialShadow.OFFSET_LEFT, 114 - MaterialShadow.OFFSET_TOP);
+        playButton.setSize(238 + MaterialShadow.OFFSET_LEFT + MaterialShadow.OFFSET_RIGHT, 36 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM);
+        playButton.setLocation(69 - MaterialShadow.OFFSET_LEFT, 81 - MaterialShadow.OFFSET_TOP);
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -175,6 +175,31 @@ public class ProfilePanel extends JPanel {
         });
         add(playButton);
 
+        JButton logoutButton = new MaterialButton();
+        logoutButton.setText("Logout");
+        logoutButton.setBackground(MaterialColor.GREY_500);
+        logoutButton.setForeground(Color.WHITE);
+        logoutButton.setSize(238 + MaterialShadow.OFFSET_LEFT + MaterialShadow.OFFSET_RIGHT, 36 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM);
+        logoutButton.setLocation(69 - MaterialShadow.OFFSET_LEFT, 147 - MaterialShadow.OFFSET_TOP);
+        logoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                MainController.getInstance().logout();
+            }
+        });
+        logoutButton.addMouseListener (new MouseAdapter () {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
+        add(logoutButton);
+
         //RAM
         try {
             String ram;
@@ -186,7 +211,7 @@ public class ProfilePanel extends JPanel {
             JLabel ramLabel = new JLabel("RAM: " + ram);
             ramLabel.setFont(Roboto.REGULAR.deriveFont(12f));
             ramLabel.setSize(238, 30);
-            ramLabel.setLocation(69, playButton.getY() + playButton.getHeight() - 10);
+            ramLabel.setLocation(69, logoutButton.getY() + logoutButton.getHeight() - 10);
             ramLabel.setForeground(MaterialColor.MIN_BLACK);
             ramLabel.setHorizontalAlignment(JLabel.RIGHT);
             add(ramLabel);
@@ -199,7 +224,7 @@ public class ProfilePanel extends JPanel {
             JLabel ramLabel = new JLabel("Version: " + Facade.getInstance().getMinecraftVersion().getVersion());
             ramLabel.setFont(Roboto.REGULAR.deriveFont(12f));
             ramLabel.setSize(238, 30);
-            ramLabel.setLocation(69, playButton.getY() + playButton.getHeight() - 10);
+            ramLabel.setLocation(69, logoutButton.getY() + logoutButton.getHeight() - 10);
             ramLabel.setForeground(MaterialColor.MIN_BLACK);
             ramLabel.setHorizontalAlignment(JLabel.LEFT);
             add(ramLabel);
