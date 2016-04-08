@@ -182,7 +182,7 @@ public class LogicController {
                 mProfiles.save();
             }
         } else {      //new User
-                session = mAuthService.getSessionID(mProfiles.getSelectedUser());
+            session = mAuthService.getSessionID(mProfiles.getSelectedUser());
 
             if (session != null) {
                 mProfiles.setSelectedUser(mAuthService.getUser());
@@ -272,7 +272,7 @@ public class LogicController {
 
     public MinecraftVersion getMinecraftVersion() throws CraftenLogicException {
         if (mCurrentVersion == null) {
-            throw new CraftenLogicException();
+            throw new CraftenLogicException("Current version is null");
         }
         return mCurrentVersion;
     }
@@ -295,8 +295,8 @@ public class LogicController {
 
     public void startMinecraft() throws CraftenLogicException {
         if (!isMinecraftDownloaded()) {
-            LOGGER.error("Minecraft has not been downloaded fully!");
-            throw new CraftenLogicException("Minecraft has not been downloaded fully yet!");
+            LOGGER.error("Minecraft download not yet complete");
+            throw new CraftenLogicException("Minecraft download not yet complete");
         }
 
         if (!mProfiles.getSelectedUser().isLoggedIn()) {
