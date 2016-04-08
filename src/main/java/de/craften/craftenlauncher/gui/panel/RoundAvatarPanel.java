@@ -87,35 +87,33 @@ public class RoundAvatarPanel extends JPanel {
 
         elevationEffect.paint(g2);
 
-        Ellipse2D outer = new Ellipse2D.Double(MaterialShadow.OFFSET_LEFT, MaterialShadow.OFFSET_TOP, width, width);
-        g2.setColor(Color.decode("#f3f6f4"));
-        g2.fill(outer);
+        Ellipse2D circle = new Ellipse2D.Double(MaterialShadow.OFFSET_LEFT + 2, MaterialShadow.OFFSET_TOP + 2, width - 4, width - 4);
+        g2.setColor(getBackground());
+        g2.fill(circle);
+        g2.setClip(circle);
 
         if (previousSkin != null) {
-            Ellipse2D circle = new Ellipse2D.Double(MaterialShadow.OFFSET_LEFT + 5, MaterialShadow.OFFSET_TOP + 5, width - 10, width - 10);
-            g2.setColor(getBackground());
-            g2.fill(circle);
-            g2.setClip(circle);
-
-            BufferedImage body = previousSkin;
             int skinWidth = width - 20;
-            int skinHeight = (int) (1.0 * body.getHeight() / body.getWidth() * skinWidth);
-            g2.drawImage(body, (getWidth() - skinWidth) / 2, 18 + MaterialShadow.OFFSET_TOP, skinWidth, skinHeight, null);
+            int skinHeight = (int) (1.0 * previousSkin.getHeight() / previousSkin.getWidth() * skinWidth);
+            g2.drawImage(previousSkin, (getWidth() - skinWidth) / 2, 18 + MaterialShadow.OFFSET_TOP, skinWidth, skinHeight, null);
+            g2.setClip(new Ellipse2D.Double(MaterialShadow.OFFSET_LEFT + (width - avatarDiameter) / 2 - 2, MaterialShadow.OFFSET_TOP + (width - avatarDiameter) / 2 - 2, avatarDiameter + 4, avatarDiameter + 4));
         }
 
         if (skin != null) {
-            Ellipse2D circle = new Ellipse2D.Double(MaterialShadow.OFFSET_LEFT + (width - avatarDiameter) / 2, MaterialShadow.OFFSET_TOP + (width - avatarDiameter) / 2, avatarDiameter, avatarDiameter);
-            g2.setColor(getBackground());
-            g2.fill(circle);
-            g2.setClip(circle);
-
             int skinWidth = width - 20;
             int skinHeight = (int) (1.0 * skin.getHeight() / skin.getWidth() * skinWidth);
             g2.drawImage(skin, (getWidth() - skinWidth) / 2, 18 + MaterialShadow.OFFSET_TOP, skinWidth, skinHeight, null);
         }
 
+        Ellipse2D outer = new Ellipse2D.Double(MaterialShadow.OFFSET_LEFT, MaterialShadow.OFFSET_TOP, width, width);
         g2.setClip(outer);
+
         rippleEffect.paint(g);
+
+        g2.setClip(null);
+        g2.setColor(Color.WHITE);
+        g2.setStroke(new BasicStroke(4));
+        g2.drawArc(MaterialShadow.OFFSET_LEFT + 2, MaterialShadow.OFFSET_TOP + 2, width - 4, width - 4, 0, 360);
     }
 
     public void setSkin(BufferedImage skin) {
