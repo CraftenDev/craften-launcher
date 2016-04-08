@@ -1,22 +1,3 @@
-/**
- * CraftenLauncher is an alternative Launcher for Minecraft developed by Mojang.
- * Copyright (C) 2013  Johannes "redbeard" Busch, Sascha "saschb2b" Becker
- * <p>
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @author redbeard
- */
 package de.craften.craftenlauncher.logic;
 
 import de.craften.craftenlauncher.exception.*;
@@ -36,7 +17,6 @@ import de.craften.util.UIParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observer;
@@ -221,9 +201,9 @@ public class LogicController {
                 LOGGER.info("Trying again to download json!");
                 mDownService.setMinecraftVersion(mCurrentVersion);
             }
-            mDownService.addTask(DownloadTasks.ressources);
-            mDownService.addTask(DownloadTasks.jar);
-            mDownService.addTask(DownloadTasks.libraries);
+            mDownService.addTask(DownloadTasks.RESSOURCES);
+            mDownService.addTask(DownloadTasks.JAR);
+            mDownService.addTask(DownloadTasks.LIBRARIES);
         }
 
         new Thread(mDownService).start();
@@ -277,7 +257,7 @@ public class LogicController {
         return mCurrentVersion;
     }
 
-    public ArrayList<String> getMinecraftVersions() {
+    public List<String> getMinecraftVersions() {
         return mVersionList.getVersionsList();
     }
 

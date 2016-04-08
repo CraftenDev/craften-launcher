@@ -1,25 +1,3 @@
-/**
- * CraftenLauncher is an alternative Launcher for Minecraft developed by Mojang.
- * Copyright (C) 2013  Johannes "redbeard" Busch, Sascha "saschb2b" Becker
- * <p>
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * <p>
- * Loader-class for the "new" mc-version.
- * Loads all needed ressources from mojang.
- *
- * @author redbeard
- */
 package de.craften.craftenlauncher.logic.download.loader;
 
 import java.io.File;
@@ -31,7 +9,7 @@ import java.util.concurrent.Future;
 
 import de.craften.craftenlauncher.exception.CraftenDownloadException;
 import de.craften.craftenlauncher.logic.download.DownloadHelper;
-import de.craften.craftenlauncher.logic.download.DownloadURLHelper;
+import de.craften.craftenlauncher.logic.download.DownloadUrls;
 import de.craften.craftenlauncher.logic.resources.Index;
 import de.craften.craftenlauncher.logic.resources.ResEntry;
 import de.craften.craftenlauncher.logic.version.MinecraftVersion;
@@ -50,8 +28,8 @@ public class RessourceDownloader implements Downloader {
     private ExecutorService executor;
 
     public RessourceDownloader(MinecraftVersion version, String resDir, DownloadVM access) {
-        this.mResURL = DownloadURLHelper.URL_RESOURCES;
-        this.mIndexesURL = DownloadURLHelper.URL_INDEXES;
+        this.mResURL = DownloadUrls.URL_RESOURCES;
+        this.mIndexesURL = DownloadUrls.URL_INDEXES;
         this.mResDir = resDir;
         this.mAccess = access;
         this.mVersion = version;

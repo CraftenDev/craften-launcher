@@ -1,28 +1,3 @@
-/**
- * CraftenLauncher is an alternative Launcher for Minecraft developed by Mojang.
- * Copyright (C) 2013  Johannes "redbeard" Busch, Sascha "saschb2b" Becker
- * <p>
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * <p>
- * DownloadHelper Class:
- * <p>
- * Simple Download Helper to download files specified by an url
- * into an String or an file on the hard-disk
- *
- * @author evidence
- * @author redbeard
- */
 package de.craften.craftenlauncher.logic.download;
 
 import java.io.BufferedInputStream;
@@ -45,7 +20,7 @@ import org.apache.logging.log4j.Logger;
 
 public class DownloadHelper {
     private static final Logger LOGGER = LogManager.getLogger(DownloadHelper.class);
-    final static int size = 1024;
+    final static int BUFFER_SIZE = 1024;
     private static volatile boolean force = false;
     private static DownloadVM dwvm;
 
@@ -66,7 +41,7 @@ public class DownloadHelper {
      * Allgemeine Form der Download Funktion.
      * Benutzt ein Downloader Objekt um zu bestimmen wohin die Daten gespeichert werden soll.
      *
-     * @param downloader
+     * @param downloader downloader
      */
     private static void download(Downloader downloader) {
         HttpURLConnection uCon = null;
@@ -78,7 +53,7 @@ public class DownloadHelper {
             downloader.setContentLength(uCon.getContentLength());
             is = uCon.getInputStream();
 
-            byte[] buf = new byte[size];
+            byte[] buf = new byte[BUFFER_SIZE];
             int ByteRead;
             int dlKB = 0;
 

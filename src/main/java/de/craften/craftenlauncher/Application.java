@@ -1,36 +1,3 @@
-/**
- * CraftenLauncher is an alternative Launcher for Minecraft developed by Mojang.
- * Copyright (C) 2013  Johannes "redbeard" Busch, Sascha "saschb2b" Becker
- * <p>
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * <p>
- * <p>
- * Commandline input format:
- * --[parameter]=[value]
- * <p>
- * Used parameters:
- * --version    = [14w11b, 1.7.5, ...]defines the Minecraft-Version
- * --user       = Minecraft-Username (not implemented)
- * --pass       = Minecraft-Password (not implemented)
- * --server     = [192.168.2.1, 192.168.2.1:PORT, subdomain.name.de, subdomain.name.de:PORT] IP-Adress of a server to join + Port if needed
- * --mcpath     = Minecraft-Path
- * --xmx        = [1024m,4g, ....] ram-amount with witch mc will be started
- * --quickplay  = [] skip profile page and start minecrat directly
- * --profileid  = [54bnb5br_profileid_berb4b3] chooses a saved user
- * --forcelogin = erzwingt das Einloggen eines Users
- * --fullscreen = starts minecraft in fullscreen mode
- */
 package de.craften.craftenlauncher;
 
 import de.craften.craftenlauncher.exception.CraftenLogicException;
@@ -57,10 +24,10 @@ class Application {
     private static final Logger LOGGER = LogManager.getLogger(Application.class);
 
     /**
-     * Main Method!
+     * The entry point of the application.
      *
-     * @param args
-     * @throws CraftenLogicException
+     * @param args command line arguments
+     * @throws CraftenLogicException if launching the application fails
      */
     public static void main(String[] args) throws CraftenLogicException {
         logSystemInfo();

@@ -1,22 +1,3 @@
-/**
- * CraftenLauncher is an alternative Launcher for Minecraft developed by Mojang.
- * Copyright (C) 2013  Johannes "redbeard" Busch, Sascha "saschb2b" Becker
- * <p>
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @author redbeard
- */
 package de.craften.craftenlauncher.logic.download;
 
 import java.io.File;
@@ -88,7 +69,7 @@ public class DownloadService implements Runnable {
                     //TODO: Test-Workaround damit unter keinen Umstaenden der Service stirbt.
                     LOGGER.error("Unkown exception in DownloadService", e);
 
-                    if (DownloadTasks.ressources != task) {
+                    if (DownloadTasks.RESSOURCES != task) {
                         LOGGER.debug("Adding task in run() again");
                         addTask(task);
                     }
@@ -107,15 +88,15 @@ public class DownloadService implements Runnable {
 
     private void doTask(DownloadTasks task) {
         switch (task) {
-            case ressources:
+            case RESSOURCES:
                 downloadRessources();
                 break;
 
-            case jar:
+            case JAR:
                 downloadJar();
                 break;
 
-            case libraries:
+            case LIBRARIES:
                 downloadLibraries();
                 break;
 
@@ -136,7 +117,7 @@ public class DownloadService implements Runnable {
         } catch (CraftenDownloadException e) {
             //Sonderfall kein finRes=false da Minecraft auch mit nicht vollstaendigen Ressourcen gestartet werden kann / soll.
             LOGGER.warn("Error in downloadRessources -> Adding Task again!", e);
-            addTask(DownloadTasks.ressources);
+            addTask(DownloadTasks.RESSOURCES);
         }
 
         LOGGER.info("Resources-Download finished.");
@@ -153,7 +134,7 @@ public class DownloadService implements Runnable {
         } catch (CraftenDownloadException e) {
             LOGGER.warn("Jar could not be downloaded -> Adding Task again!", e);
             mFinJar = false;
-            addTask(DownloadTasks.jar);
+            addTask(DownloadTasks.JAR);
         }
 
         LOGGER.info("Jar-Download finished.");
@@ -171,7 +152,7 @@ public class DownloadService implements Runnable {
         } catch (CraftenDownloadException e) {
             LOGGER.warn("Possible Version Json could not be downloaded -> Adding Task again!", e);
             mFinLibraries = false;
-            addTask(DownloadTasks.libraries);
+            addTask(DownloadTasks.LIBRARIES);
         }
         LOGGER.info("Libaries-Download finished.");
     }
@@ -190,7 +171,7 @@ public class DownloadService implements Runnable {
 
     public void setMinecraftVersion(MinecraftVersion version) throws CraftenLogicException {
         try {
-            DownloadHelper.downloadFileToDiskWithoutCheck(DownloadURLHelper.URL_VERSION + version.getVersion() + "/" + version.getVersion()
+            DownloadHelper.downloadFileToDiskWithoutCheck(DownloadUrls.URL_VERSION + version.getVersion() + "/" + version.getVersion()
                     + ".json", mMinecraftPath.getMinecraftVersionsDir() + version.getVersion() + File.separator, version.getVersion() + ".json");
 
             Version vers = JSONReader.readJsonFileFromSelectedVersion(mMinecraftPath.getMinecraftJarPath() + version.getVersion() + ".json");
