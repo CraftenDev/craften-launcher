@@ -166,7 +166,7 @@ public class LogicController {
         }
     }
 
-    public void authenticateUser() throws CraftenLogicException {
+    public void authenticateUser() throws CraftenException {
         LOGGER.debug("Authenticate!");
         String session;
 
@@ -182,7 +182,7 @@ public class LogicController {
                 mProfiles.save();
             }
         } else {      //new User
-            session = mAuthService.getSessionID(mProfiles.getSelectedUser());
+                session = mAuthService.getSessionID(mProfiles.getSelectedUser());
 
             if (session != null) {
                 mProfiles.setSelectedUser(mAuthService.getUser());
@@ -194,11 +194,6 @@ public class LogicController {
 
                 mProfiles.save();
             }
-        }
-
-        if (session == null) {
-            LOGGER.error("Error while Authenticating! Session object null.");
-            throw new CraftenAuthenticationFailure("Error while authenticating!");
         }
 
         startDownloadService();

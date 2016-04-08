@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Observer;
 
+import de.craften.craftenlauncher.exception.CraftenException;
 import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.logic.auth.MinecraftUser;
 import de.craften.craftenlauncher.logic.download.DownloadHelper;
@@ -125,7 +126,7 @@ public class Facade {
 	 * Authenticate the current user.
 	 * @throws CraftenLogicException if authentication failed
 	 */
-	public void authenticateUser() throws CraftenLogicException {
+	public void authenticateUser() throws CraftenException {
 		mController.authenticateUser();
 	}
 

@@ -24,6 +24,8 @@
 
 package de.craften.craftenlauncher.gui.panel;
 
+import de.craften.craftenlauncher.exception.CraftenAuthenticationFailure;
+import de.craften.craftenlauncher.exception.CraftenException;
 import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.gui.MainController;
 import de.craften.craftenlauncher.logic.Facade;
@@ -44,7 +46,6 @@ public class LoginPanel extends JPanel {
     private MaterialTextField usernameField;
     private MaterialPasswordField passwordField;
     private MaterialButton loginButton;
-    private JLabel errorLabel;
 
     public LoginPanel() {
         setBackground(Color.WHITE);
@@ -59,16 +60,18 @@ public class LoginPanel extends JPanel {
                 passwordField.grabFocus();
             }
         } catch (CraftenLogicException e) {
-            errorLabel.setText(e.getMessage());
+            LOGGER.error(e);
         }
     }
 
     private void doLogin() {
         try {
-            errorLabel.setText("");
             MainController.getInstance().performLogin(usernameField.getText(), passwordField.getPassword());
-        } catch (CraftenLogicException e) {
-            errorLabel.setText(e.getMessage());
+        } catch (CraftenAuthenticationFailure e) {
+            LOGGER.error("Auth failur " + e.getMessage());
+            LOGGER.error(e);
+        } catch (CraftenException e) {
+
         }
     }
 
@@ -86,11 +89,6 @@ public class LoginPanel extends JPanel {
         usernameField.setBounds(0, 0, 240, 72);
         usernameField.setLocation(68, -10);
         add(usernameField);
-
-        errorLabel = new JLabel();
-        errorLabel.setForeground(MaterialColor.RED_500);
-        //TODO set location
-        add(errorLabel);
 
         passwordField = new MaterialPasswordField();
         passwordField.setLabel("Password");

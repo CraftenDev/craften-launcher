@@ -22,12 +22,15 @@
 package de.craften.craftenlauncher.logic.auth;
 
 import java.io.File;
+import java.io.IOException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import de.craften.craftenlauncher.exception.CraftenAuthenticationFailure;
+import de.craften.craftenlauncher.exception.CraftenException;
 import de.craften.craftenlauncher.logic.json.JSONConnector;
 import de.craften.craftenlauncher.logic.json.JSONReader;
 import de.craften.craftenlauncher.logic.minecraft.MinecraftPath;
@@ -72,31 +75,38 @@ public class AuthenticationService {
      * @param user the selected user from craftenlauncher_profiles or fresh created with password and email
      * @return a valid SessionID or NULL if something went wrong
      */
-    public String getSessionID(MinecraftUser user) {
+    public String getSessionID(MinecraftUser user) throws CraftenException {
         if (user.hasAccessToken()) {
             if (refresh(user)) {
                 LOGGER.info("Login with craftenlauncher_profiles successful");
                 return user.getSession();
             } else {
-                LOGGER.error("Login failed");
+                throw new CraftenAuthenticationFailure("Login with craftenlauncher_profiles failed");
             }
-            return null;
         } else {
             if (checkParamsNull(user.getEmail(), user.getPassword())) {
-                LOGGER.error("Params are null: " + user.getEmail() + user.getPassword());
-                return null;
+                throw new CraftenAuthenticationFailure("Params are null");
             }
 
             String response = getSSID(user.getEmail(), user.getPassword());
             String sessionID = null;
             if (response != null && !response.equals("")) {
-                this.user = new MinecraftUser(user.getEmail(), getProfileIDFromResponse(response), getName(response), getAccessTokenFromResponse(response), getClientTokenFromResponse(response));
-                this.user.setResponse(response);
 
-                sessionID = "token:" + user.getAccessToken() + ":" + user.getProfileId();
-                LOGGER.info("SessionID created");
+                JsonParser parser = new JsonParser();
+                Object obj = parser.parse(response);
+                JsonObject jsonObject = (JsonObject) obj;
+
+                if(jsonObject.has("selectedProfile")) {
+                    this.user = new MinecraftUser(user.getEmail(), getProfileIDFromResponse(response), getName(response), getAccessTokenFromResponse(response), getClientTokenFromResponse(response));
+                    this.user.setResponse(response);
+
+                    sessionID = "token:" + user.getAccessToken() + ":" + user.getProfileId();
+                    LOGGER.info("SessionID created");
+                }else{
+                    throw new CraftenAuthenticationFailure("You didn't buy minecraft yet");
+                }
             } else {
-                LOGGER.error("Login failed");
+                throw new CraftenAuthenticationFailure("Login with username and password failed");
             }
             return sessionID;
         }
@@ -171,7 +181,7 @@ public class AuthenticationService {
      * @param password Users password
      * @return a response string with needed data if successful.
      */
-    private String getSSID(String username, String password) {
+    private String getSSID(String username, String password) throws CraftenAuthenticationFailure {
         if (username != null && !username.equals("") && password != null && !password.equals("")) {
 
             Gson gson = new GsonBuilder().disableHtmlEscaping().create();
@@ -184,7 +194,12 @@ public class AuthenticationService {
             jsonResult.addProperty("username", username);
             jsonResult.addProperty("password", password);
 
-            return JSONConnector.executePost("https://authserver.mojang.com/authenticate", gson.toJson(jsonResult));
+            try{
+                return JSONConnector.executePost("https://authserver.mojang.com/authenticate", gson.toJson(jsonResult));
+            }
+            catch (Error error){
+                throw new CraftenAuthenticationFailure("User credentials are wrong");
+            }
         } else {
             return null;
         }

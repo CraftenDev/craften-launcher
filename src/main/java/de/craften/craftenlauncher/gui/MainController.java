@@ -1,5 +1,6 @@
 package de.craften.craftenlauncher.gui;
 
+import de.craften.craftenlauncher.exception.CraftenException;
 import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.logic.Facade;
 import org.apache.logging.log4j.LogManager;
@@ -38,13 +39,13 @@ public class MainController {
                         !Facade.getInstance().getUser().getEmail().isEmpty()) {
                     MainController.getInstance().performLogin(Facade.getInstance().getUser().getEmail(), null);
                 }
-            } catch (CraftenLogicException e) {
+            } catch (CraftenException e) {
                 LOGGER.info("Automatic login failed", e);
             }
         }
     }
 
-    public void performLogin(String username, char[] password) throws CraftenLogicException {
+    public void performLogin(String username, char[] password) throws CraftenException {
         if (password != null) {
             Facade.getInstance().setUser(username, password);
         }
