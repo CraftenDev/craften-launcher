@@ -52,7 +52,7 @@ public class JSONConnector {
             return response.toString();
 
         } catch (Exception e) {
-            LOGGER.error("AuthSer->executePost error: " + e.getMessage() + " params:" + urlParameters + " (JSONC)", e);
+            LOGGER.error("AuthSer->executePost error: " + e.getMessage(), e);
             return null;
         } finally {
             if (connection != null) {

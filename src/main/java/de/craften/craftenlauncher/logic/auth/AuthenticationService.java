@@ -70,7 +70,6 @@ public class AuthenticationService {
             String response = getSSID(user.getEmail(), user.getPassword());
             String sessionID = null;
             if (response != null && !response.equals("")) {
-
                 JsonParser parser = new JsonParser();
                 Object obj = parser.parse(response);
                 JsonObject jsonObject = (JsonObject) obj;
@@ -162,7 +161,6 @@ public class AuthenticationService {
      */
     private String getSSID(String username, String password) throws CraftenAuthenticationException {
         if (username != null && !username.equals("") && password != null && !password.equals("")) {
-
             Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
             JsonObject jsonResult = new JsonObject(), jsonNameVersion = new JsonObject();
