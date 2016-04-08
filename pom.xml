@@ -7,7 +7,7 @@
     <name>CraftenLauncher</name>
     <groupId>de.craften.craftenlauncher</groupId>
     <artifactId>CraftenLauncher</artifactId>
-    <version>0.14.0</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <properties>
