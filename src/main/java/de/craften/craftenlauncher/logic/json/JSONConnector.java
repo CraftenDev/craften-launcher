@@ -22,35 +22,30 @@ public class JSONConnector {
             url = new URL(targetURL);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type",
-                    "application/json; charset=utf-8");
-            connection.setRequestProperty("Content-Length", "" +
-                    Integer.toString(bytes.length));
+            connection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+            connection.setRequestProperty("Content-Length", "" + Integer.toString(bytes.length));
             connection.setRequestProperty("Content-Language", "en-US");
 
             connection.setUseCaches(false);
             connection.setDoInput(true);
             connection.setDoOutput(true);
-            System.out.println(connection.getURL());
+            LOGGER.debug(connection.getURL());
             //Send request
-            DataOutputStream wr = new DataOutputStream(
-                    connection.getOutputStream());
-            wr.write(bytes);
-            wr.flush();
-            wr.close();
+            try (DataOutputStream wr = new DataOutputStream(connection.getOutputStream())) {
+                wr.write(bytes);
+            }
 
             //Get Response
-            InputStream is = connection.getInputStream();
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-            String line;
-            StringBuilder response = new StringBuilder();
-            while ((line = rd.readLine()) != null) {
-                response.append(line);
-                response.append('\r');
+            try (InputStream is = connection.getInputStream();
+                 BufferedReader rd = new BufferedReader(new InputStreamReader(is))) {
+                String line;
+                StringBuilder response = new StringBuilder();
+                while ((line = rd.readLine()) != null) {
+                    response.append(line);
+                    response.append('\r');
+                }
+                return response.toString();
             }
-            rd.close();
-            return response.toString();
-
         } catch (Exception e) {
             LOGGER.error("AuthSer->executePost error: " + e.getMessage(), e);
             return null;

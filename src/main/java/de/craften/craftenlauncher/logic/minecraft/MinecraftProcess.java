@@ -137,7 +137,7 @@ public class MinecraftProcess {
             mcArgs.add("--fullscreen");
         }
         //mcArgs.add("--demo");
-        System.out.println(mcArgs.toString());
+        LOGGER.info("Arguments: " + mcArgs.toString());
         mParams.addAll(mcArgs);
     }
 }
