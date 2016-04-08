@@ -1,6 +1,6 @@
 package de.craften.craftenlauncher.logic.auth;
 
-import de.craften.craftenlauncher.exception.CraftenAuthenticationFailure;
+import de.craften.craftenlauncher.exception.CraftenAuthenticationException;
 import de.craften.craftenlauncher.exception.CraftenException;
 import de.craften.craftenlauncher.logic.LogicController;
 import de.craften.craftenlauncher.logic.json.JSONWriter;

@@ -24,12 +24,13 @@
 
 package de.craften.craftenlauncher.gui.panel;
 
-import de.craften.craftenlauncher.exception.CraftenAuthenticationFailure;
+import de.craften.craftenlauncher.exception.CraftenAuthenticationException;
 import de.craften.craftenlauncher.exception.CraftenException;
 import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.gui.MainController;
 import de.craften.craftenlauncher.logic.Facade;
 import de.craften.ui.swingmaterial.*;
+import de.craften.ui.swingmaterial.toast.TextToast;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -67,11 +68,21 @@ public class LoginPanel extends JPanel {
     private void doLogin() {
         try {
             MainController.getInstance().performLogin(usernameField.getText(), passwordField.getPassword());
-        } catch (CraftenAuthenticationFailure e) {
-            LOGGER.error("Auth failur " + e.getMessage());
-            LOGGER.error(e);
+        } catch (CraftenAuthenticationException e) {
+            switch (e.getReason()){
+                case DID_NOT_BUY_MINECRAFT:
+                    MainController.getInstance().displayToast(new TextToast("Please buy minecraft"));
+                    break;
+                case USER_CREDENTIALS_ARE_WRONG:
+                    MainController.getInstance().displayToast(new TextToast("Login failed"));
+                    break;
+                default:
+                    MainController.getInstance().displayToast(new TextToast("Login failed"));
+                    break;
+            }
+            LOGGER.error("Auth failure", e);
         } catch (CraftenException e) {
-
+            LOGGER.error("Unexpected error while authenticating", e);
         }
     }
 
