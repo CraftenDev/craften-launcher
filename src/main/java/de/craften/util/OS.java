@@ -1,6 +1,5 @@
 package de.craften.util;
 
-
-public enum OS{
-    WINDOWS,LINUX,OSX,UNDEFINED
+public enum OS {
+    WINDOWS, LINUX, OSX, UNDEFINED
 }

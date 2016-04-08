@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%highlight{[%d{HH:mm:ss} %5level]: [%logger{1}] %msg}{FATAL=red, ERROR=red, WARN=yellow, INFO=white, DEBUG=black, TRACE=blue}%n%throwable"/>
+        </Console>
+        <File name="Logfile" fileName="CraftenLauncher.log" bufferedIO="false">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss} %5level]: [%logger] %msg%n%throwable"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Logger name="de.craften.craftenlauncher" level="debug">
+            <AppenderRef ref="Logfile"/>
+        </Logger>
+        <Root>
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>

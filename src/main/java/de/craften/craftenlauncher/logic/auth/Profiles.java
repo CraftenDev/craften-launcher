@@ -1,24 +1,3 @@
-/**
- * CraftenLauncher is an alternative Launcher for Minecraft developed by Mojang.
- * Copyright (C) 2013  Johannes "redbeard" Busch, Sascha "saschb2b" Becker
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Profiles class:
- *
- * @author saschb2b
- */
 package de.craften.craftenlauncher.logic.auth;
 
 import de.craften.craftenlauncher.logic.json.JSONWriter;
@@ -35,7 +14,6 @@ public class Profiles {
     }
 
     /**
-     *
      * @param selectedUser set the current selected user
      */
     public void setSelectedUser(MinecraftUser selectedUser) {
@@ -43,7 +21,6 @@ public class Profiles {
     }
 
     /**
-     *
      * @param path set the minecraft path
      */
     public void setPath(String path) {
@@ -51,7 +28,6 @@ public class Profiles {
     }
 
     /**
-     *
      * @return current minecraft path
      */
     public String getPath() {
@@ -59,7 +35,6 @@ public class Profiles {
     }
 
     /**
-     *
      * @return current selected user
      */
     public MinecraftUser getSelectedUser() {
@@ -67,7 +42,6 @@ public class Profiles {
     }
 
     /**
-     *
      * @return all saved users
      */
     public ArrayList<MinecraftUser> getAvailableUsers() {
@@ -76,6 +50,7 @@ public class Profiles {
 
     /**
      * Returns a user with a given index
+     *
      * @param i the index we want our user to be
      * @return a user at index i
      */
@@ -85,6 +60,7 @@ public class Profiles {
 
     /**
      * Returns a user with a given id
+     *
      * @param id the id from a user we want
      * @return a user with given id or null if not found
      */
@@ -99,6 +75,7 @@ public class Profiles {
 
     /**
      * Adds a new user to our saved list
+     *
      * @param user the user we want to save
      */
     public void addAvailableUser(MinecraftUser user) {
@@ -107,11 +84,12 @@ public class Profiles {
 
     /**
      * Ändert den SelectedUser zum dem User mit der übergebenen profileID.
+     *
      * @param profileID Eindeutiger Qualifier des Users
      */
     public void changeSelectedUser(String profileID) {
-        for(MinecraftUser user : mAvailableUsers) {
-            if(user.getProfileId().equals(profileID)) {
+        for (MinecraftUser user : mAvailableUsers) {
+            if (user.getProfileId().equals(profileID)) {
                 mSelectedUser = user;
             }
         }
@@ -119,6 +97,7 @@ public class Profiles {
 
     /**
      * Removes a user with a given index
+     *
      * @param i the id from a user we want to remove
      */
     public MinecraftUser removeAvailableUser(int i) {
@@ -127,6 +106,7 @@ public class Profiles {
 
     /**
      * Removes a user with a given id
+     *
      * @param id the id from a user we want to remove
      */
     public boolean removeAvailableUser(String id) {
@@ -151,8 +131,8 @@ public class Profiles {
     /**
      * Clears the selected user
      */
-    public void clearSelectedUser(){
-        mSelectedUser = new MinecraftUser("","");
+    public void clearSelectedUser() {
+        mSelectedUser = new MinecraftUser("", "");
     }
 
     /**
@@ -164,7 +144,7 @@ public class Profiles {
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof Profiles))
+        if (!(obj instanceof Profiles))
             return false;
 
         Profiles a = (Profiles) obj;

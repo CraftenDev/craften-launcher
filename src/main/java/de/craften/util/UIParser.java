@@ -1,27 +1,7 @@
-/**
- * CraftenLauncher is an alternative Launcher for Minecraft developed by Mojang.
- * Copyright (C) 2013  Johannes "redbeard" Busch, Sascha "saschb2b" Becker
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Simple class to handle command line arguments
- *
- * @author redbeard
- */
 package de.craften.util;
 
-import de.craften.craftenlauncher.logic.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,12 +13,13 @@ import java.util.Map;
  * @author saschb2b
  */
 public class UIParser {
-
-    private Map<String, String> mArguments = new HashMap<String, String>();
+    private static final Logger LOGGER = LogManager.getLogger(UIParser.class);
+    private Map<String, String> mArguments = new HashMap<>();
 
     /**
      * Needs the command line arguments and
      * parses them.
+     *
      * @param args hst to be nut null.
      */
     public UIParser(String[] args) {
@@ -49,20 +30,21 @@ public class UIParser {
 
     /**
      * Parses a given arg and checks if this arg is parseble
+     *
      * @param arg
      */
     private void parseArg(String arg) {
         if (arg.contains("--")) {
             String cleanedArg = arg.substring(2);
-
             parseCleanedArg(cleanedArg);
         } else {
-            Logger.logInfo("Not known arg: " + arg);
+            LOGGER.warn("Unknown argument: " + arg);
         }
     }
 
     /**
      * Parses the cleaned arg and saves it.
+     *
      * @param cleanedArg
      */
     private void parseCleanedArg(String cleanedArg) {
@@ -72,9 +54,9 @@ public class UIParser {
             if (splitted.length == 2) {
                 mArguments.put(splitted[0], splitted[1]);
             } else {
-                Logger.logInfo("Unknown argument: " + cleanedArg);
+                LOGGER.warn("Unknown argument: " + cleanedArg);
             }
-        }else{
+        } else {
             mArguments.put(cleanedArg, null);
         }
     }
@@ -99,7 +81,7 @@ public class UIParser {
      * @param key
      * @return true if it contains the key, false if it does not.
      */
-    public boolean hasKey(String key){
+    public boolean hasKey(String key) {
         return mArguments.containsKey(key);
     }
 

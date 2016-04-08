@@ -39,16 +39,34 @@
 
     <licenses>
         <license>
-            <name>GNU General Public License (GPL)</name>
-            <url>http://www.gnu.org/licenses/gpl.txt</url>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
         </license>
     </licenses>
+
+    <repositories>
+        <repository>
+            <id>wertarbyte-repo</id>
+            <url>http://repo.wertarbyte.com/</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.2.4</version>
+            <version>2.6.1</version>
+            <!-- TODO We can't use Gson 2.6.2 because of a version range bug. We should update Gson once this is resolved. -->
+        </dependency>
+        <dependency>
+            <groupId>de.craften.ui.swingmaterial</groupId>
+            <artifactId>swing-material</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.5</version>
         </dependency>
 
         <dependency>
@@ -57,7 +75,6 @@
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>

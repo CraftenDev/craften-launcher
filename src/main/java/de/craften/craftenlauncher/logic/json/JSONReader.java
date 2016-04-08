@@ -1,25 +1,3 @@
-/**
- * CraftenLauncher is an alternative Launcher for Minecraft developed by Mojang.
- * Copyright (C) 2013  Johannes "redbeard" Busch, Sascha "saschb2b" Becker
- * <p>
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * <p>
- * Represents a JSONReader class
- * Currently only used for a minecraft version json file
- *
- * @author saschb2b
- */
 package de.craften.craftenlauncher.logic.json;
 
 import java.io.*;
@@ -30,47 +8,49 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 
-import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.auth.Profiles;
 import de.craften.craftenlauncher.logic.auth.MinecraftUser;
 import de.craften.craftenlauncher.logic.download.DownloadHelper;
 import de.craften.craftenlauncher.logic.resources.Version;
 import de.craften.util.OSHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class JSONReader {
+    private static final Logger LOGGER = LogManager.getLogger(JSONReader.class);
+
     public static Version readJsonFileFromSelectedVersion(String path) {
         Version version = new Version();
-
         JsonObject jsonObject = readJson(path);
 
         if (jsonObject != null) {
             version.setId(jsonObject.get("id").getAsString());
-            Logger.logDebug("Version ID: " + version.getId());
+            LOGGER.debug("Version ID: " + version.getId());
 
             version.setTime(jsonObject.get("time").getAsString());
-            Logger.logDebug("Version Time: " + version.getTime());
+            LOGGER.debug("Version Time: " + version.getTime());
 
             version.setReleaseTime(jsonObject.get("releaseTime").getAsString());
-            Logger.logDebug("Version Release Time: " + version.getReleaseTime());
+            LOGGER.debug("Version Release Time: " + version.getReleaseTime());
 
             version.setType(jsonObject.get("type").getAsString());
-            Logger.logDebug("Version type: " + version.getType());
+            LOGGER.debug("Version type: " + version.getType());
 
             if (jsonObject.has("assets")) {
                 version.setAssets(jsonObject.get("assets").getAsString());
-                Logger.logDebug("Version Assets: " + version.getAssets());
+                LOGGER.debug("Version Assets: " + version.getAssets());
             }
 
             version.setMinecraftArguments(jsonObject.get("minecraftArguments").getAsString());
-            Logger.logDebug("Version Arguments" + version.getMinecraftArguments());
+            LOGGER.debug("Version Arguments" + version.getMinecraftArguments());
 
             version.setLibs(jsonObject.get("libraries").getAsJsonArray());
 
             version.setMainClass(jsonObject.get("mainClass").getAsString());
-            Logger.logDebug("Version Main-Class: " + version.getMainClass());
+            LOGGER.debug("Version Main-Class: " + version.getMainClass());
 
             version.setMinimumLauncherVersion(jsonObject.get("minimumLauncherVersion").getAsInt());
-            Logger.logDebug("Minimum Launcher Version: " + version.getMinimumLauncherVersion());
+            LOGGER.debug("Minimum Launcher Version: " + version.getMinimumLauncherVersion());
         }
         return version;
     }
@@ -99,14 +79,14 @@ public class JSONReader {
 
     //TODO Fehlerbehandlung auf Exceptions umbauen
     public static JsonObject readJson(String path) {
-        Logger.logInfo("Reading JSON-File: " + path);
+        LOGGER.info("Reading JSON-File: " + path);
         try (FileReader reader = new FileReader(path)) {
             return readJson(reader);
         } catch (JsonParseException e) {
-            Logger.logError("JReader->JsonParseException: " + path);
+            LOGGER.error("JReader->JsonParseException: " + path, e);
             return null;
         } catch (Exception e) {
-            Logger.logError("JReader->Exception: " + path);
+            LOGGER.error("JReader->Exception: " + path, e);
             return null;
         }
     }
@@ -123,11 +103,11 @@ public class JSONReader {
 
         JsonObject jsonObject;
         if (minecraftDir == null) {
-            Logger.logInfo("Reading craftenlauncher_profiles from: " + OSHelper.getMinecraftPath());
+            LOGGER.info("Reading craftenlauncher_profiles from: " + OSHelper.getMinecraftPath());
             path = OSHelper.getMinecraftPath();
             jsonObject = readJson(path + filename);
         } else {
-            Logger.logInfo("Reading craftenlauncher_profiles from: " + minecraftDir);
+            LOGGER.info("Reading craftenlauncher_profiles from: " + minecraftDir);
 
             if (minecraftDir.endsWith(File.separator)) {
                 path = minecraftDir;

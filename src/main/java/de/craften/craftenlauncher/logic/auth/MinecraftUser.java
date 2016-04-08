@@ -1,22 +1,3 @@
-/**
- * CraftenLauncher is an alternative Launcher for Minecraft developed by Mojang.
- * Copyright (C) 2013  Johannes "redbeard" Busch, Sascha "saschb2b" Becker
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @author redbeard
- */
 package de.craften.craftenlauncher.logic.auth;
 
 public class MinecraftUser {
@@ -43,7 +24,8 @@ public class MinecraftUser {
 
     /**
      * Creates a new MinecraftUser
-     * @param email The users' email
+     *
+     * @param email    The users' email
      * @param password The users' password
      */
     public MinecraftUser(String email, String password) {
@@ -53,9 +35,10 @@ public class MinecraftUser {
 
     /**
      * Creates a new MinecraftUser where a login with password is not needed
-     * @param email The users' email
-     * @param profileId The users' profileId
-     * @param username The users' username
+     *
+     * @param email       The users' email
+     * @param profileId   The users' profileId
+     * @param username    The users' username
      * @param accessToken The users' accessToken
      * @param clientToken The users' clientToken
      */
@@ -68,7 +51,6 @@ public class MinecraftUser {
     }
 
     /**
-     *
      * @param email
      */
     public void setEmail(String email) {
@@ -76,7 +58,6 @@ public class MinecraftUser {
     }
 
     /**
-     *
      * @param username
      */
     public void setUsername(String username) {
@@ -84,7 +65,6 @@ public class MinecraftUser {
     }
 
     /**
-     *
      * @param password
      */
     public void setPassword(String password) {
@@ -92,7 +72,6 @@ public class MinecraftUser {
     }
 
     /**
-     *
      * @param accessToken
      */
     public void setAccessToken(String accessToken) {
@@ -100,7 +79,6 @@ public class MinecraftUser {
     }
 
     /**
-     *
      * @param clientToken
      */
     public void setClientToken(String clientToken) {
@@ -108,7 +86,6 @@ public class MinecraftUser {
     }
 
     /**
-     *
      * @param profileId
      */
     public void setProfileId(String profileId) {
@@ -116,7 +93,6 @@ public class MinecraftUser {
     }
 
     /**
-     *
      * @param session
      */
     public void setSession(String session) {
@@ -124,7 +100,6 @@ public class MinecraftUser {
     }
 
     /**
-     *
      * @param response
      */
     public void setResponse(String response) {
@@ -135,7 +110,7 @@ public class MinecraftUser {
      * @return current email of the user
      */
     public String getEmail() {
-        if(mEmail == null)
+        if (mEmail == null)
             return "";
         return mEmail;
     }
@@ -144,7 +119,7 @@ public class MinecraftUser {
      * @return current username of the user
      */
     public String getUsername() {
-        if(mUsername == null)
+        if (mUsername == null)
             return "";
         return mUsername;
     }
@@ -153,7 +128,7 @@ public class MinecraftUser {
      * @return current password of the user
      */
     public String getPassword() {
-        if(mPassword == null)
+        if (mPassword == null)
             return "";
         return mPassword;
     }
@@ -163,7 +138,7 @@ public class MinecraftUser {
      * @return The accesstoken of the user
      */
     public String getAccessToken() {
-        if(mAccessToken == null)
+        if (mAccessToken == null)
             return "";
         return mAccessToken;
     }
@@ -172,7 +147,7 @@ public class MinecraftUser {
      * @return current clienttoken of the user
      */
     public String getClientToken() {
-        if(mClientToken == null)
+        if (mClientToken == null)
             return "";
         return mClientToken;
     }
@@ -181,7 +156,7 @@ public class MinecraftUser {
      * @return current profileId of the user
      */
     public String getProfileId() {
-        if(mProfileId == null)
+        if (mProfileId == null)
             return "";
         return mProfileId;
     }
@@ -200,21 +175,23 @@ public class MinecraftUser {
      * @return current response from Mojangs' servers after authenticating the user
      */
     public String getResponse() {
-        if(mResponse == null)
+        if (mResponse == null)
             return "";
         return mResponse;
     }
 
     /**
      * Checks if user has an Accesstoken
+     *
      * @return true if it has false if not
      */
-    public boolean hasAccessToken(){
+    public boolean hasAccessToken() {
         return mAccessToken != null && !mAccessToken.equals("");
     }
 
     /**
      * Checks if the user was logged in successfully.
+     *
      * @return
      */
     public boolean isLoggedIn() {
@@ -237,7 +214,7 @@ public class MinecraftUser {
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof MinecraftUser))
+        if (!(obj instanceof MinecraftUser))
             return false;
 
         MinecraftUser a = (MinecraftUser) obj;

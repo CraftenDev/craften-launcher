@@ -1,57 +1,36 @@
-/**
- * CraftenLauncher is an alternative Launcher for Minecraft developed by Mojang.
- * Copyright (C) 2013  Johannes "redbeard" Busch, Sascha "saschb2b" Becker
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Represents a JSONWriter class
- * Currently only used for saving the showProfile data
- *
- * @author saschb2b
- */
 package de.craften.craftenlauncher.logic.json;
 
 import com.google.gson.stream.JsonWriter;
-import de.craften.craftenlauncher.logic.Logger;
 import de.craften.craftenlauncher.logic.auth.Profiles;
 import de.craften.craftenlauncher.logic.auth.MinecraftUser;
 import de.craften.util.OSHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class JSONWriter {
-    public static void saveProfiles(Profiles login){
+    private static final Logger LOGGER = LogManager.getLogger(JSONWriter.class);
+
+    public static void saveProfiles(Profiles login) {
         String filename = "craftenlauncher_profiles.json";
         JsonWriter writer;
 
-        try{
-            if(login.getPath() == null || login.getPath().equals("")){
-                Logger.logInfo("Writing craftenlauncher_profiles to " + OSHelper.getMinecraftPath());
-                writer = new JsonWriter(new FileWriter(OSHelper.getMinecraftPath()+ filename));
+        try {
+            if (login.getPath() == null || login.getPath().equals("")) {
+                LOGGER.info("Writing craftenlauncher_profiles to " + OSHelper.getMinecraftPath());
+                writer = new JsonWriter(new FileWriter(OSHelper.getMinecraftPath() + filename));
                 login.setPath(OSHelper.getMinecraftPath());
-            }
-            else{
-                Logger.logInfo("Writing craftenlauncher_profiles to " + login.getPath());
+            } else {
+                LOGGER.info("Writing craftenlauncher_profiles to " + login.getPath());
 
-                if(login.getPath().endsWith(File.separator)) {
-                    writer = new JsonWriter(new FileWriter(login.getPath()+ filename));
-                }
-                else {
-                    writer = new JsonWriter(new FileWriter(login.getPath()+ File.separator + filename));
-                    login.setPath(login.getPath()+ File.separator);
+                if (login.getPath().endsWith(File.separator)) {
+                    writer = new JsonWriter(new FileWriter(login.getPath() + filename));
+                } else {
+                    writer = new JsonWriter(new FileWriter(login.getPath() + File.separator + filename));
+                    login.setPath(login.getPath() + File.separator);
                 }
             }
             writer.setIndent(" ");
@@ -75,8 +54,8 @@ public class JSONWriter {
             writer.endObject();
             writer.close();
 
-        }catch (Exception e){
-        	Logger.logError("JSONWriter Error: " + e.getMessage());
+        } catch (Exception e) {
+            LOGGER.error("JSONWriter Error: " + e.getMessage(), e);
         }
     }
 

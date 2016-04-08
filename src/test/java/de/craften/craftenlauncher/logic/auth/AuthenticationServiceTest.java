@@ -1,5 +1,7 @@
 package de.craften.craftenlauncher.logic.auth;
 
+import de.craften.craftenlauncher.exception.CraftenAuthenticationException;
+import de.craften.craftenlauncher.exception.CraftenException;
 import de.craften.craftenlauncher.logic.LogicController;
 import de.craften.craftenlauncher.logic.json.JSONWriter;
 import de.craften.util.OSHelper;
@@ -77,7 +79,7 @@ public class AuthenticationServiceTest {
 
     @Test
     @Ignore("Should be activated when mocking is available or user/pass is given!")
-    public void testGetUsersAfterNewGetSessionID() {
+    public void testGetUsersAfterNewGetSessionID() throws CraftenException {
         givenNewAuthService();
 
         List<MinecraftUser> actual = whenGetUsersIsCalled();
@@ -87,7 +89,7 @@ public class AuthenticationServiceTest {
         assertEquals(actual.size(),expected.size());
     }
 
-    private void givenNewAuthService() {
+    private void givenNewAuthService() throws CraftenException {
         expected = new ArrayList<MinecraftUser>();
         expected.add(new MinecraftUser());
 
