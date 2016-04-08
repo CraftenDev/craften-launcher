@@ -15,6 +15,7 @@ import org.jdesktop.swing.animation.timing.sources.SwingTimerTimingSource;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.plaf.ComponentUI;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -64,6 +65,14 @@ public class RoundAvatarPanel extends JPanel {
                 elevationEffect.setLevel(1);
             }
         });
+
+        setUI(new ComponentUI() {
+            @Override
+            public boolean contains(JComponent c, int x, int y) {
+                int width = getWidth() - MaterialShadow.OFFSET_LEFT - MaterialShadow.OFFSET_RIGHT;
+                return new Ellipse2D.Double(MaterialShadow.OFFSET_LEFT, MaterialShadow.OFFSET_TOP, width, width).contains(x, y);
+            }
+        });
     }
 
     public int getAvatarDiameter() {
@@ -105,15 +114,13 @@ public class RoundAvatarPanel extends JPanel {
             g2.drawImage(skin, (getWidth() - skinWidth) / 2, 18 + MaterialShadow.OFFSET_TOP, skinWidth, skinHeight, null);
         }
 
-        Ellipse2D outer = new Ellipse2D.Double(MaterialShadow.OFFSET_LEFT, MaterialShadow.OFFSET_TOP, width, width);
-        g2.setClip(outer);
-
+        g2.setClip(circle);
         rippleEffect.paint(g);
 
         g2.setClip(null);
         g2.setColor(Color.WHITE);
         g2.setStroke(new BasicStroke(4));
-        g2.drawArc(MaterialShadow.OFFSET_LEFT + 2, MaterialShadow.OFFSET_TOP + 2, width - 4, width - 4, 0, 360);
+        g2.draw(new Ellipse2D.Double(MaterialShadow.OFFSET_LEFT + 2, MaterialShadow.OFFSET_TOP + 2, width - 4, width - 4));
     }
 
     public void setSkin(BufferedImage skin) {
