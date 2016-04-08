@@ -5,6 +5,9 @@ import de.craften.craftenlauncher.logic.Facade;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 /**
  * The controller of the launcher.
  */
@@ -22,6 +25,11 @@ public class MainController {
 
     public void openMainWindow() {
         mainWindow = new MainWindow();
+        mainWindow.addWindowListener(new WindowAdapter() {
+            @Override public void windowClosed(WindowEvent e) {
+                System.exit(0);
+            }
+        });
         mainWindow.setVisible(true);
 
         if (!Facade.getInstance().isForceLogin()) {

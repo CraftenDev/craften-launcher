@@ -50,7 +50,7 @@ public class MainWindow extends JDialog {
             LOGGER.error("Could not load icon", e);
         }
 
-        //setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         getContentPane().setSize(new Dimension(376, 445));
         setLocationRelativeTo(null);
         setTitle("Craften Launcher");
