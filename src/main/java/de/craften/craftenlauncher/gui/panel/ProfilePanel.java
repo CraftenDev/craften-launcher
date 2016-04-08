@@ -80,8 +80,8 @@ public class ProfilePanel extends JPanel {
             //PlayerName
             JLabel playerName = new JLabel(user.getUsername());
             playerName.setFont(Roboto.MEDIUM.deriveFont(20f));
-            playerName.setSize(238, 60);
-            playerName.setLocation(69, 2);
+            playerName.setSize(240, 60);
+            playerName.setLocation(68, 2);
             playerName.setVerticalAlignment(JLabel.TOP);
             playerName.setHorizontalAlignment(JLabel.CENTER);
             playerName.setForeground(MaterialColor.LIGHT_BLACK);
@@ -89,8 +89,8 @@ public class ProfilePanel extends JPanel {
 
             JLabel playerMail = new JLabel(user.getEmail());
             playerMail.setFont(Roboto.REGULAR.deriveFont(12f));
-            playerMail.setSize(238, 60);
-            playerMail.setLocation(69, 26);
+            playerMail.setSize(240, 60);
+            playerMail.setLocation(68, 26);
             playerMail.setVerticalAlignment(JLabel.TOP);
             playerMail.setHorizontalAlignment(JLabel.CENTER);
             playerMail.setForeground(MaterialColor.MIN_BLACK);
@@ -154,8 +154,8 @@ public class ProfilePanel extends JPanel {
         playButton.setText("Play");
         playButton.setBackground(MaterialColor.CYAN_500);
         playButton.setForeground(Color.WHITE);
-        playButton.setSize(238 + MaterialShadow.OFFSET_LEFT + MaterialShadow.OFFSET_RIGHT, 36 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM);
-        playButton.setLocation(69 - MaterialShadow.OFFSET_LEFT, 81 - MaterialShadow.OFFSET_TOP);
+        playButton.setSize(240 + MaterialShadow.OFFSET_LEFT + MaterialShadow.OFFSET_RIGHT, 36 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM);
+        playButton.setLocation(68 - MaterialShadow.OFFSET_LEFT, 81 - MaterialShadow.OFFSET_TOP);
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -179,8 +179,8 @@ public class ProfilePanel extends JPanel {
         logoutButton.setText("Logout");
         logoutButton.setBackground(MaterialColor.GREY_500);
         logoutButton.setForeground(Color.WHITE);
-        logoutButton.setSize(238 + MaterialShadow.OFFSET_LEFT + MaterialShadow.OFFSET_RIGHT, 36 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM);
-        logoutButton.setLocation(69 - MaterialShadow.OFFSET_LEFT, 147 - MaterialShadow.OFFSET_TOP);
+        logoutButton.setSize(240 + MaterialShadow.OFFSET_LEFT + MaterialShadow.OFFSET_RIGHT, 36 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM);
+        logoutButton.setLocation(68 - MaterialShadow.OFFSET_LEFT, 147 - MaterialShadow.OFFSET_TOP);
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -204,8 +204,8 @@ public class ProfilePanel extends JPanel {
         try {
             JLabel versionLabel = new JLabel("Version: " + Facade.getInstance().getMinecraftVersion().getVersion());
             versionLabel.setFont(Roboto.REGULAR.deriveFont(12f));
-            versionLabel.setSize(238, 30);
-            versionLabel.setLocation(69, logoutButton.getY() + logoutButton.getHeight() - 10);
+            versionLabel.setSize(240, 30);
+            versionLabel.setLocation(68, logoutButton.getY() + logoutButton.getHeight() - 10);
             versionLabel.setForeground(MaterialColor.MIN_BLACK);
             versionLabel.setHorizontalAlignment(JLabel.LEFT);
             add(versionLabel);
@@ -223,8 +223,8 @@ public class ProfilePanel extends JPanel {
             }
             JLabel ramLabel = new JLabel("RAM: " + ram);
             ramLabel.setFont(Roboto.REGULAR.deriveFont(12f));
-            ramLabel.setSize(238, 30);
-            ramLabel.setLocation(69, logoutButton.getY() + logoutButton.getHeight() - 10);
+            ramLabel.setSize(240, 30);
+            ramLabel.setLocation(68, logoutButton.getY() + logoutButton.getHeight() - 10);
             ramLabel.setForeground(MaterialColor.MIN_BLACK);
             ramLabel.setHorizontalAlignment(JLabel.RIGHT);
             add(ramLabel);

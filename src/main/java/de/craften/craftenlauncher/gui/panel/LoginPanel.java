@@ -83,8 +83,8 @@ public class LoginPanel extends JPanel {
                 }
             }
         });
-        usernameField.setBounds(0, 0, 238, 72);
-        usernameField.setLocation(69, -10);
+        usernameField.setBounds(0, 0, 240, 72);
+        usernameField.setLocation(68, -10);
         add(usernameField);
 
         errorLabel = new JLabel();
@@ -102,8 +102,8 @@ public class LoginPanel extends JPanel {
                 }
             }
         });
-        passwordField.setBounds(0, 0, 238, 72);
-        passwordField.setLocation(69, 57);
+        passwordField.setBounds(0, 0, 240, 72);
+        passwordField.setLocation(68, 57);
         add(passwordField);
 
         loginButton = new MaterialButton();
@@ -115,7 +115,7 @@ public class LoginPanel extends JPanel {
                 doLogin();
             }
         });
-        loginButton.addMouseListener (new MouseAdapter () {
+        loginButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -127,9 +127,9 @@ public class LoginPanel extends JPanel {
             }
         });
         loginButton.setText("Login");
-        loginButton.setBounds(0, 0, 238 + MaterialShadow.OFFSET_LEFT + MaterialShadow.OFFSET_RIGHT,
+        loginButton.setBounds(0, 0, 240 + MaterialShadow.OFFSET_LEFT + MaterialShadow.OFFSET_RIGHT,
                 36 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM);
-        loginButton.setLocation(69 - MaterialShadow.OFFSET_LEFT, 147 - MaterialShadow.OFFSET_TOP);
+        loginButton.setLocation(68 - MaterialShadow.OFFSET_LEFT, 147 - MaterialShadow.OFFSET_TOP);
         add(loginButton);
     }
 
@@ -138,16 +138,15 @@ public class LoginPanel extends JPanel {
         usernameOrEmailLink.setFont(Roboto.REGULAR.deriveFont(11f));
         usernameOrEmailLink.setForeground(MaterialColor.MIN_BLACK);
         usernameOrEmailLink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        usernameOrEmailLink.setHorizontalAlignment(JLabel.RIGHT);
+        usernameOrEmailLink.setHorizontalAlignment(JLabel.LEFT);
         usernameOrEmailLink.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent env) {
                 openLink("https://help.mojang.com/customer/portal/articles/1233873");
             }
         });
-        usernameOrEmailLink.setLocation(usernameField.getX() - 8, usernameField.getY() + usernameField.getHeight() + 2);
-        usernameOrEmailLink.setLocation(69, loginButton.getY() + loginButton.getHeight() - 5);
-        usernameOrEmailLink.setSize(238, 30);
+        usernameOrEmailLink.setLocation(68, loginButton.getY() + loginButton.getHeight() - 10);
+        usernameOrEmailLink.setSize(240, 30);
         add(usernameOrEmailLink);
         setComponentZOrder(usernameOrEmailLink, 0);
 
@@ -162,25 +161,10 @@ public class LoginPanel extends JPanel {
                 openLink("https://help.mojang.com/customer/portal/articles/329524-change-or-forgot-password");
             }
         });
-        forgotPasswordLink.setLocation(69, loginButton.getY() + loginButton.getHeight() - 20);
-        forgotPasswordLink.setSize(238, 30);
+        forgotPasswordLink.setLocation(68, loginButton.getY() + loginButton.getHeight() - 10);
+        forgotPasswordLink.setSize(240, 30);
         add(forgotPasswordLink);
         setComponentZOrder(forgotPasswordLink, 0);
-
-        JLabel registerAccountLink = new JLabel("Register account");
-        registerAccountLink.setFont(Roboto.REGULAR.deriveFont(11f));
-        registerAccountLink.setForeground(MaterialColor.MIN_BLACK);
-        registerAccountLink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        registerAccountLink.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent env) {
-                openLink("https://account.mojang.com/register?agent=minecraft");
-            }
-        });
-        registerAccountLink.setLocation(69, loginButton.getY() + loginButton.getHeight() - 20);
-        registerAccountLink.setSize(238, 30);
-        add(registerAccountLink);
-        setComponentZOrder(registerAccountLink, 0);
     }
 
     private static void openLink(String url) {

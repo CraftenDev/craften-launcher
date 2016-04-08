@@ -49,29 +49,29 @@ public class MainWindow extends JFrame {
             LOGGER.error("Could not load icon", e);
         }
 
-        setSize(375, 445);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        getContentPane().setSize(new Dimension(376, 445));
         setLocationRelativeTo(null);
-        centerWindow(this);
+        setTitle("Craften Launcher");
+        setResizable(false);
 
         JPanel content = new JPanel();
         content.setLayout(new BorderLayout());
-        content.setSize(375, 445);
-        content.setBackground(Color.WHITE);
         add(content);
+
+        header = new HeaderPanel();
+        content.add(header, BorderLayout.NORTH);
 
         bodyLayout = new CardLayout(0, 0);
         body = new JPanel();
         body.setLayout(bodyLayout);
-
-        header = new HeaderPanel();
-        content.add(header, BorderLayout.NORTH);
+        body.setPreferredSize(new Dimension(getWidth(), getContentPane().getHeight() - header.getHeight()));
         content.add(body, BorderLayout.CENTER);
 
-        setTitle("Craften Launcher");
-        setResizable(false);
-
         addLayers();
+
+        pack();
+        centerWindow(this);
         setVisible(true);
     }
 

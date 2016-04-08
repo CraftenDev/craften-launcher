@@ -29,9 +29,9 @@ public class HeaderPanel extends JPanel implements Observer {
     private MaterialIconButton logoutButton;
 
     public HeaderPanel() {
-        setPreferredSize(new Dimension(375, 188));
+        setPreferredSize(new Dimension(376, 188));
         setLayout(null);
-        setBounds(0, 0, 375, 188);
+        setBounds(0, 0, 376, 188);
         addBackground();
         addAvatar();
         //addLogoutButton();
@@ -50,7 +50,7 @@ public class HeaderPanel extends JPanel implements Observer {
             LOGGER.error("Could not load header background image", e);
         }
         JPanel background = new ImagePanel(bg);
-        background.setSize(new Dimension(375, 134));
+        background.setSize(new Dimension(376, 134));
         background.setLocation(0, 0);
         add(background);
     }
