@@ -32,7 +32,7 @@ import javax.swing.*;
 import java.awt.*;
 
 @SuppressWarnings("serial")
-public class MainWindow extends JFrame {
+public class MainWindow extends JDialog {
     private static final Logger LOGGER = LogManager.getLogger(MainWindow.class);
     private static final long serialVersionUID = 1L;
     private HeaderPanel header;
@@ -43,13 +43,14 @@ public class MainWindow extends JFrame {
     private LoadingPanel loading;
 
     public MainWindow() {
+        super((Dialog) null); //show this window in the taskbar, see http://stackoverflow.com/a/25533860
         try {
             setIconImage(new ImageIcon(getClass().getResource("/images/icon.png")).getImage());
         } catch (NullPointerException e) {
             LOGGER.error("Could not load icon", e);
         }
 
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(EXIT_ON_CLOSE);
         getContentPane().setSize(new Dimension(376, 445));
         setLocationRelativeTo(null);
         setTitle("Craften Launcher");
