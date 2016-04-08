@@ -25,6 +25,7 @@ import de.craften.craftenlauncher.gui.panel.LoadingPanel;
 import de.craften.craftenlauncher.gui.panel.LoginPanel;
 import de.craften.craftenlauncher.gui.panel.ProfilePanel;
 import de.craften.craftenlauncher.logic.Facade;
+import de.craften.ui.swingmaterial.toast.ToastBar;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,6 +36,7 @@ import java.awt.*;
 public class MainWindow extends JDialog {
     private static final Logger LOGGER = LogManager.getLogger(MainWindow.class);
     private static final long serialVersionUID = 1L;
+    final ToastBar toastBar;
     private HeaderPanel header;
     private final JPanel body;
     private CardLayout bodyLayout;
@@ -58,18 +60,29 @@ public class MainWindow extends JDialog {
 
         JPanel content = new JPanel();
         content.setLayout(new BorderLayout());
-        add(content);
 
         header = new HeaderPanel();
         content.add(header, BorderLayout.NORTH);
 
+        JPanel bodyContainer = new JPanel();
+        bodyContainer.setLayout(null);
+        bodyContainer.setPreferredSize(new Dimension(376, 445 - 188));
+
         bodyLayout = new CardLayout(0, 0);
         body = new JPanel();
         body.setLayout(bodyLayout);
-        body.setPreferredSize(new Dimension(getWidth(), getContentPane().getHeight() - header.getHeight()));
-        content.add(body, BorderLayout.CENTER);
+        body.setSize(376, 445 - 188);
+        bodyContainer.add(body);
+
+        toastBar = new ToastBar();
+        toastBar.setSize(376, 48);
+        toastBar.setLocation(0, 445 - 188 - 48);
+        bodyContainer.add(toastBar);
+        bodyContainer.setComponentZOrder(toastBar, 0);
 
         addLayers();
+        content.add(bodyContainer, BorderLayout.CENTER);
+        add(content);
 
         pack();
         centerWindow(this);
