@@ -2,6 +2,8 @@ package de.craften.craftenlauncher.gui;
 
 import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.logic.Facade;
+import de.craften.craftenlauncher.logic.auth.MinecraftUser;
+import de.craften.ui.swingmaterial.toast.TextToast;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,7 +28,8 @@ public class MainController {
     public void openMainWindow() {
         mainWindow = new MainWindow();
         mainWindow.addWindowListener(new WindowAdapter() {
-            @Override public void windowClosed(WindowEvent e) {
+            @Override
+            public void windowClosed(WindowEvent e) {
                 System.exit(0);
             }
         });
@@ -34,9 +37,10 @@ public class MainController {
 
         if (!Facade.getInstance().isForceLogin()) {
             try {
-                if (Facade.getInstance().getUser() != null && Facade.getInstance().getUser().getEmail() != null &&
-                        !Facade.getInstance().getUser().getEmail().isEmpty()) {
-                    MainController.getInstance().performLogin(Facade.getInstance().getUser().getEmail(), null);
+                MinecraftUser user = Facade.getInstance().getUser();
+                if (user != null && user.getEmail() != null && !user.getEmail().isEmpty()) {
+                    MainController.getInstance().performLogin(user.getEmail(), null);
+                    displayToast(new TextToast("Welcome back, " + user.getUsername() + "!"));
                 }
             } catch (CraftenLogicException e) {
                 LOGGER.info("Automatic login failed", e);
@@ -68,5 +72,9 @@ public class MainController {
         } catch (CraftenLogicException e) {
             LOGGER.error("Could not start Minecraft", e);
         }
+    }
+
+    public void displayToast(TextToast toast) {
+        mainWindow.toastBar.display(toast);
     }
 }
