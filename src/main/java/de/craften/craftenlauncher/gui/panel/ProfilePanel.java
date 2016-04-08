@@ -45,13 +45,6 @@ import java.awt.event.MouseEvent;
 @SuppressWarnings("serial")
 public class ProfilePanel extends JPanel {
     private static final Logger LOGGER = LogManager.getLogger(ProfilePanel.class);
-    private JLabel _version;
-    private JLabel _serverIP;
-    private JLabel _ram;
-    //private JComboBox<String> _cbVersions;
-
-    private Font _fontPlain = new Font(Font.SANS_SERIF, Font.PLAIN, 16),
-            _fontPlainSmall = new Font(Font.SANS_SERIF, Font.PLAIN, 10);
 
     public ProfilePanel() {
         setBackground(Color.WHITE);
@@ -97,31 +90,6 @@ public class ProfilePanel extends JPanel {
             add(playerMail);
         }
 
-        //TODO logout button
-        JLabel _logout = new JLabel("Logout");
-        _logout.setFont(_fontPlainSmall);
-        _logout.setSize(new Dimension(40, 20));
-        //_logout.setLocation(playerName.getX(), playerName.getY() + playerName.getHeight() - 20);
-        _logout.setForeground(Color.WHITE);
-        _logout.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent env) {
-                MainController.getInstance().logout();
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                setCursor(new Cursor(Cursor.HAND_CURSOR));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            }
-        });
-        _logout.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        add(_logout);
-
         //TODO this logic should not be here
         try {
             if (Facade.getInstance().getMinecraftArguments().containsKey("version")) {
@@ -133,69 +101,58 @@ public class ProfilePanel extends JPanel {
             LOGGER.error(e);
         }
 
-        //TODO display IP where it is visible
-        //Auto-Connect IP
-        try {
-            if (Facade.getInstance().getMinecraftArguments().containsKey("server")) {
-                _serverIP = new JLabel("Will join to: " + Facade.getInstance().getMinecraftArgument("server"));
-            } else {
-                _serverIP = new JLabel("");
-            }
-        } catch (CraftenLogicException e) {
-            LOGGER.error("Could not get server argument", e);
-        }
-        _serverIP.setFont(_fontPlain);
-        _serverIP.setSize(this.getWidth(), 15);
-        _serverIP.setLocation(1000, 1000);
-        _serverIP.setForeground(Color.WHITE);
-        add(_serverIP);
-
-        JButton playButton = new MaterialButton();
+        final JButton playButton = new MaterialButton();
         playButton.setText("Play");
         playButton.setBackground(MaterialColor.CYAN_500);
         playButton.setForeground(Color.WHITE);
         playButton.setSize(240 + MaterialShadow.OFFSET_LEFT + MaterialShadow.OFFSET_RIGHT, 36 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM);
         playButton.setLocation(68 - MaterialShadow.OFFSET_LEFT, 81 - MaterialShadow.OFFSET_TOP);
+        playButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 MainController.getInstance().play();
             }
         });
-        playButton.addMouseListener (new MouseAdapter () {
+        playButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                setCursor(new Cursor(Cursor.HAND_CURSOR));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                setComponentZOrder(playButton, 0);
             }
         });
         add(playButton);
+        try {
+            //Auto-Connect IP
+            if (Facade.getInstance().getMinecraftArguments().containsKey("server")) {
+                String serverAddress = Facade.getInstance().getMinecraftArgument("server");
+                if (serverAddress.length() > 21) {
+                    serverAddress = serverAddress.substring(0, 20) + "\u2026";
+                }
+                playButton.setText("Join " + serverAddress);
+            }
+        } catch (CraftenLogicException e) {
+            LOGGER.error("Could not get server argument", e);
+        }
 
-        JButton logoutButton = new MaterialButton();
+        final MaterialButton logoutButton = new MaterialButton();
         logoutButton.setText("Logout");
-        logoutButton.setBackground(MaterialColor.GREY_500);
-        logoutButton.setForeground(Color.WHITE);
+        logoutButton.setForeground(MaterialColor.CYAN_500);
+        logoutButton.setRippleColor(MaterialColor.CYAN_500);
+        logoutButton.setBackground(MaterialColor.TRANSPARENT);
+        logoutButton.setType(MaterialButton.Type.FLAT);
         logoutButton.setSize(240 + MaterialShadow.OFFSET_LEFT + MaterialShadow.OFFSET_RIGHT, 36 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM);
-        logoutButton.setLocation(68 - MaterialShadow.OFFSET_LEFT, 147 - MaterialShadow.OFFSET_TOP);
+        logoutButton.setLocation(68 - MaterialShadow.OFFSET_LEFT, 127 - MaterialShadow.OFFSET_TOP);
+        logoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 MainController.getInstance().logout();
             }
         });
-        logoutButton.addMouseListener (new MouseAdapter () {
+        logoutButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                setCursor(new Cursor(Cursor.HAND_CURSOR));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                setComponentZOrder(logoutButton, 0);
             }
         });
         add(logoutButton);
