@@ -61,7 +61,7 @@
         <dependency>
             <groupId>de.craften.ui.swingmaterial</groupId>
             <artifactId>swing-material</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
