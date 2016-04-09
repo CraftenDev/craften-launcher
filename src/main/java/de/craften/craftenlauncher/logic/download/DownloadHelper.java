@@ -1,22 +1,15 @@
 package de.craften.craftenlauncher.logic.download;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.HttpURLConnection;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-
 import de.craften.craftenlauncher.exception.CraftenDownloadException;
 import de.craften.craftenlauncher.logic.vm.DownloadVM;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 public class DownloadHelper {
     private static final Logger LOGGER = LogManager.getLogger(DownloadHelper.class);
@@ -219,9 +212,9 @@ public class DownloadHelper {
      * Falls diese nicht gleich sind, wird versuch die Datei nochmals herunterzuladen.
      *
      * @param fileHelper
-     * @throws Exception
+     * @throws IOException if downloading the file fails
      */
-    private static void tryDownloadFile(FileHelper fileHelper) throws Exception {
+    private static void tryDownloadFile(FileHelper fileHelper) throws IOException {
         boolean downloadSucceeded = false;
         int triesLeft = 3;
 
@@ -234,13 +227,14 @@ public class DownloadHelper {
                 if (fileSize == downloader.getContentLength()) {
                     downloadSucceeded = true;
                 } else {
-                    LOGGER.warn("File size should be: " + fileSize + " but was: " + downloader.getContentLength());
+                    LOGGER.warn("File size should be " + fileSize + " but was " + downloader.getContentLength());
                     downloadSucceeded = false;
-                    triesLeft--;
                 }
             } else {
                 downloadSucceeded = true;
             }
+
+            triesLeft--;
         }
 
         if (triesLeft == 0) {
@@ -252,13 +246,14 @@ public class DownloadHelper {
      * Gets the size of a file, in bytes. If something goes wrong, -1 is returned.
      *
      * @param filename
-     * @return Filesize or -1
+     * @return file size or -1
      */
     private static long getFileSize(String filename) {
         try {
             File file = new File(filename);
             return file.length();
         } catch (Exception e) {
+            LOGGER.warn("Could not get file size", e);
             return -1;
         }
     }
@@ -389,12 +384,12 @@ abstract class Downloader {
         return helper.getLocalFileName();
     }
 
-    public abstract void appendBytes(byte[] buffer, int byteRead) throws Exception;
+    public abstract void appendBytes(byte[] buffer, int byteRead) throws IOException;
 
     /**
-     * Um z.B. Streams zu schlie�en.
+     * Method that is called after the download finished (i.e. to close file streams).
      *
-     * @throws IOException
+     * @throws IOException if something went wrong
      */
     public abstract void finished() throws IOException;
 }
@@ -446,7 +441,7 @@ class FileDownloader extends Downloader {
     }
 
     @Override
-    public void appendBytes(byte[] buffer, int byteRead) throws Exception {
+    public void appendBytes(byte[] buffer, int byteRead) throws IOException {
         output.write(buffer, 0, byteRead);
     }
 

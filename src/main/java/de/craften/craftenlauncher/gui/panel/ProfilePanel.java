@@ -143,7 +143,7 @@ public class ProfilePanel extends JPanel {
             versionLabel.setHorizontalAlignment(JLabel.LEFT);
             add(versionLabel);
         } catch (CraftenLogicException e) {
-            e.printStackTrace();
+            LOGGER.error("Could not get version", e);
         }
 
         //RAM
@@ -162,7 +162,7 @@ public class ProfilePanel extends JPanel {
             ramLabel.setHorizontalAlignment(JLabel.RIGHT);
             add(ramLabel);
         } catch (CraftenLogicException e) {
-            e.printStackTrace();
+            LOGGER.error("Could not get RAM", e);
         }
     }
 }

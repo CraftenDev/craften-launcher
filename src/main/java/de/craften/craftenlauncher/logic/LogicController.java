@@ -198,7 +198,7 @@ public class LogicController {
                 mDownService.setMinecraftVersion(mCurrentVersion);
             } catch (Exception e) {
                 //TODO Workaround vllt. klappt es beim zweiten Mal.
-                LOGGER.info("Trying again to download json!");
+                LOGGER.info("Trying again to download json!", e);
                 mDownService.setMinecraftVersion(mCurrentVersion);
             }
             mDownService.addTask(DownloadTasks.RESSOURCES);

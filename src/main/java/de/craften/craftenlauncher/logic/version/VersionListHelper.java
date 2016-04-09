@@ -5,6 +5,8 @@ import de.craften.craftenlauncher.logic.download.DownloadHelper;
 import de.craften.craftenlauncher.logic.download.DownloadUrls;
 import de.craften.craftenlauncher.logic.download.VersionLoader;
 import de.craften.craftenlauncher.logic.minecraft.MinecraftPath;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VersionListHelper {
+    private static final Logger LOGGER = LogManager.getLogger(VersionListHelper.class);
     private List<String> mVersions = new ArrayList<String>();
     private MinecraftPath mMinecraftPath;
 
@@ -78,6 +81,7 @@ public class VersionListHelper {
             }
             return true;
         } catch (Exception e) {
+            LOGGER.error("Could not check if version " + versionName + " is available", e);
             return false;
         }
     }
