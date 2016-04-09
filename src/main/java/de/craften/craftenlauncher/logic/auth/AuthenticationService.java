@@ -1,13 +1,9 @@
 package de.craften.craftenlauncher.logic.auth;
 
-import java.io.File;
-import java.io.IOException;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import de.craften.craftenlauncher.exception.CraftenAuthenticationException;
 import de.craften.craftenlauncher.exception.CraftenException;
 import de.craften.craftenlauncher.logic.json.JSONConnector;
@@ -15,6 +11,8 @@ import de.craften.craftenlauncher.logic.json.JSONReader;
 import de.craften.craftenlauncher.logic.minecraft.MinecraftPath;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.File;
 
 public class AuthenticationService {
     private static final Logger LOGGER = LogManager.getLogger(AuthenticationService.class);
@@ -173,8 +171,8 @@ public class AuthenticationService {
 
             try {
                 return JSONConnector.executePost("https://authserver.mojang.com/authenticate", gson.toJson(jsonResult));
-            } catch (Error error) {
-                throw new CraftenAuthenticationException(CraftenAuthenticationException.Reason.USER_CREDENTIALS_ARE_WRONG);
+            } catch (Exception e) {
+                throw new CraftenAuthenticationException(CraftenAuthenticationException.Reason.USER_CREDENTIALS_ARE_WRONG, e);
             }
         } else {
             return null;

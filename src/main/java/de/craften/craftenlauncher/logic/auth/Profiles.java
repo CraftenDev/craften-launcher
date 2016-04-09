@@ -144,31 +144,29 @@ public class Profiles {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Profiles))
+        if (!(obj instanceof Profiles)) {
             return false;
+        }
 
         Profiles a = (Profiles) obj;
-        Boolean flag = false;
 
-
-        if ((a.getSelectedUser() == null && this.getSelectedUser() == null) || a.getSelectedUser().equals(this.getSelectedUser())) {
-            flag = true;
-        }
-
-        if (a.getAvailableUsers().size() > 0) {
+        if (((a.getSelectedUser() == null && this.getSelectedUser() == null) || a.getSelectedUser().equals(this.getSelectedUser()))
+                && a.getAvailableUsers().size() == getAvailableUsers().size()) {
             for (int i = 0; i < a.getAvailableUsers().size(); i++) {
                 MinecraftUser minecraftUser = a.getAvailableUsers().get(i);
-
                 if (!minecraftUser.equals(this.getAvailableUser(i))) {
-                    flag = false;
-                    break;
+                    return false;
                 }
             }
-        }
 
-        if ((a.getAvailableUsers().size() == 0) && (this.getAvailableUsers().size() == 0)) {
-            flag = true;
+            return true;
+        } else {
+            return false;
         }
-        return flag;
+    }
+
+    @Override
+    public int hashCode() {
+        return getAvailableUsers().hashCode();
     }
 }

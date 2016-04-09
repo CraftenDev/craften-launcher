@@ -224,4 +224,9 @@ public class MinecraftUser {
                 this.getAccessToken().equals(a.getAccessToken()) &&
                 this.getClientToken().equals(a.getClientToken());
     }
+
+    @Override
+    public int hashCode() {
+        return getProfileId().hashCode();
+    }
 }

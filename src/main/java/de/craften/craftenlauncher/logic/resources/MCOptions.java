@@ -1,14 +1,19 @@
 package de.craften.craftenlauncher.logic.resources;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class MCOptions {
+    private static final Logger LOGGER = LogManager.getLogger(MCOptions.class);
     private static MCOptions instance;
-    private ArrayList<MCOptionEntry> mContent;
+    private List<MCOptionEntry> mContent;
 
     private MCOptions() {
     }
@@ -21,20 +26,17 @@ public class MCOptions {
     }
 
     public void read(String path) {
-        mContent = new ArrayList<MCOptionEntry>();
+        mContent = new ArrayList<>();
 
         String line;
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(path));
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             while ((line = br.readLine()) != null && line.contains(":")) {
                 String[] splitted = line.split(Pattern.quote(":"));
                 MCOptionEntry entry = new MCOptionEntry(splitted[0], splitted[1]);
                 mContent.add(entry);
             }
-
-            br.close();
         } catch (IOException e) {
-            System.err.println("Error: " + e);
+            LOGGER.error(e);
         }
     }
 
