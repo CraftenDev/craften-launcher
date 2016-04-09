@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
  * A panel that displays an image.
  */
 public class ImagePanel extends JPanel {
-    private BufferedImage image;
+    private transient BufferedImage image;
 
     public ImagePanel(BufferedImage image) {
         this.image = image;

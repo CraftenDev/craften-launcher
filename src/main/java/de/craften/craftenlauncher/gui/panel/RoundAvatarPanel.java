@@ -30,10 +30,10 @@ import java.util.concurrent.TimeUnit;
 public class RoundAvatarPanel extends JPanel {
     private static final Logger LOGGER = LogManager.getLogger(RoundAvatarPanel.class);
     private static final BufferedImage STEVE;
-    private ElevationEffect elevationEffect;
-    private RippleEffect rippleEffect;
-    private BufferedImage previousSkin;
-    private BufferedImage skin;
+    private transient ElevationEffect elevationEffect;
+    private transient RippleEffect rippleEffect;
+    private transient BufferedImage previousSkin;
+    private transient BufferedImage skin;
     private int avatarDiameter = -1;
 
     static {
