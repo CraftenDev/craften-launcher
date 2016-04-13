@@ -8,16 +8,16 @@ import com.tngtech.configbuilder.annotation.valueextractor.CommandLineValue;
  */
 public class Config {
 
-    @CommandLineValue(shortOpt = "mcPath", longOpt = "minecraftPath")
+    @CommandLineValue(shortOpt = "mcPath", longOpt = "minecraftPath", hasArg = true)
     private String mcPath;
 
-    @CommandLineValue(shortOpt = "server", longOpt = "serverAddress")
+    @CommandLineValue(shortOpt = "server", longOpt = "serverAddress", hasArg = true)
     private String server;
 
-    @CommandLineValue(shortOpt = "xmx", longOpt = "minecaftMemory")
+    @CommandLineValue(shortOpt = "xmx", longOpt = "minecaftMemory", hasArg = true)
     private String xmx;
 
-    @CommandLineValue(shortOpt = "version", longOpt = "minecraftVersion")
+    @CommandLineValue(shortOpt = "version", longOpt = "minecraftVersion", hasArg = true)
     private String version;
 
     @CommandLineValue(shortOpt = "quickplay", longOpt = "startQuickPlay")
@@ -29,7 +29,7 @@ public class Config {
     @CommandLineValue(shortOpt = "fullscreen", longOpt = "startMinecraftFullscreen")
     private boolean fullscreen;
 
-    @CommandLineValue(shortOpt = "profileid", longOpt = "usedProfileID")
+    @CommandLineValue(shortOpt = "profileid", longOpt = "usedProfileID", hasArg = true)
     private String profileID;
 
     public String getMcPath() {
