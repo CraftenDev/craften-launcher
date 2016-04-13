@@ -14,7 +14,6 @@ import de.craften.craftenlauncher.logic.version.MinecraftVersion;
 import de.craften.craftenlauncher.logic.version.VersionListHelper;
 import de.craften.craftenlauncher.logic.vm.DownloadVM;
 import de.craften.craftenlauncher.logic.vm.SkinVM;
-import de.craften.util.UIParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

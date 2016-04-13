@@ -5,7 +5,6 @@ import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.gui.MainController;
 import de.craften.craftenlauncher.logic.Facade;
 import de.craften.util.OSHelper;
-import de.craften.util.UIParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
