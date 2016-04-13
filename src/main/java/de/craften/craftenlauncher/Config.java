@@ -20,6 +20,9 @@ public class Config {
     @CommandLineValue(shortOpt = "version", longOpt = "minecraftVersion", hasArg = true)
     private String version;
 
+    @CommandLineValue(shortOpt = "profileid", longOpt = "usedProfileID", hasArg = true)
+    private String profileID;
+
     @CommandLineValue(shortOpt = "quickplay", longOpt = "startQuickPlay")
     private boolean quickPlay;
 
@@ -28,9 +31,6 @@ public class Config {
 
     @CommandLineValue(shortOpt = "fullscreen", longOpt = "startMinecraftFullscreen")
     private boolean fullscreen;
-
-    @CommandLineValue(shortOpt = "profileid", longOpt = "usedProfileID", hasArg = true)
-    private String profileID;
 
     public String getMcPath() {
         return mcPath;
@@ -62,5 +62,21 @@ public class Config {
 
     public String getProfileID() {
         return profileID;
+    }
+
+    public boolean hasMinecraftPath() {
+        return mcPath != null;
+    }
+
+    public boolean hasServerAddress() {
+        return server != null;
+    }
+
+    public boolean hasXMXParameter() {
+        return xmx != null;
+    }
+
+    public boolean hasProfileID() {
+        return profileID != null;
     }
 }

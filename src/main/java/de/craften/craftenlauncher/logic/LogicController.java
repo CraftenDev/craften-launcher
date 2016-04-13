@@ -56,7 +56,7 @@ public class LogicController {
     public void init(Config config) {
         this.config = config;
 
-        if (config.getMcPath() != null) {
+        if (config.hasMinecraftPath()) {
             mMinecraftPath = new MinecraftPathImpl(config.getMcPath());
         } else {
             mMinecraftPath = new MinecraftPathImpl();
@@ -64,11 +64,11 @@ public class LogicController {
 
         mProfiles.setPath(mMinecraftPath.getMinecraftDir());
 
-        if (config.getServer() != null) {
+        if (config.hasServerAddress()) {
             mMincraftArgs.put("server", config.getServer());
         }
 
-        if (config.getXmx() != null) {
+        if (config.hasXMXParameter()) {
             mMincraftArgs.put("xmx", config.getXmx());
         }
 
@@ -98,7 +98,7 @@ public class LogicController {
         if (login != null) {
             LOGGER.info("craftenlauncher_profiles.json found! Username is: " + login.getSelectedUser().getUsername());
 
-            if (config.getProfileID() != null) {
+            if (config.hasProfileID()) {
                 login.changeSelectedUser(config.getProfileID());
             }
 
