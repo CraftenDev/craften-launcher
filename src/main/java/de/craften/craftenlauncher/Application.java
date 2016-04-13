@@ -1,5 +1,6 @@
 package de.craften.craftenlauncher;
 
+import com.tngtech.configbuilder.ConfigBuilder;
 import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.gui.MainController;
 import de.craften.craftenlauncher.logic.Facade;
@@ -31,6 +32,7 @@ class Application {
      */
     public static void main(String[] args) throws CraftenLogicException {
         logSystemInfo();
+        Config config = ConfigBuilder.on(Config.class).withCommandLineArgs(args).build();
         Facade.getInstance().init(new UIParser(args));
         startGUI();
     }
