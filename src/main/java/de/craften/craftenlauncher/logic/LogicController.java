@@ -1,5 +1,6 @@
 package de.craften.craftenlauncher.logic;
 
+import de.craften.craftenlauncher.Config;
 import de.craften.craftenlauncher.exception.*;
 import de.craften.craftenlauncher.logic.auth.AuthenticationService;
 import de.craften.craftenlauncher.logic.auth.MinecraftUser;
@@ -53,28 +54,28 @@ public class LogicController {
     /**
      * Inits the logic layer.
      */
-    public void init() {
-        LOGGER.debug(mParser.toString());
-        if (mParser.hasValue("mcpath")) {
-            mMinecraftPath = new MinecraftPathImpl(mParser.getValue("mcpath"));
+    public void init(Config config) {
+
+        if (config.getMcPath() != null) {
+            mMinecraftPath = new MinecraftPathImpl(config.getMcPath());
         } else {
             mMinecraftPath = new MinecraftPathImpl();
         }
 
         mProfiles.setPath(mMinecraftPath.getMinecraftDir());
 
-        if (mParser.hasValue("server")) {
-            mMincraftArgs.put("server", mParser.getValue("server"));
+        if (config.getServer() != null) {
+            mMincraftArgs.put("server", config.getServer());
         }
 
-        if (mParser.hasValue("xmx")) {
-            mMincraftArgs.put("xmx", mParser.getValue("xmx"));
+        if (config.getXmx() != null) {
+            mMincraftArgs.put("xmx", config.getXmx());
         }
 
         mVersionList = new VersionListHelper(mMinecraftPath);
 
-        if (mParser.hasValue("version")) {
-            String version = mParser.getValue("version");
+        if (config.getVersion() != null) {
+            String version = config.getVersion();
 
             try {
                 if (mVersionList.isVersionAvailableOnline(version)) {
@@ -91,17 +92,9 @@ public class LogicController {
             }
         }
 
-        if (mParser.hasKey("quickplay")) {
-            mQuickPlay = true;
-        }
-
-        if (mParser.hasKey("forcelogin")) {
-            mForceLogin = true;
-        }
-
-        if (mParser.hasKey("fullscreen")) {
-            mFullscreen = true;
-        }
+        mQuickPlay = config.isQuickPlay();
+        mForceLogin = config.isForcelogin();
+        mFullscreen = config.isFullscreen();
 
         mAuthService.setMcPath(mMinecraftPath);
         Profiles login = mAuthService.readProfiles();
@@ -109,8 +102,8 @@ public class LogicController {
         if (login != null) {
             LOGGER.info("craftenlauncher_profiles.json found! Username is: " + login.getSelectedUser().getUsername());
 
-            if (mParser.hasValue("profileid")) {
-                login.changeSelectedUser(mParser.getValue("profileid"));
+            if (config.getProfileID() != null) {
+                login.changeSelectedUser(config.getProfileID());
             }
 
             //TODO checken was genau die Response ist und was man damit so anfaengt!
@@ -304,14 +297,6 @@ public class LogicController {
         } else {
             System.exit(0);
         }
-    }
-
-    public void setParser(UIParser parser) throws CraftenLogicValueIsNullException {
-        if (parser == null) {
-            LOGGER.error("UI Parser was null!");
-            throw new CraftenLogicValueIsNullException("Parser must not be null");
-        }
-        this.mParser = parser;
     }
 
     public void setDownloadObserver(Observer server) {

@@ -33,7 +33,7 @@ class Application {
     public static void main(String[] args) throws CraftenLogicException {
         logSystemInfo();
         Config config = ConfigBuilder.on(Config.class).withCommandLineArgs(args).build();
-        Facade.getInstance().init(new UIParser(args));
+        Facade.getInstance().init(config);
         startGUI();
     }
 
