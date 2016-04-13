@@ -27,13 +27,12 @@ public class LogicController {
     private MinecraftUser mUser;
     private AuthenticationService mAuthService;
     private DownloadService mDownService;
-    private UIParser mParser;
+    private Config config;
     private VersionListHelper mVersionList;
     private MinecraftPathImpl mMinecraftPath;
     private MinecraftVersion mCurrentVersion;
     private HashMap<String, String> mMincraftArgs;
     private Profiles mProfiles;
-    private boolean mQuickPlay, mForceLogin, mFullscreen;
 
     private DownloadVM mDownloadVM;
     private SkinVM mSkinVM;
@@ -55,6 +54,7 @@ public class LogicController {
      * Inits the logic layer.
      */
     public void init(Config config) {
+        this.config = config;
 
         if (config.getMcPath() != null) {
             mMinecraftPath = new MinecraftPathImpl(config.getMcPath());
@@ -91,10 +91,6 @@ public class LogicController {
                 LOGGER.error("Version not available: " + version, e);
             }
         }
-
-        mQuickPlay = config.isQuickPlay();
-        mForceLogin = config.isForcelogin();
-        mFullscreen = config.isFullscreen();
 
         mAuthService.setMcPath(mMinecraftPath);
         Profiles login = mAuthService.readProfiles();
@@ -259,11 +255,11 @@ public class LogicController {
     }
 
     public boolean isQuickPlay() {
-        return mQuickPlay;
+        return config.isQuickPlay();
     }
 
     public boolean isForceLogin() {
-        return mForceLogin;
+        return config.isForcelogin();
     }
 
     public void startMinecraft() throws CraftenLogicException {
@@ -285,7 +281,7 @@ public class LogicController {
         //TODO Server und Port Anfrage ueberpruefen und falls noetig korrigieren.
         String server = mMincraftArgs.get("server");
         info.setServerAdress(server);
-        info.setFullscreen(mFullscreen);
+        info.setFullscreen(config.isFullscreen());
 
         MinecraftProcess process = new MinecraftProcess(info, info.getMSV().getVersionJson());
 
