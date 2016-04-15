@@ -23,7 +23,6 @@ import java.util.Observer;
 
 public class LogicController {
     private static final Logger LOGGER = LogManager.getLogger(LogicController.class);
-    private MinecraftUser mUser;
     private AuthenticationService mAuthService;
     private DownloadService mDownService;
     private Config config;
@@ -321,10 +320,6 @@ public class LogicController {
     public void setSkinObserver(Observer server) {
         mSkinVM = new SkinVM();
         mSkinVM.addObserver(server);
-    }
-
-    public void setSelectedUser(MinecraftUser user) {
-        mProfiles.setSelectedUser(user);
     }
 
     /**
