@@ -1,5 +1,6 @@
 package de.craften.craftenlauncher.logic;
 
+import de.craften.craftenlauncher.Config;
 import de.craften.craftenlauncher.exception.*;
 import de.craften.craftenlauncher.logic.auth.AuthenticationService;
 import de.craften.craftenlauncher.logic.auth.MinecraftUser;
@@ -13,7 +14,6 @@ import de.craften.craftenlauncher.logic.version.MinecraftVersion;
 import de.craften.craftenlauncher.logic.version.VersionListHelper;
 import de.craften.craftenlauncher.logic.vm.DownloadVM;
 import de.craften.craftenlauncher.logic.vm.SkinVM;
-import de.craften.util.UIParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,16 +23,14 @@ import java.util.Observer;
 
 public class LogicController {
     private static final Logger LOGGER = LogManager.getLogger(LogicController.class);
-    private MinecraftUser mUser;
     private AuthenticationService mAuthService;
     private DownloadService mDownService;
-    private UIParser mParser;
+    private Config config;
     private VersionListHelper mVersionList;
     private MinecraftPathImpl mMinecraftPath;
     private MinecraftVersion mCurrentVersion;
     private HashMap<String, String> mMincraftArgs;
     private Profiles mProfiles;
-    private boolean mQuickPlay, mForceLogin, mFullscreen;
 
     private DownloadVM mDownloadVM;
     private SkinVM mSkinVM;
@@ -53,28 +51,29 @@ public class LogicController {
     /**
      * Inits the logic layer.
      */
-    public void init() {
-        LOGGER.debug(mParser.toString());
-        if (mParser.hasValue("mcpath")) {
-            mMinecraftPath = new MinecraftPathImpl(mParser.getValue("mcpath"));
+    public void init(Config config) {
+        this.config = config;
+
+        if (config.hasMinecraftPath()) {
+            mMinecraftPath = new MinecraftPathImpl(config.getMcPath());
         } else {
             mMinecraftPath = new MinecraftPathImpl();
         }
 
         mProfiles.setPath(mMinecraftPath.getMinecraftDir());
 
-        if (mParser.hasValue("server")) {
-            mMincraftArgs.put("server", mParser.getValue("server"));
+        if (config.hasServerAddress()) {
+            mMincraftArgs.put("server", config.getServer());
         }
 
-        if (mParser.hasValue("xmx")) {
-            mMincraftArgs.put("xmx", mParser.getValue("xmx"));
+        if (config.hasXMXParameter()) {
+            mMincraftArgs.put("xmx", config.getXmx());
         }
 
         mVersionList = new VersionListHelper(mMinecraftPath);
 
-        if (mParser.hasValue("version")) {
-            String version = mParser.getValue("version");
+        if (config.getVersion() != null) {
+            String version = config.getVersion();
 
             try {
                 if (mVersionList.isVersionAvailableOnline(version)) {
@@ -91,26 +90,14 @@ public class LogicController {
             }
         }
 
-        if (mParser.hasKey("quickplay")) {
-            mQuickPlay = true;
-        }
-
-        if (mParser.hasKey("forcelogin")) {
-            mForceLogin = true;
-        }
-
-        if (mParser.hasKey("fullscreen")) {
-            mFullscreen = true;
-        }
-
         mAuthService.setMcPath(mMinecraftPath);
         Profiles login = mAuthService.readProfiles();
 
         if (login != null) {
             LOGGER.info("craftenlauncher_profiles.json found! Username is: " + login.getSelectedUser().getUsername());
 
-            if (mParser.hasValue("profileid")) {
-                login.changeSelectedUser(mParser.getValue("profileid"));
+            if (config.hasProfileID()) {
+                login.changeSelectedUser(config.getProfileID());
             }
 
             //TODO checken was genau die Response ist und was man damit so anfaengt!
@@ -266,11 +253,11 @@ public class LogicController {
     }
 
     public boolean isQuickPlay() {
-        return mQuickPlay;
+        return config.isQuickPlay();
     }
 
     public boolean isForceLogin() {
-        return mForceLogin;
+        return config.isForcelogin();
     }
 
     public void startMinecraft() throws CraftenLogicException {
@@ -292,7 +279,7 @@ public class LogicController {
         //TODO Server und Port Anfrage ueberpruefen und falls noetig korrigieren.
         String server = mMincraftArgs.get("server");
         info.setServerAdress(server);
-        info.setFullscreen(mFullscreen);
+        info.setFullscreen(config.isFullscreen());
 
         MinecraftProcess process = new MinecraftProcess(info, info.getMSV().getVersionJson());
 
@@ -304,14 +291,6 @@ public class LogicController {
         } else {
             System.exit(0);
         }
-    }
-
-    public void setParser(UIParser parser) throws CraftenLogicValueIsNullException {
-        if (parser == null) {
-            LOGGER.error("UI Parser was null!");
-            throw new CraftenLogicValueIsNullException("Parser must not be null");
-        }
-        this.mParser = parser;
     }
 
     public void setDownloadObserver(Observer server) {
@@ -341,10 +320,6 @@ public class LogicController {
     public void setSkinObserver(Observer server) {
         mSkinVM = new SkinVM();
         mSkinVM.addObserver(server);
-    }
-
-    public void setSelectedUser(MinecraftUser user) {
-        mProfiles.setSelectedUser(user);
     }
 
     /**

@@ -1,11 +1,11 @@
 package de.craften.craftenlauncher.logic;
 
+import de.craften.craftenlauncher.Config;
 import de.craften.craftenlauncher.exception.CraftenException;
 import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.logic.auth.MinecraftUser;
 import de.craften.craftenlauncher.logic.download.DownloadHelper;
 import de.craften.craftenlauncher.logic.version.MinecraftVersion;
-import de.craften.util.UIParser;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,12 +41,11 @@ public class Facade {
      * Need an {@see #UIParser} for init.
      * Has to be called first!
      *
-     * @param parser holds the command line arguments.
+     * @param config holds the command line arguments.
      * @throws CraftenLogicException when something went wrong.
      */
-    public void init(UIParser parser) throws CraftenLogicException {
-        mController.setParser(parser);
-        mController.init();
+    public void init(Config config) throws CraftenLogicException {
+        mController.init(config);
     }
 
     /**
