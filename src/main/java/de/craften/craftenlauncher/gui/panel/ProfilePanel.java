@@ -4,10 +4,7 @@ import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.gui.MainController;
 import de.craften.craftenlauncher.logic.Facade;
 import de.craften.craftenlauncher.logic.auth.MinecraftUser;
-import de.craften.ui.swingmaterial.MaterialButton;
-import de.craften.ui.swingmaterial.MaterialColor;
-import de.craften.ui.swingmaterial.MaterialShadow;
-import de.craften.ui.swingmaterial.Roboto;
+import de.craften.ui.swingmaterial.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -90,12 +87,6 @@ public class ProfilePanel extends JPanel {
                 MainController.getInstance().play();
             }
         });
-        playButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                setComponentZOrder(playButton, 0);
-            }
-        });
         add(playButton);
         try {
             //Auto-Connect IP
@@ -125,25 +116,49 @@ public class ProfilePanel extends JPanel {
                 MainController.getInstance().logout();
             }
         });
-        logoutButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                setComponentZOrder(logoutButton, 0);
-            }
-        });
         add(logoutButton);
 
         //Version
         try {
-            JLabel versionLabel = new JLabel("Version: " + Facade.getInstance().getMinecraftVersion().getVersion());
+
+            final MaterialComboBox<String> versions = new MaterialComboBox<>();
+            for (String version : Facade.getInstance().getMinecraftVersions()) {
+                versions.addItem(version);
+            }
+            versions.setSelectedItem(Facade.getInstance().getMinecraftVersion().getVersion());
+            versions.setSize(125, 42);
+            versions.setLocation(68, logoutButton.getY() + logoutButton.getHeight() - 3);
+            versions.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    System.out.println("performed!");
+                    try {
+                        Facade.getInstance().setMinecraftVersion(String.valueOf(versions.getSelectedItem()));
+                    } catch (CraftenLogicException e) {
+                        LOGGER.error("Could not set version", e);
+                    }
+                }
+            });
+            versions.setVisible(false);
+            add(versions);
+
+            final JLabel versionLabel = new JLabel("Version: " + Facade.getInstance().getMinecraftVersion().getVersion());
             versionLabel.setFont(Roboto.REGULAR.deriveFont(12f));
-            versionLabel.setSize(240, 30);
-            versionLabel.setLocation(68, logoutButton.getY() + logoutButton.getHeight() - 10);
+            versionLabel.setSize(110, 30);
+            versionLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            versionLabel.setLocation(68, logoutButton.getY() + logoutButton.getHeight() + 5);
             versionLabel.setForeground(MaterialColor.MIN_BLACK);
             versionLabel.setHorizontalAlignment(JLabel.LEFT);
+            versionLabel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    versionLabel.setVisible(false);
+                    versions.setVisible(true);
+                }
+            });
             add(versionLabel);
         } catch (CraftenLogicException e) {
-            LOGGER.error("Could not get version", e);
+            LOGGER.error("Could not get versions", e);
         }
 
         //RAM
@@ -157,7 +172,7 @@ public class ProfilePanel extends JPanel {
             JLabel ramLabel = new JLabel("RAM: " + ram);
             ramLabel.setFont(Roboto.REGULAR.deriveFont(12f));
             ramLabel.setSize(240, 30);
-            ramLabel.setLocation(68, logoutButton.getY() + logoutButton.getHeight() - 10);
+            ramLabel.setLocation(68, logoutButton.getY() + logoutButton.getHeight() + 5);
             ramLabel.setForeground(MaterialColor.MIN_BLACK);
             ramLabel.setHorizontalAlignment(JLabel.RIGHT);
             add(ramLabel);
