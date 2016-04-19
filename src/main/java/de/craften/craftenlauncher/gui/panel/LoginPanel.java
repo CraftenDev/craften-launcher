@@ -5,6 +5,7 @@ import de.craften.craftenlauncher.exception.CraftenException;
 import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.gui.MainController;
 import de.craften.craftenlauncher.logic.Facade;
+import de.craften.craftenlauncher.logic.manager.TranslationManager;
 import de.craften.ui.swingmaterial.*;
 import de.craften.ui.swingmaterial.toast.TextToast;
 import org.apache.logging.log4j.LogManager;
@@ -47,13 +48,13 @@ public class LoginPanel extends JPanel {
         } catch (CraftenAuthenticationException e) {
             switch (e.getReason()) {
                 case DID_NOT_BUY_MINECRAFT:
-                    MainController.getInstance().displayToast(new TextToast("Please buy minecraft"));
+                    MainController.getInstance().displayToast(new TextToast(TranslationManager.getString("loginFailedBuyMinecraft")));
                     break;
                 case USER_CREDENTIALS_ARE_WRONG:
-                    MainController.getInstance().displayToast(new TextToast("Login failed"));
+                    MainController.getInstance().displayToast(new TextToast(TranslationManager.getString("loginFailedCredentials")));
                     break;
                 default:
-                    MainController.getInstance().displayToast(new TextToast("Login failed"));
+                    MainController.getInstance().displayToast(new TextToast(TranslationManager.getString("loginFailed")));
                     break;
             }
             LOGGER.error("Auth failure", e);
@@ -64,8 +65,8 @@ public class LoginPanel extends JPanel {
 
     private void buildUI() {
         usernameField = new MaterialTextField();
-        usernameField.setLabel("E-mail");
-        usernameField.setHint("user@example.com");
+        usernameField.setLabel(TranslationManager.getString("emailLabel"));
+        usernameField.setHint(TranslationManager.getString("emailHint"));
         usernameField.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -78,7 +79,7 @@ public class LoginPanel extends JPanel {
         add(usernameField);
 
         passwordField = new MaterialPasswordField();
-        passwordField.setLabel("Password");
+        passwordField.setLabel(TranslationManager.getString("passwordLabel"));
         passwordField.enableInputMethods(true);
         passwordField.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
@@ -111,7 +112,7 @@ public class LoginPanel extends JPanel {
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
         });
-        loginButton.setText("Login");
+        loginButton.setText(TranslationManager.getString("loginBtn"));
         loginButton.setBounds(0, 0, 240 + MaterialShadow.OFFSET_LEFT + MaterialShadow.OFFSET_RIGHT,
                 36 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM);
         loginButton.setLocation(68 - MaterialShadow.OFFSET_LEFT, 147 - MaterialShadow.OFFSET_TOP);
@@ -119,11 +120,11 @@ public class LoginPanel extends JPanel {
     }
 
     private void addHelpLabels() {
-        JLabel usernameOrEmailLink = new JLabel("Username or E-mail?");
+        JLabel usernameOrEmailLink = new JLabel(TranslationManager.getString("usernameOrEmail"));
         usernameOrEmailLink.setFont(Roboto.REGULAR.deriveFont(11f));
         usernameOrEmailLink.setForeground(MaterialColor.MIN_BLACK);
         usernameOrEmailLink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        usernameOrEmailLink.setHorizontalAlignment(JLabel.LEFT);
+        usernameOrEmailLink.setHorizontalAlignment(JLabel.CENTER);
         usernameOrEmailLink.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent env) {
@@ -131,23 +132,23 @@ public class LoginPanel extends JPanel {
             }
         });
         usernameOrEmailLink.setLocation(68, loginButton.getY() + loginButton.getHeight() - 10);
-        usernameOrEmailLink.setSize(240, 30);
+        usernameOrEmailLink.setSize(240, 15);
         add(usernameOrEmailLink);
         setComponentZOrder(usernameOrEmailLink, 0);
 
-        JLabel forgotPasswordLink = new JLabel("Forgot password?");
+        JLabel forgotPasswordLink = new JLabel(TranslationManager.getString("forgotPassword"));
         forgotPasswordLink.setFont(Roboto.REGULAR.deriveFont(11f));
         forgotPasswordLink.setForeground(MaterialColor.MIN_BLACK);
         forgotPasswordLink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        forgotPasswordLink.setHorizontalAlignment(JLabel.RIGHT);
+        forgotPasswordLink.setHorizontalAlignment(JLabel.CENTER);
         forgotPasswordLink.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent env) {
                 openLink("https://help.mojang.com/customer/portal/articles/329524-change-or-forgot-password");
             }
         });
-        forgotPasswordLink.setLocation(68, loginButton.getY() + loginButton.getHeight() - 10);
-        forgotPasswordLink.setSize(240, 30);
+        forgotPasswordLink.setLocation(68, loginButton.getY() + loginButton.getHeight() + 5);
+        forgotPasswordLink.setSize(240, 15);
         add(forgotPasswordLink);
         setComponentZOrder(forgotPasswordLink, 0);
     }

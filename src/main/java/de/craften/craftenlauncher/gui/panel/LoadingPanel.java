@@ -1,6 +1,7 @@
 package de.craften.craftenlauncher.gui.panel;
 
 import de.craften.craftenlauncher.gui.MainController;
+import de.craften.craftenlauncher.logic.manager.TranslationManager;
 import de.craften.craftenlauncher.logic.vm.DownloadVM;
 import de.craften.ui.swingmaterial.MaterialColor;
 import de.craften.ui.swingmaterial.MaterialProgressSpinner;
@@ -68,7 +69,7 @@ public class LoadingPanel extends JPanel implements Observer {
             if (context != null && !context.equals("")) {
                 LOGGER.debug(context);
                 try {
-                    info.setText(context);
+                    info.setText(TranslationManager.getString("downloadingFile", context));
                 } catch (Exception e) {
                     LOGGER.error("Error while accessing GUI", e);
                 }

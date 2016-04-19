@@ -25,7 +25,7 @@ public class DownloadVM extends Observable {
      * @param filename
      */
     public void updateDownloadFile(final String filename) {
-        updateStatusInfo("File: " + filename);
+        updateStatusInfo(filename);
     }
 
     /**
