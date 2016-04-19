@@ -68,7 +68,13 @@ public class ProfilePanel extends JPanel {
             if (Facade.getInstance().getMinecraftArguments().containsKey("version")) {
                 Facade.getInstance().setMinecraftVersion(Facade.getInstance().getMinecraftArgument("version"));
             } else {
-                Facade.getInstance().setMinecraftVersion(Facade.getInstance().getMinecraftVersions().get(0));
+                //TODO this is a pretty hacky way to get the latest stable version; it should be possible to check if a version is a release using the json data
+                for (String v : Facade.getInstance().getMinecraftVersions()) {
+                    if (v.matches("\\d+\\.\\d+(\\.\\d+)?")) {
+                        Facade.getInstance().setMinecraftVersion(v);
+                        break;
+                    }
+                }
             }
         } catch (CraftenLogicException e) {
             LOGGER.error(e);
