@@ -7,7 +7,7 @@
     <name>CraftenLauncher</name>
     <groupId>de.craften.craftenlauncher</groupId>
     <artifactId>CraftenLauncher</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -61,7 +61,7 @@
         <dependency>
             <groupId>de.craften.ui.swingmaterial</groupId>
             <artifactId>swing-material</artifactId>
-            <version>1.0.6-SNAPSHOT</version>
+            <version>1.0.6</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
