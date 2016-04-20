@@ -70,6 +70,8 @@ public class LoginPanel extends JPanel {
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     doLogin();
+                } else {
+                    loginButton.setEnabled(!usernameField.getText().isEmpty() && passwordField.getPassword().length > 0);
                 }
             }
         });
@@ -84,6 +86,8 @@ public class LoginPanel extends JPanel {
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     doLogin();
+                } else {
+                    loginButton.setEnabled(!usernameField.getText().isEmpty() && passwordField.getPassword().length > 0);
                 }
             }
         });
@@ -100,21 +104,12 @@ public class LoginPanel extends JPanel {
                 doLogin();
             }
         });
-        loginButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                setCursor(new Cursor(Cursor.HAND_CURSOR));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            }
-        });
+        loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         loginButton.setText("Login");
         loginButton.setBounds(0, 0, 240 + MaterialShadow.OFFSET_LEFT + MaterialShadow.OFFSET_RIGHT,
                 36 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM);
         loginButton.setLocation(68 - MaterialShadow.OFFSET_LEFT, 147 - MaterialShadow.OFFSET_TOP);
+        loginButton.setEnabled(!usernameField.getText().isEmpty() && passwordField.getPassword().length > 0);
         add(loginButton);
     }
 
