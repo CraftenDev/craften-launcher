@@ -4,32 +4,31 @@ import com.tngtech.configbuilder.annotation.valueextractor.CommandLineValue;
 
 /**
  * Craften Launcher config class.
- *
  */
 public class Config {
 
-    @CommandLineValue(shortOpt = "mcPath", longOpt = "minecraftPath", hasArg = true)
+    @CommandLineValue(shortOpt = "mcpath", longOpt = "mcpath", hasArg = true)
     private String mcPath;
 
-    @CommandLineValue(shortOpt = "server", longOpt = "serverAddress", hasArg = true)
+    @CommandLineValue(shortOpt = "server", longOpt = "server", hasArg = true)
     private String server;
 
-    @CommandLineValue(shortOpt = "xmx", longOpt = "minecaftMemory", hasArg = true)
+    @CommandLineValue(shortOpt = "xmx", longOpt = "xmx", hasArg = true)
     private String xmx;
 
-    @CommandLineValue(shortOpt = "version", longOpt = "minecraftVersion", hasArg = true)
+    @CommandLineValue(shortOpt = "version", longOpt = "version", hasArg = true)
     private String version;
 
-    @CommandLineValue(shortOpt = "profileid", longOpt = "usedProfileID", hasArg = true)
+    @CommandLineValue(shortOpt = "profileid", longOpt = "profileid", hasArg = true)
     private String profileID;
 
-    @CommandLineValue(shortOpt = "quickplay", longOpt = "startQuickPlay")
+    @CommandLineValue(shortOpt = "quickplay", longOpt = "quickplay")
     private boolean quickPlay;
 
-    @CommandLineValue(shortOpt = "forcelogin", longOpt = "forceMinecraftLogin")
+    @CommandLineValue(shortOpt = "forcelogin", longOpt = "forcelogin")
     private boolean forcelogin;
 
-    @CommandLineValue(shortOpt = "fullscreen", longOpt = "startMinecraftFullscreen")
+    @CommandLineValue(shortOpt = "fullscreen", longOpt = "fullscreen")
     private boolean fullscreen;
 
     public String getMcPath() {
