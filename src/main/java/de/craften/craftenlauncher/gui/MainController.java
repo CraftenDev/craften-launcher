@@ -4,6 +4,7 @@ import de.craften.craftenlauncher.exception.CraftenException;
 import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.logic.Facade;
 import de.craften.craftenlauncher.logic.auth.MinecraftUser;
+import de.craften.craftenlauncher.logic.manager.TranslationManager;
 import de.craften.ui.swingmaterial.toast.TextToast;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,7 +42,7 @@ public class MainController {
                 MinecraftUser user = Facade.getInstance().getUser();
                 if (user != null && user.getEmail() != null && !user.getEmail().isEmpty()) {
                     MainController.getInstance().performLogin(user.getEmail(), null);
-                    displayToast(new TextToast("Welcome back, " + user.getUsername() + "!"));
+                    displayToast(new TextToast(TranslationManager.getString("welcomeBack", user.getUsername())));
                 }
             } catch (CraftenException e) {
                 LOGGER.info("Automatic login failed", e);

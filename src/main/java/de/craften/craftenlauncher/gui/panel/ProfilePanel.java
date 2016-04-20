@@ -4,6 +4,7 @@ import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.gui.MainController;
 import de.craften.craftenlauncher.logic.Facade;
 import de.craften.craftenlauncher.logic.auth.MinecraftUser;
+import de.craften.craftenlauncher.logic.manager.TranslationManager;
 import de.craften.ui.swingmaterial.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ResourceBundle;
 
 @SuppressWarnings("serial")
 public class ProfilePanel extends JPanel {
@@ -81,7 +83,7 @@ public class ProfilePanel extends JPanel {
         }
 
         final JButton playButton = new MaterialButton();
-        playButton.setText("Play");
+        playButton.setText(TranslationManager.getString("playBtn"));
         playButton.setBackground(MaterialColor.CYAN_500);
         playButton.setForeground(Color.WHITE);
         playButton.setSize(240 + MaterialShadow.OFFSET_LEFT + MaterialShadow.OFFSET_RIGHT, 36 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM);
@@ -101,14 +103,14 @@ public class ProfilePanel extends JPanel {
                 if (serverAddress.length() > 21) {
                     serverAddress = serverAddress.substring(0, 20) + "\u2026";
                 }
-                playButton.setText("Join " + serverAddress);
+                playButton.setText(TranslationManager.getString("joinServerBtn", serverAddress));
             }
         } catch (CraftenLogicException e) {
             LOGGER.error("Could not get server argument", e);
         }
 
         final MaterialButton logoutButton = new MaterialButton();
-        logoutButton.setText("Logout");
+        logoutButton.setText(TranslationManager.getString("logoutBtn"));
         logoutButton.setForeground(MaterialColor.CYAN_500);
         logoutButton.setRippleColor(MaterialColor.CYAN_500);
         logoutButton.setBackground(MaterialColor.TRANSPARENT);
@@ -137,7 +139,6 @@ public class ProfilePanel extends JPanel {
             versions.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    System.out.println("performed!");
                     try {
                         Facade.getInstance().setMinecraftVersion(String.valueOf(versions.getSelectedItem()));
                     } catch (CraftenLogicException e) {
@@ -148,7 +149,7 @@ public class ProfilePanel extends JPanel {
             versions.setVisible(false);
             add(versions);
 
-            final JLabel versionLabel = new JLabel("Version: " + Facade.getInstance().getMinecraftVersion().getVersion());
+            final JLabel versionLabel = new JLabel(TranslationManager.getString("versionLabel", Facade.getInstance().getMinecraftVersion().getVersion()));
             versionLabel.setFont(Roboto.REGULAR.deriveFont(12f));
             versionLabel.setSize(110, 30);
             versionLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -175,7 +176,7 @@ public class ProfilePanel extends JPanel {
             } else {
                 ram = "~" + Runtime.getRuntime().maxMemory() / 1024 / 1024 + "M";
             }
-            JLabel ramLabel = new JLabel("RAM: " + ram);
+            JLabel ramLabel = new JLabel(TranslationManager.getString("ramLabel", ram));
             ramLabel.setFont(Roboto.REGULAR.deriveFont(12f));
             ramLabel.setSize(240, 30);
             ramLabel.setLocation(68, logoutButton.getY() + logoutButton.getHeight() + 5);
