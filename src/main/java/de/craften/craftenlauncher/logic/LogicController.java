@@ -79,7 +79,7 @@ public class LogicController {
                 if (mVersionList.isVersionAvailableOnline(version)) {
                     this.mCurrentVersion = new MinecraftVersion(version);
                 } else {
-                    mVersionList.checkVesion(version);
+                    mVersionList.checkVersion(version);
                     this.mCurrentVersion = new MinecraftVersion(version);
                 }
 
@@ -224,7 +224,7 @@ public class LogicController {
 
     //TODO vorher besser alten Service ordentlich stoppen oder neu Init?
     public void setMinecraftVersion(String version) throws CraftenLogicException {
-        this.mVersionList.checkVesion(version);
+        this.mVersionList.checkVersion(version);
         this.mCurrentVersion = new MinecraftVersion(version);
 
         mMinecraftPath.setVersionName(version);

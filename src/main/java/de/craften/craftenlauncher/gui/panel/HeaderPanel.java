@@ -43,7 +43,7 @@ public class HeaderPanel extends JPanel implements Observer {
     }
 
     private void addBackground() {
-        BufferedImage bg = null;
+        BufferedImage bg;
         try {
             bg = ImageIO.read(getClass().getResource("/images/header.png"));
         } catch (IOException e) {

@@ -11,30 +11,36 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class VersionListHelper {
     private static final Logger LOGGER = LogManager.getLogger(VersionListHelper.class);
-    private List<String> mVersions = new ArrayList<String>();
-    private MinecraftPath mMinecraftPath;
+    private final List<String> versions;
+    private final MinecraftPath minecraftPath;
 
     public VersionListHelper(MinecraftPath mcPath) {
-        this.mMinecraftPath = mcPath;
-        fillVersionsList();
+        minecraftPath = mcPath;
+        versions = VersionLoader.getVersionStringList();
+
+        //hash set to check for duplicates without evil n² time complexity
+        HashSet<String> foundVersions = new HashSet<>();
+        foundVersions.addAll(versions);
+
+        //prepend local (i.e. custom modded) versions
+        List<String> localVersions = getLocalVersions(new File(minecraftPath.getMinecraftVersionsDir()));
+        for (String version : localVersions) {
+            if (!foundVersions.contains(version)) {
+                versions.add(0, version);
+            }
+        }
     }
 
-    private void fillVersionsList() {
-        mVersions = VersionLoader.getVersionStringList();
-        checkVersionsPath();
-    }
-
-    private void checkVersionsPath() {
-        String path = mMinecraftPath.getMinecraftVersionsDir();
-        File versionsDir = new File(path);
-
+    private static List<String> getLocalVersions(File versionsDir) {
+        List<String> versions = new ArrayList<>();
         File[] files = versionsDir.listFiles();
 
-        if (files != null)
+        if (files != null) {
             for (File dir : files) {
                 if (dir.isDirectory()) {
                     File[] f = dir.listFiles(new FileFilter() {
@@ -46,18 +52,20 @@ public class VersionListHelper {
                     });
 
                     if (f.length == 1) {
-                        mVersions.add(dir.getName());
+                        versions.add(dir.getName());
                     }
                 }
             }
+        }
+        return versions;
     }
 
     public List<String> getVersionsList() {
-        return mVersions;
+        return versions;
     }
 
-    public void checkVesion(String version) throws CraftenVersionNotKnownException {
-        if (!mVersions.contains(version)) {
+    public void checkVersion(String version) throws CraftenVersionNotKnownException {
+        if (!versions.contains(version)) {
             throw new CraftenVersionNotKnownException("Version: " + version);
         }
     }
@@ -76,8 +84,8 @@ public class VersionListHelper {
                 return false;
             }
 
-            if (!mVersions.contains(versionName)) {
-                mVersions.add(versionName);
+            if (!versions.contains(versionName)) {
+                versions.add(versionName);
             }
             return true;
         } catch (Exception e) {
