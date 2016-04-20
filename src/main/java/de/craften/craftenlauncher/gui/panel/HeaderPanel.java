@@ -48,6 +48,7 @@ public class HeaderPanel extends JPanel implements Observer {
             bg = ImageIO.read(getClass().getResource("/images/header.png"));
         } catch (IOException e) {
             LOGGER.error("Could not load header background image", e);
+            return;
         }
         JPanel background = new ImagePanel(bg);
         background.setSize(new Dimension(376, 134));
@@ -60,31 +61,6 @@ public class HeaderPanel extends JPanel implements Observer {
         avatar.setSize(new Dimension(130 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM, 130 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM));
         avatar.setLocation((getWidth() - avatar.getWidth()) / 2, 58 - MaterialShadow.OFFSET_TOP);
         add(avatar);
-    }
-
-    private void addLogoutButton() {
-        logoutButton = new MaterialIconButton();
-        logoutButton.setSize(new Dimension(48, 48));
-        logoutButton.setLocation(8, 8);
-        logoutButton.setForeground(Color.WHITE);
-        logoutButton.setToolTipText("Logout");
-        logoutButton.setEnabled(false);
-        try {
-            logoutButton.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/images/logout.png"))));
-        } catch (IOException e) {
-            LOGGER.error("Could not load logout icon", e);
-        }
-        logoutButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                MainController.getInstance().logout();
-            }
-        });
-        add(logoutButton);
-    }
-
-    public void setLogoutEnabled(boolean logoutEnabled) {
-        //logoutButton.setEnabled(logoutEnabled);
     }
 
     @Override

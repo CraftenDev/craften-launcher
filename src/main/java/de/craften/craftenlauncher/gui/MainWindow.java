@@ -71,7 +71,6 @@ public class MainWindow extends JDialog {
 
     public void reset() {
         header.resetSkin();
-        header.setLogoutEnabled(false);
         body.removeAll();
         addLayers();
         bodyLayout.show(body, "login");
@@ -92,13 +91,11 @@ public class MainWindow extends JDialog {
     }
 
     public void showProfile() {
-        header.setLogoutEnabled(true);
         profile.init();
         bodyLayout.show(body, "profile");
     }
 
     public void showLoadingScreen() {
-        header.setLogoutEnabled(false);
         loading.init();
         bodyLayout.show(body, "loading");
     }
