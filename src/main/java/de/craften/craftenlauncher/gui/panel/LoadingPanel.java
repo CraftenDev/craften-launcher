@@ -22,7 +22,7 @@ public class LoadingPanel extends JPanel implements Observer {
 
     public LoadingPanel() {
         setBackground(Color.WHITE);
-        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        setLayout(null);
         addProgressBar();
         addInfo();
         add(Box.createVerticalGlue());
@@ -38,25 +38,26 @@ public class LoadingPanel extends JPanel implements Observer {
     }
 
     private void addProgressBar() {
-        pbar.setPreferredSize(new Dimension(50, 50));
+        pbar.setSize(50, 50);
         pbar.setForeground(MaterialColor.CYAN_500);
-        JPanel pbarWrapper = new JPanel();
-        pbarWrapper.setPreferredSize(new Dimension(50, 50));
-        pbarWrapper.setBackground(Color.WHITE);
-        pbarWrapper.add(pbar);
-        pbarWrapper.setAlignmentX(CENTER_ALIGNMENT);
-        add(pbarWrapper);
+        pbar.setLocation((376 - 50) / 2, 60);
+        pbar.setBounds((376 - 50) / 2, 60, 50, 50);
+        add(pbar);
     }
 
     private void addInfo() {
         info.setForeground(Color.BLACK);
         info.setFont(Roboto.REGULAR.deriveFont(12f));
-        info.setAlignmentX(CENTER_ALIGNMENT);
+        info.setHorizontalAlignment(JLabel.CENTER);
+        info.setSize(240, 15);
+        info.setLocation(68, 130);
         add(info);
 
         traffic.setForeground(Color.BLACK);
         traffic.setFont(Roboto.REGULAR.deriveFont(12f));
-        traffic.setAlignmentX(CENTER_ALIGNMENT);
+        traffic.setHorizontalAlignment(JLabel.CENTER);
+        traffic.setSize(240, 15);
+        traffic.setLocation(68, 145);
         add(traffic);
     }
 
