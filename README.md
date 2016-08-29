@@ -14,6 +14,8 @@ it also supports the following command line arguments.
 | `-mcpath <path>`    | Specify a custom Minecraft path.                       |
 | `-server <address>` | Join a server after launching.                         |
 | `-xmx <memory>`     | Specify maximum memory Minecraft will be started with. |
+| `-version <version>`| Specify the  version to launch                         |
+| `-assetsversion <version>`| Specify the version to use the assets from (required to start old versions, e.g. beta)            |
 | `-profileid <id>`   | Automatically selects the user by their profile id.    |
 | `-quickplay`        | Immediately launches the previosly selected (or latest) version, if the user is still logged in.               |
 | `-forcelogin`       | Disables automatic login.                              |

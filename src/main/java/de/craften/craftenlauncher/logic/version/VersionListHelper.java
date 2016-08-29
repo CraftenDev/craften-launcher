@@ -9,7 +9,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -43,17 +42,7 @@ public class VersionListHelper {
         if (files != null) {
             for (File dir : files) {
                 if (dir.isDirectory()) {
-                    File[] f = dir.listFiles(new FileFilter() {
-
-                        @Override
-                        public boolean accept(File pathname) {
-                            return pathname.getAbsolutePath().contains(".json");
-                        }
-                    });
-
-                    if (f.length == 1) {
-                        versions.add(dir.getName());
-                    }
+                    versions.add(dir.getName());
                 }
             }
         }

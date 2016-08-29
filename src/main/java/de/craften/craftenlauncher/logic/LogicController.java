@@ -29,6 +29,7 @@ public class LogicController {
     private VersionListHelper mVersionList;
     private MinecraftPathImpl mMinecraftPath;
     private MinecraftVersion mCurrentVersion;
+    private String mAssetsVersion;
     private HashMap<String, String> mMincraftArgs;
     private Profiles mProfiles;
 
@@ -88,6 +89,10 @@ public class LogicController {
             } catch (CraftenVersionNotKnownException e) {
                 LOGGER.error("Version not available: " + version, e);
             }
+        }
+
+        if (config.getAssetsVersion() != null) {
+            mAssetsVersion = config.getAssetsVersion();
         }
 
         mAuthService.setMcPath(mMinecraftPath);
@@ -181,12 +186,23 @@ public class LogicController {
         mDownService = new DownloadService(mMinecraftPath, mDownloadVM);
 
         if (mCurrentVersion != null) {
-            try {
-                mDownService.setMinecraftVersion(mCurrentVersion);
-            } catch (Exception e) {
-                //TODO Workaround vllt. klappt es beim zweiten Mal.
-                LOGGER.info("Trying again to download json!", e);
-                mDownService.setMinecraftVersion(mCurrentVersion);
+            if (mAssetsVersion != null) {
+                LOGGER.info("Using assets from " + mAssetsVersion + " for " + mCurrentVersion.getVersion());
+                try {
+                    mDownService.setMinecraftVersion(mCurrentVersion, mAssetsVersion);
+                } catch (Exception e) {
+                    //TODO Workaround vllt. klappt es beim zweiten Mal.
+                    LOGGER.info("Trying again to download json!", e);
+                    mDownService.setMinecraftVersion(mCurrentVersion, mAssetsVersion);
+                }
+            } else {
+                try {
+                    mDownService.setMinecraftVersion(mCurrentVersion);
+                } catch (Exception e) {
+                    //TODO Workaround vllt. klappt es beim zweiten Mal.
+                    LOGGER.info("Trying again to download json!", e);
+                    mDownService.setMinecraftVersion(mCurrentVersion);
+                }
             }
             mDownService.addTask(DownloadTasks.RESSOURCES);
             mDownService.addTask(DownloadTasks.JAR);
@@ -226,6 +242,7 @@ public class LogicController {
     public void setMinecraftVersion(String version) throws CraftenLogicException {
         this.mVersionList.checkVersion(version);
         this.mCurrentVersion = new MinecraftVersion(version);
+        this.mAssetsVersion = null;
 
         mMinecraftPath.setVersionName(version);
         if (mDownService != null) {

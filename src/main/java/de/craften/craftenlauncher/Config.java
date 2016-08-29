@@ -19,6 +19,9 @@ public class Config {
     @CommandLineValue(shortOpt = "version", longOpt = "version", hasArg = true)
     private String version;
 
+    @CommandLineValue(shortOpt = "assetsversion", longOpt = "assetsversion", hasArg = true)
+    private String assetsVersion;
+
     @CommandLineValue(shortOpt = "profileid", longOpt = "profileid", hasArg = true)
     private String profileID;
 
@@ -45,6 +48,10 @@ public class Config {
 
     public String getVersion() {
         return version;
+    }
+
+    public String getAssetsVersion() {
+        return assetsVersion;
     }
 
     public boolean isQuickPlay() {

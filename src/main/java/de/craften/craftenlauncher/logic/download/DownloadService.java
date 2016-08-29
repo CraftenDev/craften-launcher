@@ -1,8 +1,5 @@
 package de.craften.craftenlauncher.logic.download;
 
-import java.io.File;
-import java.util.Stack;
-
 import de.craften.craftenlauncher.exception.CraftenDownloadException;
 import de.craften.craftenlauncher.exception.CraftenLogicException;
 import de.craften.craftenlauncher.logic.download.loader.JarDownloader;
@@ -17,6 +14,9 @@ import de.craften.craftenlauncher.logic.vm.DownloadVM;
 import de.craften.craftenlauncher.logic.vm.SkinVM;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.util.Stack;
 
 public class DownloadService implements Runnable {
     private static final Logger LOGGER = LogManager.getLogger(DownloadService.class);
@@ -169,9 +169,9 @@ public class DownloadService implements Runnable {
         return (mFinRessources && mFinLibraries && mFinJar);
     }
 
-    public void setMinecraftVersion(MinecraftVersion version) throws CraftenLogicException {
+    public void setMinecraftVersion(MinecraftVersion version, String assetsVersion) throws CraftenLogicException {
         try {
-            DownloadHelper.downloadFileToDiskWithoutCheck(DownloadUrls.URL_VERSION + version.getVersion() + "/" + version.getVersion()
+            DownloadHelper.downloadFileToDiskWithoutCheck(DownloadUrls.URL_VERSION + assetsVersion + "/" + assetsVersion
                     + ".json", mMinecraftPath.getMinecraftVersionsDir() + version.getVersion() + File.separator, version.getVersion() + ".json");
 
             Version vers = JSONReader.readJsonFileFromSelectedVersion(mMinecraftPath.getMinecraftJarPath() + version.getVersion() + ".json");
@@ -183,6 +183,10 @@ public class DownloadService implements Runnable {
         }
 
         this.mCurrentVersion = version;
+    }
+
+    public void setMinecraftVersion(MinecraftVersion version) throws CraftenLogicException {
+        setMinecraftVersion(version, version.getVersion());
     }
 
     /**
