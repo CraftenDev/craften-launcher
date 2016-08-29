@@ -151,7 +151,7 @@ public class ProfilePanel extends JPanel {
 
             final JLabel versionLabel = new JLabel(TranslationManager.getString("versionLabel", Facade.getInstance().getMinecraftVersion().getVersion()));
             versionLabel.setFont(Roboto.REGULAR.deriveFont(12f));
-            versionLabel.setSize(110, 30);
+            versionLabel.setSize(125, 30);
             versionLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             versionLabel.setLocation(68, logoutButton.getY() + logoutButton.getHeight() + 5);
             versionLabel.setForeground(MaterialColor.MIN_BLACK);

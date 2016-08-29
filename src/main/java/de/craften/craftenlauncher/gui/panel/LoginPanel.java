@@ -115,7 +115,7 @@ public class LoginPanel extends JPanel {
     }
 
     private void addHelpLabels() {
-        JLabel usernameOrEmailLink = new JLabel(TranslationManager.getString("usernameOrEmail"));
+        final JLabel usernameOrEmailLink = new JLabel(TranslationManager.getString("usernameOrEmail"));
         usernameOrEmailLink.setFont(Roboto.REGULAR.deriveFont(11f));
         usernameOrEmailLink.setForeground(MaterialColor.MIN_BLACK);
         usernameOrEmailLink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -125,13 +125,23 @@ public class LoginPanel extends JPanel {
             public void mouseClicked(MouseEvent env) {
                 openLink("https://help.mojang.com/customer/portal/articles/1233873");
             }
+
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
+                usernameOrEmailLink.setForeground(MaterialColor.CYAN_500);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+                usernameOrEmailLink.setForeground(MaterialColor.MIN_BLACK);
+            }
         });
         usernameOrEmailLink.setLocation(68, loginButton.getY() + loginButton.getHeight() - 10);
         usernameOrEmailLink.setSize(240, 15);
         add(usernameOrEmailLink);
         setComponentZOrder(usernameOrEmailLink, 0);
 
-        JLabel forgotPasswordLink = new JLabel(TranslationManager.getString("forgotPassword"));
+        final JLabel forgotPasswordLink = new JLabel(TranslationManager.getString("forgotPassword"));
         forgotPasswordLink.setFont(Roboto.REGULAR.deriveFont(11f));
         forgotPasswordLink.setForeground(MaterialColor.MIN_BLACK);
         forgotPasswordLink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -140,6 +150,16 @@ public class LoginPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent env) {
                 openLink("https://help.mojang.com/customer/portal/articles/329524-change-or-forgot-password");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
+                forgotPasswordLink.setForeground(MaterialColor.CYAN_500);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+                forgotPasswordLink.setForeground(MaterialColor.MIN_BLACK);
             }
         });
         forgotPasswordLink.setLocation(68, loginButton.getY() + loginButton.getHeight() + 5);
