@@ -37,16 +37,10 @@ public class LogicController {
     private SkinVM mSkinVM;
 
     public LogicController() {
-        logLauncherVersion();
         mAuthService = new AuthenticationService();
         mProfiles = new Profiles();
         mDownloadVM = new DownloadVM();
         mMincraftArgs = new HashMap<>();
-    }
-
-    private void logLauncherVersion() {
-        Package objPackage = this.getClass().getPackage();
-        LOGGER.info("Launcher version: " + objPackage.getSpecificationVersion());
     }
 
     /**

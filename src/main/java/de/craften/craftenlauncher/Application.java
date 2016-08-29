@@ -44,6 +44,10 @@ class Application {
      */
     private static void logSystemInfo() {
         LOGGER.info("Launcher started!");
+
+        Package objPackage = Application.class.getPackage();
+        LOGGER.info("Launcher version: " + objPackage.getSpecificationVersion());
+
         LOGGER.debug("OS : " + System.getProperty("os.name"));
         LOGGER.debug("OS Arch: " + OSHelper.getOSArch());
         LOGGER.debug("OS Java Arch : " + System.getProperty("os.arch"));
