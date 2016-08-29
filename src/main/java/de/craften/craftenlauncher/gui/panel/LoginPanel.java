@@ -116,7 +116,7 @@ public class LoginPanel extends JPanel {
 
     private void addHelpLabels() {
         final JLabel usernameOrEmailLink = new JLabel(TranslationManager.getString("usernameOrEmail"));
-        usernameOrEmailLink.setFont(Roboto.REGULAR.deriveFont(11f));
+        usernameOrEmailLink.setFont(Roboto.REGULAR.deriveFont(12f));
         usernameOrEmailLink.setForeground(MaterialColor.MIN_BLACK);
         usernameOrEmailLink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         usernameOrEmailLink.setHorizontalAlignment(JLabel.CENTER);
@@ -142,7 +142,7 @@ public class LoginPanel extends JPanel {
         setComponentZOrder(usernameOrEmailLink, 0);
 
         final JLabel forgotPasswordLink = new JLabel(TranslationManager.getString("forgotPassword"));
-        forgotPasswordLink.setFont(Roboto.REGULAR.deriveFont(11f));
+        forgotPasswordLink.setFont(Roboto.REGULAR.deriveFont(12f));
         forgotPasswordLink.setForeground(MaterialColor.MIN_BLACK);
         forgotPasswordLink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         forgotPasswordLink.setHorizontalAlignment(JLabel.CENTER);
