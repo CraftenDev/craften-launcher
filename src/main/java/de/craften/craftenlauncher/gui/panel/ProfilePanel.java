@@ -162,6 +162,16 @@ public class ProfilePanel extends JPanel {
                     versionLabel.setVisible(false);
                     versions.setVisible(true);
                 }
+
+                @Override
+                public void mouseEntered(MouseEvent mouseEvent) {
+                    versionLabel.setForeground(MaterialColor.CYAN_500);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent mouseEvent) {
+                    versionLabel.setForeground(MaterialColor.MIN_BLACK);
+                }
             });
             add(versionLabel);
         } catch (CraftenLogicException e) {
