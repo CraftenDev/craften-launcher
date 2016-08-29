@@ -7,7 +7,7 @@
     <name>CraftenLauncher</name>
     <groupId>de.craften.craftenlauncher</groupId>
     <artifactId>CraftenLauncher</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -55,8 +55,7 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.6.1</version>
-            <!-- TODO We can't use Gson 2.6.2 because of a version range bug. We should update Gson once this is resolved. -->
+            <version>2.7</version>
         </dependency>
         <dependency>
             <groupId>de.craften.ui.swingmaterial</groupId>
