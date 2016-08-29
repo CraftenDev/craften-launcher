@@ -30,6 +30,9 @@ class Application {
      * @throws CraftenLogicException if launching the application fails
      */
     public static void main(String[] args) throws CraftenLogicException {
+        System.setProperty("awt.useSystemAAFontSettings", "on");
+        System.setProperty("swing.aatext", "true");
+
         logSystemInfo();
         Config config = ConfigBuilder.on(Config.class).withCommandLineArgs(args).build();
         Facade.getInstance().init(config);
