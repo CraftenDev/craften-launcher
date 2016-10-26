@@ -20,6 +20,8 @@ public class MainController {
     private static MainController instance;
     private MainWindow mainWindow;
 
+    private String username = "";
+
     public static MainController getInstance() {
         if (instance == null) {
             instance = new MainController();
@@ -59,20 +61,38 @@ public class MainController {
         mainWindow.showProfile();
     }
 
+    public void performWithoutLogin() {
+        mainWindow.showProfileWithoutLogin();
+    }
+
     public void logout() {
         Facade.getInstance().logout();
         mainWindow.reset();
     }
 
     public void play() {
+        this.username = "";
+        mainWindow.showLoadingScreen();
+    }
+
+    public void playWithoutLogin(String username) {
+        this.username = username;
         mainWindow.showLoadingScreen();
     }
 
     public void startMinecraft() {
-        try {
-            Facade.getInstance().startMinecraft();
-        } catch (CraftenLogicException e) {
-            LOGGER.error("Could not start Minecraft", e);
+        if(username.equals("")) {
+            try {
+                Facade.getInstance().startMinecraft();
+            } catch (CraftenLogicException e) {
+                LOGGER.error("Could not start Minecraft", e);
+            }
+        } else {
+            try {
+                Facade.getInstance().startMinecraftWithoutLogin(username);
+            } catch (CraftenLogicException e) {
+                LOGGER.error("Could not start Minecraft", e);
+            }
         }
     }
 

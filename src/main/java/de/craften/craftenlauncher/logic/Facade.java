@@ -150,6 +150,16 @@ public class Facade {
     }
 
     /**
+     * Starts minecraft in a new process.
+     *
+     * @param username
+     * @throws CraftenLogicException if start was not possible
+     */
+    public void startMinecraftWithoutLogin(String username) throws CraftenLogicException {
+        mController.startMinecraftWithoutLogin(username);
+    }
+
+    /**
      * Returns a Minecraft argument for the specified key.
      * e.g server = returns the server address which shall be joined on startup.
      *

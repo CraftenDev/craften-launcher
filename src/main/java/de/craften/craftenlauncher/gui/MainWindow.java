@@ -1,9 +1,6 @@
 package de.craften.craftenlauncher.gui;
 
-import de.craften.craftenlauncher.gui.panel.HeaderPanel;
-import de.craften.craftenlauncher.gui.panel.LoadingPanel;
-import de.craften.craftenlauncher.gui.panel.LoginPanel;
-import de.craften.craftenlauncher.gui.panel.ProfilePanel;
+import de.craften.craftenlauncher.gui.panel.*;
 import de.craften.craftenlauncher.logic.Facade;
 import de.craften.ui.swingmaterial.toast.ToastBar;
 import org.apache.logging.log4j.LogManager;
@@ -22,7 +19,9 @@ public class MainWindow extends JDialog {
     private CardLayout bodyLayout;
     private LoginPanel login;
     private ProfilePanel profile;
+    private ProfileWithoutLoginPanel profileWithoutLogin;
     private LoadingPanel loading;
+    private static final int height = 453;
 
     public MainWindow() {
         super((Dialog) null); //show this window in the taskbar, see http://stackoverflow.com/a/25533860
@@ -33,7 +32,7 @@ public class MainWindow extends JDialog {
         }
 
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        getContentPane().setSize(new Dimension(376, 445));
+        getContentPane().setSize(new Dimension(376, height));
         setLocationRelativeTo(null);
         setTitle("Craften Launcher");
         setResizable(false);
@@ -46,17 +45,17 @@ public class MainWindow extends JDialog {
 
         JPanel bodyContainer = new JPanel();
         bodyContainer.setLayout(null);
-        bodyContainer.setPreferredSize(new Dimension(376, 445 - 188));
+        bodyContainer.setPreferredSize(new Dimension(376, height - 188));
 
         bodyLayout = new CardLayout(0, 0);
         body = new JPanel();
         body.setLayout(bodyLayout);
-        body.setSize(376, 445 - 188);
+        body.setSize(376, height - 188);
         bodyContainer.add(body);
 
         toastBar = new ToastBar();
         toastBar.setSize(376, 48);
-        toastBar.setLocation(0, 445 - 188 - 48);
+        toastBar.setLocation(0, height - 188 - 48);
         bodyContainer.add(toastBar);
         bodyContainer.setComponentZOrder(toastBar, 0);
 
@@ -83,6 +82,9 @@ public class MainWindow extends JDialog {
         profile = new ProfilePanel();
         body.add(profile, "profile");
 
+        profileWithoutLogin = new ProfileWithoutLoginPanel();
+        body.add(profileWithoutLogin, "profileWithoutLogin");
+
         loading = new LoadingPanel();
         body.add(loading, "loading");
         Facade.getInstance().setMinecraftDownloadObserver(loading);
@@ -93,6 +95,11 @@ public class MainWindow extends JDialog {
     public void showProfile() {
         profile.init();
         bodyLayout.show(body, "profile");
+    }
+
+    public void showProfileWithoutLogin() {
+        profileWithoutLogin.init();
+        bodyLayout.show(body, "profileWithoutLogin");
     }
 
     public void showLoadingScreen() {

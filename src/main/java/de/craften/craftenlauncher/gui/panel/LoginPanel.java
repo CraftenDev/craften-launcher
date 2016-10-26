@@ -24,6 +24,7 @@ public class LoginPanel extends JPanel {
     private MaterialTextField usernameField;
     private MaterialPasswordField passwordField;
     private MaterialButton loginButton;
+    private MaterialButton loginFreeButton;
 
     public LoginPanel() {
         setBackground(Color.WHITE);
@@ -63,6 +64,10 @@ public class LoginPanel extends JPanel {
         }
     }
 
+    private void doWithoutLogin(){
+        MainController.getInstance().performWithoutLogin();
+    }
+
     private void buildUI() {
         usernameField = new MaterialTextField();
         usernameField.setLabel(TranslationManager.getString("emailLabel"));
@@ -77,7 +82,7 @@ public class LoginPanel extends JPanel {
             }
         });
         usernameField.setBounds(0, 0, 240, 72);
-        usernameField.setLocation(68, -10);
+        usernameField.setLocation(68, -18);
         add(usernameField);
 
         passwordField = new MaterialPasswordField();
@@ -92,7 +97,7 @@ public class LoginPanel extends JPanel {
                 }
             }
         });
-        passwordField.setBounds(0, 0, 240, 72);
+        passwordField.setBounds(0, 0, 240, 64);
         passwordField.setLocation(68, 57);
         add(passwordField);
 
@@ -109,43 +114,35 @@ public class LoginPanel extends JPanel {
         loginButton.setText(TranslationManager.getString("loginBtn"));
         loginButton.setBounds(0, 0, 240 + MaterialShadow.OFFSET_LEFT + MaterialShadow.OFFSET_RIGHT,
                 36 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM);
-        loginButton.setLocation(68 - MaterialShadow.OFFSET_LEFT, 147 - MaterialShadow.OFFSET_TOP);
+        loginButton.setLocation(68 - MaterialShadow.OFFSET_LEFT, 155 - MaterialShadow.OFFSET_TOP);
         loginButton.setEnabled(!usernameField.getText().isEmpty() && passwordField.getPassword().length > 0);
         add(loginButton);
+
+        loginFreeButton = new MaterialButton();
+        loginFreeButton.setForeground(MaterialColor.CYAN_500);
+        loginFreeButton.setRippleColor(MaterialColor.CYAN_500);
+        loginFreeButton.setBackground(MaterialColor.TRANSPARENT);
+        loginFreeButton.setType(MaterialButton.Type.FLAT);
+        loginFreeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                doWithoutLogin();
+            }
+        });
+        loginFreeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        loginFreeButton.setText(TranslationManager.getString("loginFreeBtn"));
+        loginFreeButton.setBounds(0, 0, 240 + MaterialShadow.OFFSET_LEFT + MaterialShadow.OFFSET_RIGHT,
+                36 + MaterialShadow.OFFSET_TOP + MaterialShadow.OFFSET_BOTTOM);
+        loginFreeButton.setLocation(68 - MaterialShadow.OFFSET_LEFT, 199 - MaterialShadow.OFFSET_TOP);
+        add(loginFreeButton);
     }
 
     private void addHelpLabels() {
-        final JLabel usernameOrEmailLink = new JLabel(TranslationManager.getString("usernameOrEmail"));
-        usernameOrEmailLink.setFont(Roboto.REGULAR.deriveFont(12f));
-        usernameOrEmailLink.setForeground(MaterialColor.MIN_BLACK);
-        usernameOrEmailLink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        usernameOrEmailLink.setHorizontalAlignment(JLabel.CENTER);
-        usernameOrEmailLink.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent env) {
-                openLink("https://help.mojang.com/customer/portal/articles/1233873");
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent mouseEvent) {
-                usernameOrEmailLink.setForeground(MaterialColor.CYAN_500);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent mouseEvent) {
-                usernameOrEmailLink.setForeground(MaterialColor.MIN_BLACK);
-            }
-        });
-        usernameOrEmailLink.setLocation(68, loginButton.getY() + loginButton.getHeight() - 10);
-        usernameOrEmailLink.setSize(240, 15);
-        add(usernameOrEmailLink);
-        setComponentZOrder(usernameOrEmailLink, 0);
-
         final JLabel forgotPasswordLink = new JLabel(TranslationManager.getString("forgotPassword"));
         forgotPasswordLink.setFont(Roboto.REGULAR.deriveFont(12f));
         forgotPasswordLink.setForeground(MaterialColor.MIN_BLACK);
         forgotPasswordLink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        forgotPasswordLink.setHorizontalAlignment(JLabel.CENTER);
+        forgotPasswordLink.setHorizontalAlignment(JLabel.RIGHT);
         forgotPasswordLink.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent env) {
@@ -162,7 +159,7 @@ public class LoginPanel extends JPanel {
                 forgotPasswordLink.setForeground(MaterialColor.MIN_BLACK);
             }
         });
-        forgotPasswordLink.setLocation(68, loginButton.getY() + loginButton.getHeight() + 5);
+        forgotPasswordLink.setLocation(68, passwordField.getY() + passwordField.getHeight());
         forgotPasswordLink.setSize(240, 15);
         add(forgotPasswordLink);
         setComponentZOrder(forgotPasswordLink, 0);

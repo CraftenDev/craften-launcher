@@ -173,7 +173,7 @@ public class LogicController {
             return;
         }
 
-        if (!mProfiles.getSelectedUser().isLoggedIn()) {
+        if (mProfiles.getSelectedUser() != null && !mProfiles.getSelectedUser().isLoggedIn()) {
             LOGGER.error("Trying to start DownloadService although user is not logged in!");
         }
 
@@ -295,6 +295,40 @@ public class LogicController {
         MinecraftProcess process = new MinecraftProcess(info, info.getMSV().getVersionJson());
 
         process.startMinecraft();
+
+        if (!process.getSuccess()) {
+            LOGGER.error("Minecraft process could not be started!");
+            throw new CraftenLogicException("Minecraft Process could not be started!");
+        } else {
+            System.exit(0);
+        }
+    }
+
+    public void startMinecraftWithoutLogin(String username) throws CraftenLogicException {
+        if (!isMinecraftDownloaded()) {
+            LOGGER.error("Minecraft download not yet complete");
+            throw new CraftenLogicException("Minecraft download not yet complete");
+        }
+
+        MinecraftUser user = new MinecraftUser();
+        user.setUsername(username);
+        user.setProfileId("0123456789abcdef0123456789abcdef");
+        user.setAccessToken("1123456789abcdef0123456789abcdef");
+
+        MinecraftInfo info = new MinecraftInfo(mCurrentVersion.getVersion());
+        info.setUser(user);
+        info.setMSV(mCurrentVersion);
+        info.setMinecraftPath(mMinecraftPath);
+        info.setXMX(mMincraftArgs.get("xmx"));
+        //TODO Server und Port Anfrage ueberpruefen und falls noetig korrigieren.
+        String server = mMincraftArgs.get("server");
+        info.setServerAdress(server);
+        info.setFullscreen(config.isFullscreen());
+
+        MinecraftProcess process = new MinecraftProcess(info, info.getMSV().getVersionJson());
+
+        process.startMinecraft();
+        LOGGER.info("Started without login");
 
         if (!process.getSuccess()) {
             LOGGER.error("Minecraft process could not be started!");
