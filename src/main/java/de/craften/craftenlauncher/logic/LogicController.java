@@ -78,7 +78,7 @@ public class LogicController {
                     this.mCurrentVersion = new MinecraftVersion(version);
                 }
 
-                mMincraftArgs.put("version", "true");
+                mMincraftArgs.put("version", version);
                 mMinecraftPath.setVersionName(version);
             } catch (CraftenVersionNotKnownException e) {
                 LOGGER.error("Version not available: " + version, e);
