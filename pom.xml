@@ -47,7 +47,7 @@
     <repositories>
         <repository>
             <id>wertarbyte-repo</id>
-            <url>http://repo.wertarbyte.com/</url>
+            <url>http://s1.wertarbyte.com:8082/nexus/content/groups/public/</url>
         </repository>
     </repositories>
 
