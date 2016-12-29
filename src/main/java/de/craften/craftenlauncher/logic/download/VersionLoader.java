@@ -13,7 +13,7 @@ public class VersionLoader {
     private static final Logger LOGGER = LogManager.getLogger(VersionLoader.class);
 
     public static List<String> getVersionStringList() {
-        String jsonString = DownloadHelper.downloadFileToString("https://s3.amazonaws.com/Minecraft.Download/versions/versions.json");
+        String jsonString = DownloadHelper.downloadFileToString("https://launchermeta.mojang.com/mc/game/version_manifest.json");
         JsonObject versionsJson = new Gson().fromJson(jsonString, JsonObject.class);
 
         if (versionsJson != null) {
